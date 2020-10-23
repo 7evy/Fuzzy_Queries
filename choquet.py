@@ -10,6 +10,11 @@ Test = [["BC1", "PH", 1, 0, "A+"],
 def equals(a, b) :  # Default function
     return a == b
 
+def grade_scale(a, b):  # Fuzzy function example
+    grades = dict({("A+", 1), ("A", 0.9), ("A-", 0.8), ("B+", 0.7), ("B", 0.6), ("B-", 0.5), ("C+", 0.4), ("C", 0.3), ("C-", 0.2), ("D+", 0.1)})
+    diff = 1 - 2*abs(grades.get(a, 0)-grades.get(b, 0))
+    return 0 if diff < 0 else diff
+
 def delta(Set, attr, value, function=equals, threshold=0):
     """Measures the proportion of elements in Set (2D array), of which attribute attr satisfies the condition : function(attr, value) > threshold.
     By default, the condition is strict equality."""
@@ -25,14 +30,10 @@ def mu(Set, Properties, Functions=[], Thresholds=[]):
     The function and threshold are taken from their respective lists, and default to equality and 0 (i.e the default condition is strict equality)."""
     if not Properties : return 0
     score = 0
-    m, n, l = len(Properties), len(Functions), len(Thresholds)
-    if m > n :
-        Functions += [equals for _ in range(m-n)]
-    if m > l :
-        Thresholds += [0 for _ in range(m-l)]
+    m = len(Set[0])
     for x in Set :
         count = 0
-        for i in range(m):
+        for i in range(len(Properties)):
             [attr, value] = Properties[i]
             if Functions[i](x[attr], value) > Thresholds[i] :
                 count += 1
@@ -42,32 +43,24 @@ def mu(Set, Properties, Functions=[], Thresholds=[]):
     return score
 
 def choquet(Set, x, Functions=[], Thresholds=[]):
+    l, m, f, t = len(x), len(Set), len(Functions), len(Thresholds)
+    if l > f :
+        Functions += [equals for _ in range(l-f)]
+    if l > t :
+        Thresholds += [0 for _ in range(l-t)]
 
-
-    l, m = len(x), len(Set)
-    Functions = [equals for _ in range(l)]
-    Thresholds = [0 for _ in range(l)]
-    attr_values = [list(set([Set[i][j] for i in range(m)])) for j in range(l)]
-    deltas = [[] for _ in range(l)]
+    deltas = []
     for i in range(l):
-        for j in range(len(attr_values[i])):
-            print(attr_values[i])
-            print(attr_values[i][j])
-            deltas[i].append(delta(Set, i, attr_values[i][j], Functions[i], Thresholds[i]))
-    
-    deltas_max = []
-    for i in range(l):
-        d = deltas[i].index(max(deltas[i]))
-        deltas_max.append([deltas[i][d], d])
-    deltas_max.sort(reverse=True)
+        deltas.append([delta(Set, i, x[i], Functions[i], Thresholds[i]), i])
+    deltas.sort(reverse=True)
 
     H, G = [], []
-    Sc=0
+    Sc = 0
     for i in range(l):
-        attr = deltas_max[i][1]
-        G.append([attr, attr_values[i][attr]])
-        Sc += delta(Set, attr, x[attr]) * (mu(Set, G)-mu(Set, H))
+        attr = deltas[i][1]
+        G.append([attr, x[attr]])
+        Sc += deltas[i][0] * (mu(Set, G, Functions, Thresholds)-mu(Set, H, Functions, Thresholds))
         H = deepcopy(G)
     return Sc
         
-print(choquet(Test, ["PHD", "L", 1, 0, "B-"]))
+print(choquet(Test, ["BC3", "A", 0, 0, "A+"]))
