@@ -27,7 +27,7 @@ def delta(Set, attr, value, function=equals, threshold=0):
 def mu(Set, Properties, Functions=[], Thresholds=[]):
     """Returns the maximal similarity between an element of Set (2D array) and Properties (subset of attributes and values).
     The score is 1 if there is x in Set which, for all tuples in Properties, verifies : function(attribute, value) > threshold.
-    The function and threshold are taken from their respective lists, and default to equality and 0 (i.e the default condition is strict equality)."""
+    The functions and thresholds are taken from their respective lists, which must be at least as long as Properties."""
     if not Properties : return 0
     score = 0
     m = len(Set[0])
