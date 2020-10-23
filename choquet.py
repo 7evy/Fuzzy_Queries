@@ -43,7 +43,7 @@ def mu(Set, Properties, Functions=[], Thresholds=[]):
     return score
 
 def choquet(Set, x, Functions=[], Thresholds=[]):
-    l, m, f, t = len(x), len(Set), len(Functions), len(Thresholds)
+    l, f, t = len(x), len(Functions), len(Thresholds)
     if l > f :
         Functions += [equals for _ in range(l-f)]
     if l > t :
