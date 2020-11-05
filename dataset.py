@@ -2,7 +2,7 @@ from copy import deepcopy
 from choquet import equals
 
 
-class Dataset(set):
+class Dataset(object):
 
     data = []
 
