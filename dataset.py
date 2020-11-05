@@ -1,5 +1,8 @@
 from copy import deepcopy
-from choquet import equals
+
+
+def equals(x, y):
+    return x == y
 
 
 class Dataset(object):
@@ -10,15 +13,15 @@ class Dataset(object):
         self.data = data
 
     def add_example(self, example):
-        data.append(example)
+        self.data.append(example)
 
     def remove_example(self, index=None, id=None):
         if index :
-            data.pop(index)
+            self.data.pop(index)
         elif id :
-            for d in data :
+            for d in self.data :
                 if d[0] == id :
-                    data.remove(d)
+                    self.data.remove(d)
     
     def delta(self, attr, value, function=equals, threshold=0):
         """Measures the proportion of elements in data (2D array), of which attribute attr satisfies the condition : function(attr, value) > threshold.

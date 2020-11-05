@@ -1,5 +1,5 @@
 from copy import deepcopy
-from math import abs
+from numpy import mean
 
 
 Test = [["BC1", "P", 1, 0, "A+"],
@@ -26,7 +26,7 @@ def Sc_min(Set, attr, value):
         if not m:
             continue
         else:
-        dist.append(abs(x[attr]-value[attr])/m)
+            dist.append(abs(x[attr]-value[attr])/m)
     return min(dist)
 
 def Sc_avg(Set, attr, value):
@@ -37,7 +37,7 @@ def Sc_avg(Set, attr, value):
             continue
         else:
             dist.append(abs(x[attr]-value[attr])/m)
-    return avg(dist)
+    return mean(dist)
         
   
 
@@ -107,5 +107,3 @@ def relative_sim(x, y):
         
 print(choquet(Test, ["BC3", "A", 0, 0, "A+"])) # Should return exactly 0.48 (?)
 print(choquet(Test, ["PHD", "L", 1, 0, "B-"]))
-
-
