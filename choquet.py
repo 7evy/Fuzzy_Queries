@@ -1,4 +1,5 @@
 from copy import deepcopy
+from math import abs
 
 
 Test = [["BC1", "P", 1, 0, "A+"],
@@ -81,3 +82,5 @@ def relative_distance(x, y):
         
 print(choquet(Test, ["BC3", "A", 0, 0, "A+"])) # Should return exactly 0.48 (?)
 print(choquet(Test, ["PHD", "L", 1, 0, "B-"]))
+
+
