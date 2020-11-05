@@ -1,11 +1,22 @@
 from copy import deepcopy
 
 
-Test = [["BC1", "PH", 1, 0, "A+"],
+Test = [["BC1", "P", 1, 0, "A+"],
         ["PHD", "M", 1, 0, "B+"],
         ["BC3", "A", 0, 0, "A+"],
         ["BC3", "I", 1, 0, "A-"],
         ["MASTER", "B", 1, 0, "A+"]]
+
+# Test = [["Appartement",45.1,2,1,621,"non","non","non",1689,820,2126]
+#         ["Appartement",91.2,5,4,1824,"oui","non","non",60,22,1145]
+#         ["Maison",90.5,5,4,788,"non","oui","non",991,361,122]
+#         ["Maison",112.2,5,3,1020,"oui","non","non",3279,853,2950]
+#         ["Appartement",42.6,2,1,414,"non","non","non",3745,1146,2919]
+#         ["Studio",27.7,2,1,294,"oui","non","oui",836,426,2588]
+#         ["Studio",26.3,1,1,341,"oui","non","non",2004,1444,4499]
+#         ["Appartement",82.0,3,2,676,"oui","non","non",2964,1307,250]
+#         ["Appartement",77.7,3,2,634,"oui","non","non",3443,805,3684]
+#         ["Appartement",42.6,2,1,425,"oui","non","non",2639,1268,2329]]
 
 def equals(a, b) :  # Default function
     return a == b
@@ -43,6 +54,8 @@ def mu(Set, Properties, Functions=[], Thresholds=[]):
     return score
 
 def choquet(Set, x, Functions=[], Thresholds=[]):
+    """Returns a measure of how well x satisfies the concept described by Set (between 0 and 1), based on a Choquet integral. It takes into account the satisfaction of the most important properties in Set, as well as the closeness to all examples.
+    The functions and thresholds used to evaluate each attribute are taken from their respective lists : the condition is strict equality by default."""
     l, f, t = len(x), len(Functions), len(Thresholds)
     if l > f :
         Functions += [equals for _ in range(l-f)]
@@ -59,8 +72,9 @@ def choquet(Set, x, Functions=[], Thresholds=[]):
     for i in range(l):
         attr = deltas[i][1]
         G.append([attr, x[attr]])
-        Sc += deltas[i][0] * (mu(Set, G, Functions, Thresholds)-mu(Set, H, Functions, Thresholds))
+        Sc += deltas[i][0] * (mu(Set, G, Functions, Thresholds) - mu(Set, H, Functions, Thresholds))
         H = deepcopy(G)
     return Sc
         
-print(choquet(Test, ["BC3", "A", 0, 0, "A+"]))
+print(choquet(Test, ["BC3", "A", 0, 0, "A+"])) # Should return exactly 0.48 (?)
+print(choquet(Test, ["PHD", "L", 1, 0, "B-"]))
