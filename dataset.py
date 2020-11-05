@@ -1,8 +1,10 @@
 from copy import deepcopy
+from numpy import mean, sqrt
 
 
 def equals(x, y):
     return x == y
+
 
 
 class Dataset(object):
@@ -61,14 +63,69 @@ class Dataset(object):
 
         deltas = []
         for i in range(l):
-            deltas.append([delta(self.data, i, x[i], Functions[i], Thresholds[i]), i])
-        deltas.sort(reverse=True)
+            deltas.append([self.delta(i, x[i], Functions[i], Thresholds[i]), i])
+        zipped = [list(z) for z in zip(deltas, Functions, Thresholds)]
+        zipped.sort(reverse=True)
+
+        deltas, Functions, Thresholds = [], [], []
+        for z in zipped :
+            deltas.append(z[0])
+            Functions.append(z[1])
+            Thresholds.append(z[2])
 
         H, G = [], []
         Sc = 0
         for i in range(l):
             attr = deltas[i][1]
             G.append([attr, x[attr]])
-            Sc += deltas[i][0] * (mu(self.data, G, Functions, Thresholds) - mu(self.data, H, Functions, Thresholds))
+            Sc += deltas[i][0] * (self.mu(G, Functions, Thresholds) - self.mu(H, Functions, Thresholds))
             H = deepcopy(G)
         return Sc
+
+    def select_most_satisfying(self, Set, limit, Functions=[], Thresholds=[]):
+        selection = []
+        for entry in Set :
+            if self.choquet(entry, Functions, Thresholds) >= limit :
+                selection.append(entry)
+        return selection
+
+
+
+    def Sc_min(self, attr, element):
+        dist = []
+        for x in self.data:
+            m = max([x[attr],element[attr]])
+            if not m:
+                continue
+            else:
+                dist.append(abs(x[attr]-element[attr])/m)
+        return min(dist)
+
+    def nearest_neighbor(self, indices, element):
+        dist = []
+        for x in self.data:
+            dist.append([])
+            for attr in indices :
+                m = max([x[attr],element[attr]])
+                if not m:
+                    dist[-1].append(0)
+                else:
+                    dist[-1].append((abs(x[attr]-element[attr])/m)**2)
+        mean_dist = []
+        for d in dist :
+            mean_dist.append(sqrt(sum(d)))
+        minimum = min(mean_dist)
+        return mean_dist.index(minimum), minimum
+
+    def mean_total_distance(self, indices, element):
+        return mean([self.Sc_avg(attr, element) for attr in indices])
+
+    def Sc_avg(self, attr, element):
+        dist = []
+        for x in self.data :
+            m = max([x[attr],element[attr]])
+            if not m:
+                continue
+            else:
+                dist.append(abs(x[attr]-element[attr])/m)
+        return mean(dist)

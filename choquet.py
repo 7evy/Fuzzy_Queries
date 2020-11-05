@@ -19,24 +19,29 @@ Test = [["BC1", "P", 1, 0, "A+"],
 #         ["Appartement",77.7,3,2,634,"oui","non","non",3443,805,3684]
 #         ["Appartement",42.6,2,1,425,"oui","non","non",2639,1268,2329]]
 
-def Sc_min(Set, attr, value):
+indices = [1,2,3,4,8,9,10]
+
+def Sc_min(Set, attr, element):
     dist = []
     for x in Set:
-        m = max([x[attr],value[attr]])
+        m = max([x[attr],element[attr]])
         if not m:
             continue
         else:
-            dist.append(abs(x[attr]-value[attr])/m)
+            dist.append(abs(x[attr]-element[attr])/m)
     return min(dist)
 
-def Sc_avg(Set, attr, value):
+def mean_total_distance(Set, indices, element):
+    return mean([Sc_avg(Set, attr, element) for attr in indices])
+
+def Sc_avg(Set, attr, element):
     dist = []
     for x in Set:
-        m = max([x[attr],value[attr]])
+        m = max([x[attr],element[attr]])
         if not m:
             continue
         else:
-            dist.append(abs(x[attr]-value[attr])/m)
+            dist.append(abs(x[attr]-element[attr])/m)
     return mean(dist)
         
   
@@ -105,5 +110,5 @@ def relative_distance(x, y):
 def relative_sim(x, y):
     return 1 - relative_distance(x, y)
         
-print(choquet(Test, ["BC3", "A", 0, 0, "A+"])) # Should return exactly 0.48 (?)
-print(choquet(Test, ["PHD", "L", 1, 0, "B-"]))
+# print(choquet(Test, ["BC3", "A", 0, 0, "A+"])) # Should return exactly 0.48 (?)
+# print(choquet(Test, ["PHD", "L", 1, 0, "B-"]))
