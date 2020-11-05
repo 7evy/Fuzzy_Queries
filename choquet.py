@@ -19,6 +19,28 @@ Test = [["BC1", "P", 1, 0, "A+"],
 #         ["Appartement",77.7,3,2,634,"oui","non","non",3443,805,3684]
 #         ["Appartement",42.6,2,1,425,"oui","non","non",2639,1268,2329]]
 
+def Sc_min(Set, attr, value):
+    dist = []
+    for x in Set:
+        m = max([x[attr],value[attr]])
+        if not m:
+            continue
+        else:
+        dist.append(abs(x[attr]-value[attr])/m)
+    return min(dist)
+
+def Sc_avg(Set, attr, value):
+    dist = []
+    for x in Set:
+        m = max([x[attr],value[attr]])
+        if not m:
+            continue
+        else:
+            dist.append(abs(x[attr]-value[attr])/m)
+    return avg(dist)
+        
+  
+
 def equals(a, b):  # Default function
     return a == b
 
