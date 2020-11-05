@@ -1,8 +1,5 @@
 from copy import deepcopy
-
-
-def equals(x, y):
-    return x == y
+from choquet import equals
 
 
 class Dataset(object):
@@ -61,7 +58,7 @@ class Dataset(object):
 
         deltas = []
         for i in range(l):
-            deltas.append([delta(self.data, i, x[i], Functions[i], Thresholds[i]), i])
+            deltas.append([self.delta(self.data, i, x[i], Functions[i], Thresholds[i]), i])
         deltas.sort(reverse=True)
 
         H, G = [], []
@@ -69,6 +66,6 @@ class Dataset(object):
         for i in range(l):
             attr = deltas[i][1]
             G.append([attr, x[attr]])
-            Sc += deltas[i][0] * (mu(self.data, G, Functions, Thresholds) - mu(self.data, H, Functions, Thresholds))
+            Sc += deltas[i][0] * (self.mu(self.data, G, Functions, Thresholds) - self.mu(self.data, H, Functions, Thresholds))
             H = deepcopy(G)
         return Sc
