@@ -18,7 +18,7 @@ Test = [["BC1", "P", 1, 0, "A+"],
 #         ["Appartement",77.7,3,2,634,"oui","non","non",3443,805,3684]
 #         ["Appartement",42.6,2,1,425,"oui","non","non",2639,1268,2329]]
 
-def equals(a, b) :  # Default function
+def equals(a, b):  # Default function
     return a == b
 
 def grade_scale(a, b):  # Fuzzy function example
@@ -75,6 +75,9 @@ def choquet(Set, x, Functions=[], Thresholds=[]):
         Sc += deltas[i][0] * (mu(Set, G, Functions, Thresholds) - mu(Set, H, Functions, Thresholds))
         H = deepcopy(G)
     return Sc
+
+def relative_distance(x, y):
+    return abs(x-y)/max(x, y)
         
 print(choquet(Test, ["BC3", "A", 0, 0, "A+"])) # Should return exactly 0.48 (?)
 print(choquet(Test, ["PHD", "L", 1, 0, "B-"]))

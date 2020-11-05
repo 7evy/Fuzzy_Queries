@@ -66,6 +66,6 @@ class Dataset(set):
         for i in range(l):
             attr = deltas[i][1]
             G.append([attr, x[attr]])
-            Sc += deltas[i][0] * (mu(self.data, G, Functions, Thresholds)-mu(self.data, H, Functions, Thresholds))
+            Sc += deltas[i][0] * (mu(self.data, G, Functions, Thresholds) - mu(self.data, H, Functions, Thresholds))
             H = deepcopy(G)
         return Sc
