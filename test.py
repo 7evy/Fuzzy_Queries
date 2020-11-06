@@ -1,20 +1,8 @@
-from dataset import Dataset
+import dataset as ds
 import time
 
 
 indices = [1,2,3,4,8,9,10]
-
-def equals(x, y):  # Default function
-    return x == y
-
-def relative_distance(x, y):
-    return 0 if x == y else abs(x-y)/max(x, y)
-
-def relative_sim(x, y):
-    return 1 - relative_distance(x, y)
-
-def inf_or_relative(x, y):
-    return 1 if x <= y else relative_sim(x, y)
 
 Test_subset = [["Appartement",45.1,2,1,621,0,0,0,1689,820,2126],
         ["Appartement",91.2,5,4,1824,1,0,0,60,22,1145],
@@ -57,20 +45,13 @@ Test_bdd = [["Studio",17.98,1,1,440,1,0,0,727,575,3708],
 ["Appartement",64.5,3,2,776,1,0,0,3648,1673,3054],
 ["Appartement",69.2,3,2,791,1,0,0,2093,479,3843]]
 
-D = Dataset(Test_subset)
+D = ds.Dataset(Test_subset, [ds.equals, ds.relative_sim, ds.equals, ds.equals, ds.inf_or_relative, ds.equals, ds.equals, ds.equals, ds.relative_sim, ds.inf_or_relative, ds.inf_or_relative], [0, 0.75, 0, 0, 0.75, 0, 0, 0, 0.75, 0.75, 0.75])
 
-# print(D.choquet(Test_entry, [equals, relative_sim, equals, equals, inf_or_relative, equals, equals, equals, relative_sim, inf_or_relative, inf_or_relative], [0, 0.75, 0, 0, 0.75, 0, 0, 0, 0.75, 0.75, 0.75]))
+# print(D.choquet(Test_entry))
 
 # start_time = time.time()
-# print(D.select_most_satisfying(Test_bdd, 0.5, [equals, relative_sim, equals, equals, inf_or_relative, equals, equals, equals, relative_sim, inf_or_relative, inf_or_relative], [0, 0.75, 0, 0, 0.75, 0, 0, 0, 0.75, 0.75, 0.75]))
-# print(len(Test_bdd))
+# print(D.select_most_satisfying(Test_bdd, 0.5))
 # print(time.time()-start_time)
 
 # print(D.mean_total_distance(indices, ["Appartement",69.2,3,2,791,1,0,0,2093,479,3843]))
 print(D.nearest_neighbor(indices, ["Appartement",69.2,3,2,791,1,0,0,2093,479,3843]))
-
-
-
-
-
-
