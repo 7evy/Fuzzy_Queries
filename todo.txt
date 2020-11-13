@@ -1,4 +1,11 @@
+Clustering :
+	Trier par cluster
+
+Django :
+	Cacher secret key + ajouter .env au .gitignore
+
 BDD :
+	Supprimer doublons
 	Lien Django
 	Init BDD
 

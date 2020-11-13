@@ -2,22 +2,12 @@ from sklearn.cluster import AgglomerativeClustering
 import numpy as np
 from utils import *
 from operator import add, ne, mul
+from pandas import read_csv
 
 
+Data = read_csv("./data/db_base.csv", sep=";", header=None, engine='c').values.tolist()
 
-Test = [["Appartement",45.1,2,1,621,0,0,0,1689,820,2126],
-        ["Appartement",91.2,5,4,1824,1,0,0,60,22,1145],
-        ["Maison",90.5,5,4,788,0,1,0,991,361,122],
-        ["Maison",112.2,5,3,1020,1,0,0,3279,853,2950],
-        ["Appartement",42.6,2,1,414,0,0,0,3745,1146,2919],
-        ["Studio",27.7,2,1,294,1,0,1,836,426,2588],
-        ["Studio",26.3,1,1,341,1,0,0,2004,1444,4499],
-        ["Appartement",82.0,3,2,676,1,0,0,2964,1307,250],
-        ["Appartement",77.7,3,2,634,1,0,0,3443,805,3684],
-        ["Appartement",42.6,2,1,425,1,0,0,2639,1268,2329]]
-
-N_CLUSTERS = 10
-FUNCTIONS = [ne, relative_distance, discrete_distance, discrete_distance, relative_distance, ne, ne, ne, relative_distance, relative_distance, relative_distance]
+FUNCTIONS = [ne, relative_distance, discrete_distance, discrete_distance, relative_distance, ne, ne, ne]
 
 def dist_matrix(data, indexes, Functions):
     M = []
@@ -28,11 +18,10 @@ def dist_matrix(data, indexes, Functions):
 def distances(data, indexes, element, Functions):
     """Returns the respective relative distances between element and all data points in Data.
     Takes into account all of the attributes listed in indexes."""
-    l = len(indexes)
-    result = [0 for _ in range(l)]
+    result = [0 for _ in range(len(data))]
     for attr in indexes :
         result = list(map(add, result, distances_1D(data, attr, element, Functions[attr])))
-    return list(np.array(result) / l)
+    return list(np.array(result) / len(indexes))
 
 def distances_1D(data, attr, element, f):
     """Returns the respective relative distances between element and all data points in Data, taking only one attribute into account."""
@@ -41,13 +30,43 @@ def distances_1D(data, attr, element, f):
         dist.append(f(element[attr], x[attr]))
     return dist
 
-def clusters(data):
-    M = np.asfarray(dist_matrix(data, [k for k in range(len(data[0]))], FUNCTIONS))
+def clustering(data, n_clusters, Functions):
+    M = np.asfarray(dist_matrix(data, [k for k in range(len(data[0]))], Functions))
     AC = AgglomerativeClustering(
-        n_clusters=N_CLUSTERS,
+        n_clusters=n_clusters,
         affinity="precomputed",
         linkage="average"
     )
     return AC.fit_predict(M)
 
-print(clusters(Test))
+class Clustering():
+    Data = []
+    Clusters = []
+    Functions = []
+    n_clusters = 1
+    n_attr = 0
+
+    def __init__(self, Data, n_clusters, Functions=[]):
+        self.Data = Data
+        self.n_clusters = n_clusters
+        if Data :
+            self.n_attr = len(Data[0])
+        self.Functions = Functions + [ne for _ in range(self.n_attr - len(Functions))]
+        self.Clusters = clustering(self.Data, self.n_clusters, self.Functions)
+
+    def print_cluster(self, k):
+        indexes_to_print = []
+        for c in range(len(self.Clusters)):
+            if self.Clusters[c] == k :
+                indexes_to_print.append(c)
+        print("Cluster n°" + str(k) + " contains " + str(len(indexes_to_print)) + " entries :")
+        for i in indexes_to_print :
+            print(self.Data[i])
+
+    def cluster_distribution(self):
+        return [self.Clusters.tolist().count(k) for k in range(self.n_clusters)]
+
+C = Clustering(Data, 15, FUNCTIONS)
+
+C.print_cluster(7)
+print(C.cluster_distribution())

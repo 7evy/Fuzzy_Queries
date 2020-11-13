@@ -1,7 +1,3 @@
-from numpy import mean, sqrt
-
-
-
 def discrete_distance(x, y):
     """Distance between small integers."""
     if x == y :
