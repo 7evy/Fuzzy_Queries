@@ -1,0 +1,11 @@
+BDD :
+	Lien Django
+	Init BDD
+
+Interface utilisateur version 1 : sélection aléatoire
+	Aspect graphique
+	Clustering adapté
+
+Interface utilisateur :
+	Pré-sélection (?)
+	Affichage clair avec les attributs importants
