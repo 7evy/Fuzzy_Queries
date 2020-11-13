@@ -1,21 +1,7 @@
 from copy import deepcopy
 from numpy import mean, sqrt
+from operator import eq
 
-
-def equals(x, y): # Default comparison
-    return x == y
-
-def relative_distance(x, y):
-    """Relative distance between x and y, in [0;1]."""
-    return 0 if x == y else abs(x-y)/max(x, y)
-
-def relative_sim(x, y):
-    """Complement of the normalized distance between x and y, in [0;1]."""
-    return 1 - relative_distance(x, y)
-
-def inf_or_relative(x, y):
-    """Useful if x < y is as good as x == y."""
-    return 1 if x <= y else relative_sim(x, y)
 
 
 
@@ -34,7 +20,7 @@ class Dataset(object):
         if Data[0] : n_attr = len(Data[0])
         lf, lt = len(Functions), len(Thresholds)
         if lf < n_attr :
-            self.Functions += [equals for _ in range(n_attr-lf)]
+            self.Functions += [eq for _ in range(n_attr-lf)]
         if lt < n_attr :
             self.Thresholds += [0 for _ in range(n_attr-lt)]
 
@@ -103,13 +89,21 @@ class Dataset(object):
             H = deepcopy(G)
         return Sc
 
-    def select_most_satisfying(self, Set, limit):
+    def select_above_limit(self, Set, limit):
         """Applies the CHOCOLATE method to each row of Set (2D table), and returns those with a score greater than limit."""
         selection = []
         for entry in Set :
             if self.choquet(entry, self.Functions, self.Thresholds) >= limit :
                 selection.append(entry)
         return selection
+
+    def select_most_satisfying(self, Set, n):
+        """Applies the CHOCOLATE method to each row of Set (2D table), and returns the n entries with the highest scores."""
+        scores = []
+        for entry in Set :
+            scores.append([self.choquet(entry, self.Functions, self.Thresholds), entry])
+        scores.sort(reverse=True)
+        return scores[:n]
 
 
 
@@ -124,13 +118,13 @@ class Dataset(object):
                 dist.append(abs(x[attr]-element[attr])/m)
         return min(dist)
 
-    def nearest_neighbor(self, indices, element):
+    def nearest_neighbor(self, indexes, element):
         """Returns the nearest neighbor of element in Data and their relative distance.
-        Takes into account all of the attributes listed in indices."""
+        Takes into account all of the attributes listed in indexes."""
         dist = []
         for x in self.Data:
             dist.append([])
-            for attr in indices :
+            for attr in indexes :
                 m = max([x[attr],element[attr]])
                 if not m:
                     dist[-1].append(0)
@@ -138,14 +132,14 @@ class Dataset(object):
                     dist[-1].append((abs(x[attr]-element[attr])/m)**2)
         mean_dist = []
         for d in dist :
-            mean_dist.append(sqrt(sum(d))/len(indices))
+            mean_dist.append(sqrt(sum(d))/len(indexes))
         minimum = min(mean_dist)
         return mean_dist.index(minimum), minimum
 
-    def mean_total_distance(self, indices, element):
+    def mean_total_distance(self, indexes, element):
         """Returns the average relative distance between element and all data points in Data.
-        Takes into account all of the attributes listed in indices."""
-        return mean([self.Sc_avg(attr, element) for attr in indices])
+        Takes into account all of the attributes listed in indexes."""
+        return mean([self.Sc_avg(attr, element) for attr in indexes])
 
     def Sc_avg(self, attr, element):
         """Returns the average relative distance between element and all data points in Data, taking only one attribute into account."""

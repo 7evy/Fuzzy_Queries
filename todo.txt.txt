@@ -9,3 +9,4 @@ Interface utilisateur version 1 : sélection aléatoire
 Interface utilisateur :
 	Pré-sélection (?)
 	Affichage clair avec les attributs importants
+	Ajouter des poids aux attributs (?)
