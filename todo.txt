@@ -1,5 +1,6 @@
 Clustering :
-	Trier par cluster
+	Trier par cluster OK
+	Ajouter les indices comme attribut de Dataset
 
 Django :
 	Cacher secret key + ajouter .env au .gitignore

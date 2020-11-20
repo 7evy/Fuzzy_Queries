@@ -1,3 +1,5 @@
+from operator import *
+
 def discrete_distance(x, y):
     """Distance between small integers."""
     if x == y :
@@ -6,6 +8,9 @@ def discrete_distance(x, y):
         return 0.5
     else :
         return 1
+
+def discrete_sim(x, y):
+    return 1 - discrete_distance(x, y)
 
 def relative_distance(x, y):
     """Relative distance between x and y, in [0;1]."""

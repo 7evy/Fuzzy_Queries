@@ -17,11 +17,11 @@ class Dataset(object):
         self.Data = Data
         self.Functions = Functions
         self.Thresholds = Thresholds
-        if Data[0] : n_attr = len(Data[0])
+        if Data[0] : self.n_attr = len(Data[0])
         lf, lt = len(Functions), len(Thresholds)
-        if lf < n_attr :
+        if lf < self.n_attr :
             self.Functions += [eq for _ in range(n_attr-lf)]
-        if lt < n_attr :
+        if lt < self.n_attr :
             self.Thresholds += [0 for _ in range(n_attr-lt)]
 
     def add_example(self, example):
@@ -37,7 +37,7 @@ class Dataset(object):
                 if d[0] == id :
                     self.Data.remove(d)
     
-    def delta(self, attr, value, function=equals, threshold=0):
+    def delta(self, attr, value, function=eq, threshold=0):
         """Measures the proportion of elements in data (2D array), of which attribute attr satisfies the condition : function(attr, value) > threshold.
         By default, the condition is strict equality."""
         ret = 0
@@ -46,18 +46,20 @@ class Dataset(object):
                 ret += 1
         return ret/len(self.Data)
 
-    def mu(self, Properties):
+    def mu(self, Properties, F=[], T=[]):
         """Returns the maximal similarity between an element of data (2D array) and Properties (subset of attributes and values).
         The score is 1 if there is x in data which, for all tuples in Properties, verifies : function(attribute, value) > threshold.
         The functions and thresholds are taken from their respective lists, which must be at least as long as Properties."""
         if not Properties : return 0
+        if not F : F = self.Functions
+        if not T : T = self.Thresholds
         score = 0
         m = len(self.Data[0])
         for x in self.Data :
             count = 0
             for i in range(len(Properties)):
                 [attr, value] = Properties[i]
-                if self.Functions[i](x[attr], value) > self.Thresholds[i] :
+                if F[i](x[attr], value) > T[i] :
                     count += 1
             count /= m
             if count > score :
@@ -69,7 +71,7 @@ class Dataset(object):
         The functions and thresholds used to evaluate each attribute are taken from their respective lists : the condition is strict equality by default."""
 
         deltas = []
-        for i in range(n_attr):
+        for i in range(self.n_attr):
             deltas.append([self.delta(i, x[i], self.Functions[i], self.Thresholds[i]), i])
         zipped = [list(z) for z in zip(deltas, self.Functions, self.Thresholds)]
         zipped.sort(reverse=True)
@@ -82,7 +84,7 @@ class Dataset(object):
 
         H, G = [], []
         Sc = 0
-        for i in range(n_attr):
+        for i in range(self.n_attr):
             attr = deltas[i][1]
             G.append([attr, x[attr]])
             Sc += deltas[i][0] * (self.mu(G, F, T) - self.mu(H, F, T))
@@ -118,13 +120,13 @@ class Dataset(object):
                 dist.append(abs(x[attr]-element[attr])/m)
         return min(dist)
 
-    def nearest_neighbor(self, indexes, element):
+    def nearest_neighbor(self, indices, element):
         """Returns the nearest neighbor of element in Data and their relative distance.
-        Takes into account all of the attributes listed in indexes."""
+        Takes into account all of the attributes listed in indices."""
         dist = []
         for x in self.Data:
             dist.append([])
-            for attr in indexes :
+            for attr in indices :
                 m = max([x[attr],element[attr]])
                 if not m:
                     dist[-1].append(0)
@@ -132,14 +134,14 @@ class Dataset(object):
                     dist[-1].append((abs(x[attr]-element[attr])/m)**2)
         mean_dist = []
         for d in dist :
-            mean_dist.append(sqrt(sum(d))/len(indexes))
+            mean_dist.append(sqrt(sum(d))/len(indices))
         minimum = min(mean_dist)
         return mean_dist.index(minimum), minimum
 
-    def mean_total_distance(self, indexes, element):
+    def mean_total_distance(self, indices, element):
         """Returns the average relative distance between element and all data points in Data.
-        Takes into account all of the attributes listed in indexes."""
-        return mean([self.Sc_avg(attr, element) for attr in indexes])
+        Takes into account all of the attributes listed in indices."""
+        return mean([self.Sc_avg(attr, element) for attr in indices])
 
     def Sc_avg(self, attr, element):
         """Returns the average relative distance between element and all data points in Data, taking only one attribute into account."""

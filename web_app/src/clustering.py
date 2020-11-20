@@ -1,27 +1,32 @@
-from sklearn.cluster import AgglomerativeClustering
+from sklearn.cluster import AgglomerativeClustering, AffinityPropagation
 import numpy as np
 from utils import *
-from operator import add, ne, mul
+from operator import add, ne, eq
 from pandas import read_csv
+import matplotlib.pyplot as plt
+import dataset as ds
 
 
-Data = read_csv("./data/db_base.csv", sep=";", header=None, engine='c').values.tolist()
+AllData = read_csv("./data/db.csv", sep=";", header=None, engine='c').values.tolist()
 
-FUNCTIONS = [ne, relative_distance, discrete_distance, discrete_distance, relative_distance, ne, ne, ne]
+Data = [AllData[4*k] for k in range(0, 625)] # Real data
 
-def dist_matrix(data, indexes, Functions):
+FUNCTIONS = [ne, relative_distance, discrete_distance, discrete_distance, relative_distance, ne, ne, ne, relative_distance, relative_distance, relative_distance]
+INDICES = [1, 4, 8, 9, 10]
+
+def dist_matrix(data, indices, Functions):
     M = []
     for x in data :
-        M.append(distances(data, indexes, x, Functions))
+        M.append(distances(data, indices, x, Functions))
     return M
 
-def distances(data, indexes, element, Functions):
+def distances(data, indices, element, Functions):
     """Returns the respective relative distances between element and all data points in Data.
-    Takes into account all of the attributes listed in indexes."""
+    Takes into account all of the attributes listed in indices."""
     result = [0 for _ in range(len(data))]
-    for attr in indexes :
+    for attr in indices :
         result = list(map(add, result, distances_1D(data, attr, element, Functions[attr])))
-    return list(np.array(result) / len(indexes))
+    return list(np.array(result) / len(indices))
 
 def distances_1D(data, attr, element, f):
     """Returns the respective relative distances between element and all data points in Data, taking only one attribute into account."""
@@ -30,8 +35,9 @@ def distances_1D(data, attr, element, f):
         dist.append(f(element[attr], x[attr]))
     return dist
 
-def clustering(data, n_clusters, Functions):
-    M = np.asfarray(dist_matrix(data, [k for k in range(len(data[0]))], Functions))
+def agglo_clustering(data, n_clusters, indices, Functions):
+    """Hierarchical clustering with n_clusters clusters. Returns the labels corresponding to data."""
+    M = np.asfarray(dist_matrix(data, indices, Functions))
     AC = AgglomerativeClustering(
         n_clusters=n_clusters,
         affinity="precomputed",
@@ -39,34 +45,103 @@ def clustering(data, n_clusters, Functions):
     )
     return AC.fit_predict(M)
 
+def agglo_clustering_alt(data, max_dist, indices, Functions):
+    """Hierarchical clustering using max_dist as distance threshold. Returns the labels corresponding to data."""
+    M = np.asfarray(dist_matrix(data, indices, Functions))
+    AC = AgglomerativeClustering(
+        n_clusters=None,
+        distance_threshold=max_dist,
+        affinity="precomputed",
+        linkage="average"
+    )
+    return AC.fit_predict(M)
+
+def affinity_clustering(data, indices, Functions):
+    """Affinity propagation clustering. Returns the labels corresponding to data, and the computed cluster centers."""
+    M = np.asfarray(dist_matrix(data, indices, Functions))
+    AC = AffinityPropagation(
+        copy=False,
+        affinity="precomputed",
+        random_state=None
+    )
+    AC.fit(M)
+    return AC.labels_, AC.cluster_centers_indices_
+
 class Clustering():
     Data = []
-    Clusters = []
+    Labels = []
+    Centers = []
+    indices = []
     Functions = []
-    n_clusters = 1
-    n_attr = 0
+    # n_clusters = 1
 
-    def __init__(self, Data, n_clusters, Functions=[]):
+    def __init__(self, Data, Functions=[], indices=[]):
         self.Data = Data
-        self.n_clusters = n_clusters
-        if Data :
-            self.n_attr = len(Data[0])
-        self.Functions = Functions + [ne for _ in range(self.n_attr - len(Functions))]
-        self.Clusters = clustering(self.Data, self.n_clusters, self.Functions)
+        # self.n_clusters = n_clusters
+        self.indices = indices if indices else [k for k in range(len(Data[0]))]
+        self.Functions = Functions + [ne for _ in range((len(self.indices)) - len(Functions))]
+        # self.Labels = agglo_clustering(self.Data, self.n_clusters, self.indices, self.Functions)
+        self.Labels, self.Centers = affinity_clustering(self.Data, self.indices, self.Functions)
+
+    def sort_by_cluster(self):
+        zipped = sorted(list(zip(self.Labels, self.Data)))
+        self.Labels = [zipped[k][0] for k in range(len(self.Data))]
+        self.Data = [zipped[k][1] for k in range(len(self.Data))]
+
+    # def mean_dist_centers(self):
+    #     centers = []
+    #     for label in set(self.Labels) :
+    #         C = self.cluster(label)
+    #         dist = [mean_total_distance(C, self.indices, x) for x in C]
+    #         centers.append(dist.index(min(dist)))
+    #     return centers
+
+    def cluster(self, k):
+        indexes = []
+        for c in range(len(self.Labels)):
+            if self.Labels[c] == k :
+                indexes.append(c)
+        return [Data[i] for i in indexes]
 
     def print_cluster(self, k):
-        indexes_to_print = []
-        for c in range(len(self.Clusters)):
-            if self.Clusters[c] == k :
-                indexes_to_print.append(c)
-        print("Cluster n°" + str(k) + " contains " + str(len(indexes_to_print)) + " entries :")
-        for i in indexes_to_print :
-            print(self.Data[i])
+        C = self.cluster(k)
+        print("Cluster n°" + str(k) + " contains " + str(len(C)) + " entries :")
+        for x in C :
+            print(x)
 
     def cluster_distribution(self):
-        return [self.Clusters.tolist().count(k) for k in range(self.n_clusters)]
+        return np.array([self.Labels.tolist().count(k) for k in range(max(self.Labels+1))])
 
-C = Clustering(Data, 15, FUNCTIONS)
+    def print_centers(self):
+        for c in self.Centers :
+            print(self.Data[c])
 
-C.print_cluster(7)
+
+C = Clustering(Data, FUNCTIONS, INDICES)
 print(C.cluster_distribution())
+C.print_centers()
+
+# D = ds.Dataset(Data, [eq, relative_sim, discrete_sim, discrete_sim, inf_or_relative, eq, eq, eq, relative_sim, relative_sim, relative_sim], [0, 0.75, 0.5, 0.5, 0.75, 0, 0, 0, 0.75, 0.75, 0.75])
+
+# x_axis, y_axis, z_axis = [], [], []
+# r_axis, g_axis, b_axis = [], [], []
+# centers_x, centers_y, centers_z = [], [], []
+# for x in AllData :
+#     x_axis.append(x[8])
+#     y_axis.append(x[10])
+#     r_axis.append(x[1])
+#     g_axis.append(x[9])
+#     b_axis.append(x[4])
+#     # z_axis.append(D.choquet(x))
+# r_axis = np.array(r_axis)/max(r_axis)
+# g_axis = np.array(g_axis)/max(g_axis)
+# b_axis = np.array(b_axis)/max(b_axis)
+# rgb = [(r_axis[k], g_axis[k], b_axis[k]) for k in range(len(r_axis))]
+# fig = plt.figure()
+# for i in range(len(x_axis)):
+#     msize = 12 if i in C.Centers else 4
+#     plt.plot(x_axis[i], y_axis[i], marker='o', c=rgb[i], markersize=msize)
+# plt.show()
+# # plt.scatter(x_axis, y_axis, marker='o', c=z_axis, cmap=plt.cm.coolwarm)
+# # plt.plot(centers_x, centers_y, 'o', c='black', markersize=10)
+# # plt.show()
