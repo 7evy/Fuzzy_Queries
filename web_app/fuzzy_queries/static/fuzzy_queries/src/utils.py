@@ -1,6 +1,6 @@
 from operator import *
 import numpy as np
-import dataset as ds
+import fuzzy_queries.static.fuzzy_queries.src.dataset as ds
 
 def discrete_distance(x, y):
     """Distance between small integers."""

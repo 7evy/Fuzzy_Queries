@@ -1,10 +1,11 @@
 from sklearn.cluster import AgglomerativeClustering, AffinityPropagation
 import numpy as np
-from utils import *
+from fuzzy_queries.static.fuzzy_queries.src.utils import *
 from operator import add, ne, eq
 from pandas import read_csv
 import matplotlib.pyplot as plt
-import dataset as ds
+import fuzzy_queries.static.fuzzy_queries.src.dataset as ds
+
 
 
 AllData = read_csv("./data/db.csv", sep=";", header=None, engine='c').values.tolist()
