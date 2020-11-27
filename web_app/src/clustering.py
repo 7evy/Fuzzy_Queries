@@ -140,22 +140,22 @@ class Clustering():
             print(self.Data[c])
 
 
-C = Clustering(Data, FUNCTIONS, INDICES)
+C = Clustering(Data, FUNCTIONS)
 C.by_affinity(-1)
 print(C.cluster_distribution())
 print(C.n_clusters)
 
-# D = ds.Dataset(C.centers(), [eq, relative_sim, discrete_sim, discrete_sim, inf_or_relative, eq, eq, eq, relative_sim, relative_sim, relative_sim], [0, 0.75, 0.5, 0.5, 0.75, 0, 0, 0, 0.75, 0.75, 0.75])
+D = ds.Dataset(C.centers(), [eq, relative_sim, discrete_sim, discrete_sim, inf_or_relative, eq, eq, eq, relative_sim, relative_sim, relative_sim], [0, 0.75, 0.5, 0.5, 0.75, 0, 0, 0, 0.75, 0.75, 0.75])
 
-# x_axis, y_axis, z_axis = [], [], []
+x_axis, y_axis, z_axis = [], [], []
 # r_axis, g_axis, b_axis = [], [], []
-# for x in AllData :
-#     x_axis.append(x[8])
-#     y_axis.append(x[10])
+for x in Data :
+    x_axis.append(x[1])
+    y_axis.append(x[4])
 #     r_axis.append(x[8])
 #     g_axis.append(x[9])
 #     b_axis.append(x[10])
-    # z_axis.append(D.choquet(x))
+    z_axis.append(D.choquet(x))
 # r_axis = np.array(r_axis)/max(r_axis)
 # g_axis = np.array(g_axis)/max(g_axis)
 # b_axis = np.array(b_axis)/max(b_axis)
@@ -167,5 +167,5 @@ print(C.n_clusters)
 #     plt.plot(x_axis[i], y_axis[i], marker='o', c=clr, markersize=msize)
     # plt.plot(x_axis[i], y_axis[i], marker='o', c=rgb[i], markersize=msize)
 # plt.show()
-# plt.scatter(x_axis, y_axis, marker='o', c=z_axis, cmap=plt.cm.coolwarm)
-# plt.show()
+plt.scatter(x_axis, y_axis, marker='o', c=z_axis, cmap=plt.cm.coolwarm)
+plt.show()

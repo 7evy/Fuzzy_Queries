@@ -4,7 +4,6 @@ from operator import eq
 
 
 
-
 class Dataset(object):
 
     n_attr = 0
