@@ -11,10 +11,12 @@ AllData = read_csv("./data/db.csv", sep=";", header=None, engine='c').values.tol
 
 Data = [AllData[4*k] for k in range(0, 625)] # Real data
 
-FUNCTIONS = [eq, relative_sim, discrete_sim, discrete_sim, relative_sim, eq, eq, eq, relative_sim, relative_sim, relative_sim]
-INDICES = [1, 4]
+FUNCTIONS = [eq, relative_sim, discrete_sim, discrete_sim, relative_sim, eq, eq, eq, relative_sim, relative_sim, relative_sim] # functions to compute affinities between points
+FUNCTIONS2 = [ne, relative_distance, discrete_distance, discrete_distance, relative_distance, ne, ne, ne, relative_distance, relative_distance, relative_distance] # functions to compute distances between points]
+INDICES = [1, 4, 8, 9, 10] # attributes to consider for clustering
 
 def dist_matrix(data, indices, Functions):
+    """Returns the distance matrix (between each pair of points in data) used for affinity/agglomerative clustering."""
     M = []
     for x in data :
         M.append(distances(data, indices, x, Functions))
@@ -69,27 +71,39 @@ def affinity_clustering(data, indices, Functions, preference):
     return AC.labels_, AC.cluster_centers_indices_
 
 class Clustering():
+    """Class used to manage the results of affinity propagation and agglomerative clustering."""
     Data = []
     Labels = []
     Centers = []
     indices = []
     Functions = []
-    # n_clusters = 1
+    n_clusters = 1
 
-    def __init__(self, Data, Functions=[], indices=[], preference=None):
+    def __init__(self, Data, Functions=[], indices=[]):
         self.Data = Data
-        # self.n_clusters = n_clusters
         self.indices = indices if indices else [k for k in range(len(Data[0]))]
         self.Functions = Functions + [ne for _ in range((len(self.indices)) - len(Functions))]
-        # self.Labels = agglo_clustering(self.Data, self.n_clusters, self.indices, self.Functions)
+
+    def by_agglo(self, n_clusters=1):
+        """Agglomerative clustering using stored data."""
+        self.n_clusters = n_clusters
+        self.Labels = agglo_clustering(self.Data, self.n_clusters, self.indices, self.Functions)
+    
+    def by_affinity(self, preference=None):
+        """Affinity propagation clustering using stored data."""
         self.Labels, self.Centers = affinity_clustering(self.Data, self.indices, self.Functions, preference)
+        self.n_clusters = len(self.Centers)
 
     def sort_by_cluster(self):
+        """Sorts the dataset by cluster label."""
         zipped = sorted(list(zip(self.Labels, self.Data)))
         self.Labels = [zipped[k][0] for k in range(len(self.Data))]
         self.Data = [zipped[k][1] for k in range(len(self.Data))]
 
     def mean_dist_centers(self):
+        """Returns the mean distance between each cluster and their associated data points. Only works with affinity propagation."""
+        if not Centers :
+            return "Centers uninitialized"
         centers = []
         for label in set(self.Labels) :
             C = self.cluster(label)
@@ -98,6 +112,7 @@ class Clustering():
         return centers
 
     def cluster(self, k):
+        """Returns the k-th cluster as an array."""
         indexes = []
         for c in range(len(self.Labels)):
             if self.Labels[c] == k :
@@ -105,37 +120,42 @@ class Clustering():
         return [Data[i] for i in indexes]
 
     def print_cluster(self, k):
+        """Prints the k-th cluster."""
         C = self.cluster(k)
         print("Cluster n°" + str(k) + " contains " + str(len(C)) + " entries :")
         for x in C :
             print(x)
 
     def cluster_distribution(self):
+        """Returns the number of data points in each cluster."""
         return np.array([self.Labels.tolist().count(k) for k in range(max(self.Labels+1))])
 
     def centers(self):
+        """Returns the cluster centers as an array. Only works with affinity propagation."""
         return [self.Data[c] for c in self.Centers]
 
     def print_centers(self):
+        """Prints every cluster center. Only works with affinity propagation."""
         for c in self.Centers :
             print(self.Data[c])
 
 
-C = Clustering(Data, FUNCTIONS, INDICES, -1)
+C = Clustering(Data, FUNCTIONS, INDICES)
+C.by_affinity(-1)
 print(C.cluster_distribution())
-print(len(C.cluster_distribution()))
+print(C.n_clusters)
 
-D = ds.Dataset(C.centers(), [eq, relative_sim, discrete_sim, discrete_sim, inf_or_relative, eq, eq, eq, relative_sim, relative_sim, relative_sim], [0, 0.75, 0.5, 0.5, 0.75, 0, 0, 0, 0.75, 0.75, 0.75])
+# D = ds.Dataset(C.centers(), [eq, relative_sim, discrete_sim, discrete_sim, inf_or_relative, eq, eq, eq, relative_sim, relative_sim, relative_sim], [0, 0.75, 0.5, 0.5, 0.75, 0, 0, 0, 0.75, 0.75, 0.75])
 
-x_axis, y_axis, z_axis = [], [], []
+# x_axis, y_axis, z_axis = [], [], []
 # r_axis, g_axis, b_axis = [], [], []
-for x in AllData :
-    x_axis.append(x[8])
-    y_axis.append(x[10])
+# for x in AllData :
+#     x_axis.append(x[8])
+#     y_axis.append(x[10])
 #     r_axis.append(x[8])
 #     g_axis.append(x[9])
 #     b_axis.append(x[10])
-    z_axis.append(D.choquet(x))
+    # z_axis.append(D.choquet(x))
 # r_axis = np.array(r_axis)/max(r_axis)
 # g_axis = np.array(g_axis)/max(g_axis)
 # b_axis = np.array(b_axis)/max(b_axis)
@@ -147,5 +167,5 @@ for x in AllData :
 #     plt.plot(x_axis[i], y_axis[i], marker='o', c=clr, markersize=msize)
     # plt.plot(x_axis[i], y_axis[i], marker='o', c=rgb[i], markersize=msize)
 # plt.show()
-plt.scatter(x_axis, y_axis, marker='o', c=z_axis, cmap=plt.cm.coolwarm)
-plt.show()
+# plt.scatter(x_axis, y_axis, marker='o', c=z_axis, cmap=plt.cm.coolwarm)
+# plt.show()

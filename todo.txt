@@ -1,8 +1,8 @@
 Clustering :
 	Trier par cluster OK
 	Test AffinityPropagation OK
-	Ajouter les indices comme attribut de Dataset (?)
-	Tester les valeurs de préférence
+	Ajouter les indices comme attribut de Dataset (pe pas utile)
+	Tester les valeurs de préférence OK
 
 Django :
 	Cacher secret key + ajouter .env au .gitignore
@@ -14,7 +14,7 @@ BDD :
 
 Interface utilisateur version 1 : sélection aléatoire
 	Aspect graphique
-	Clustering adapté
+	Clustering adapté OK
 
 Interface utilisateur :
 	Pré-sélection (?)
