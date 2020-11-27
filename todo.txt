@@ -1,6 +1,8 @@
 Clustering :
 	Trier par cluster OK
-	Ajouter les indices comme attribut de Dataset
+	Test AffinityPropagation OK
+	Ajouter les indices comme attribut de Dataset (?)
+	Tester les valeurs de préférence
 
 Django :
 	Cacher secret key + ajouter .env au .gitignore

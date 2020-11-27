@@ -11,8 +11,8 @@ AllData = read_csv("./data/db.csv", sep=";", header=None, engine='c').values.tol
 
 Data = [AllData[4*k] for k in range(0, 625)] # Real data
 
-FUNCTIONS = [ne, relative_distance, discrete_distance, discrete_distance, relative_distance, ne, ne, ne, relative_distance, relative_distance, relative_distance]
-INDICES = [1, 4, 8, 9, 10]
+FUNCTIONS = [eq, relative_sim, discrete_sim, discrete_sim, relative_sim, eq, eq, eq, relative_sim, relative_sim, relative_sim]
+INDICES = [1, 4]
 
 def dist_matrix(data, indices, Functions):
     M = []
@@ -56,13 +56,14 @@ def agglo_clustering_alt(data, max_dist, indices, Functions):
     )
     return AC.fit_predict(M)
 
-def affinity_clustering(data, indices, Functions):
+def affinity_clustering(data, indices, Functions, preference):
     """Affinity propagation clustering. Returns the labels corresponding to data, and the computed cluster centers."""
     M = np.asfarray(dist_matrix(data, indices, Functions))
     AC = AffinityPropagation(
         copy=False,
         affinity="precomputed",
-        random_state=None
+        random_state=None,
+        preference=preference
     )
     AC.fit(M)
     return AC.labels_, AC.cluster_centers_indices_
@@ -75,26 +76,26 @@ class Clustering():
     Functions = []
     # n_clusters = 1
 
-    def __init__(self, Data, Functions=[], indices=[]):
+    def __init__(self, Data, Functions=[], indices=[], preference=None):
         self.Data = Data
         # self.n_clusters = n_clusters
         self.indices = indices if indices else [k for k in range(len(Data[0]))]
         self.Functions = Functions + [ne for _ in range((len(self.indices)) - len(Functions))]
         # self.Labels = agglo_clustering(self.Data, self.n_clusters, self.indices, self.Functions)
-        self.Labels, self.Centers = affinity_clustering(self.Data, self.indices, self.Functions)
+        self.Labels, self.Centers = affinity_clustering(self.Data, self.indices, self.Functions, preference)
 
     def sort_by_cluster(self):
         zipped = sorted(list(zip(self.Labels, self.Data)))
         self.Labels = [zipped[k][0] for k in range(len(self.Data))]
         self.Data = [zipped[k][1] for k in range(len(self.Data))]
 
-    # def mean_dist_centers(self):
-    #     centers = []
-    #     for label in set(self.Labels) :
-    #         C = self.cluster(label)
-    #         dist = [mean_total_distance(C, self.indices, x) for x in C]
-    #         centers.append(dist.index(min(dist)))
-    #     return centers
+    def mean_dist_centers(self):
+        centers = []
+        for label in set(self.Labels) :
+            C = self.cluster(label)
+            dist = np.mean(distances(C, self.indices, self.Data[self.Centers[label]], self.Functions))
+            centers.append(dist)
+        return centers
 
     def cluster(self, k):
         indexes = []
@@ -112,27 +113,29 @@ class Clustering():
     def cluster_distribution(self):
         return np.array([self.Labels.tolist().count(k) for k in range(max(self.Labels+1))])
 
+    def centers(self):
+        return [self.Data[c] for c in self.Centers]
+
     def print_centers(self):
         for c in self.Centers :
             print(self.Data[c])
 
 
-C = Clustering(Data, FUNCTIONS, INDICES)
+C = Clustering(Data, FUNCTIONS, INDICES, -1)
 print(C.cluster_distribution())
-C.print_centers()
+print(len(C.cluster_distribution()))
 
-# D = ds.Dataset(Data, [eq, relative_sim, discrete_sim, discrete_sim, inf_or_relative, eq, eq, eq, relative_sim, relative_sim, relative_sim], [0, 0.75, 0.5, 0.5, 0.75, 0, 0, 0, 0.75, 0.75, 0.75])
+D = ds.Dataset(C.centers(), [eq, relative_sim, discrete_sim, discrete_sim, inf_or_relative, eq, eq, eq, relative_sim, relative_sim, relative_sim], [0, 0.75, 0.5, 0.5, 0.75, 0, 0, 0, 0.75, 0.75, 0.75])
 
-# x_axis, y_axis, z_axis = [], [], []
+x_axis, y_axis, z_axis = [], [], []
 # r_axis, g_axis, b_axis = [], [], []
-# centers_x, centers_y, centers_z = [], [], []
-# for x in AllData :
-#     x_axis.append(x[8])
-#     y_axis.append(x[10])
-#     r_axis.append(x[1])
+for x in AllData :
+    x_axis.append(x[8])
+    y_axis.append(x[10])
+#     r_axis.append(x[8])
 #     g_axis.append(x[9])
-#     b_axis.append(x[4])
-#     # z_axis.append(D.choquet(x))
+#     b_axis.append(x[10])
+    z_axis.append(D.choquet(x))
 # r_axis = np.array(r_axis)/max(r_axis)
 # g_axis = np.array(g_axis)/max(g_axis)
 # b_axis = np.array(b_axis)/max(b_axis)
@@ -140,8 +143,9 @@ C.print_centers()
 # fig = plt.figure()
 # for i in range(len(x_axis)):
 #     msize = 12 if i in C.Centers else 4
-#     plt.plot(x_axis[i], y_axis[i], marker='o', c=rgb[i], markersize=msize)
+#     clr = 'blue' if msize==4 else 'red'
+#     plt.plot(x_axis[i], y_axis[i], marker='o', c=clr, markersize=msize)
+    # plt.plot(x_axis[i], y_axis[i], marker='o', c=rgb[i], markersize=msize)
 # plt.show()
-# # plt.scatter(x_axis, y_axis, marker='o', c=z_axis, cmap=plt.cm.coolwarm)
-# # plt.plot(centers_x, centers_y, 'o', c='black', markersize=10)
-# # plt.show()
+plt.scatter(x_axis, y_axis, marker='o', c=z_axis, cmap=plt.cm.coolwarm)
+plt.show()
