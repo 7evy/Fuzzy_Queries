@@ -1,0 +1,45 @@
+<html lang="en">
+<head>
+    <meta charset="Utd-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CHOCOLATE</title>
+</head>
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'fuzzy_queries/css/index.css' %}">
+<body>
+    <div>
+        <table>
+            <tr>
+                <th>Ville</th>
+                <th>Type</th>
+                <th>Vente ou location</th>
+                <th>Surface</th>
+                <th>Pièces</th>
+                <th>Chambres</th>
+                <th>Loyer</th>
+                <th>Meublé</th>
+                <th>Jardin</th>
+                <th>Terrasse</th>
+                <th>Distance Centre</th>
+                <th>Distance Transport</th>
+            </tr>
+            {% for apps in immo %}
+                <tr>
+                    <td>{{apps.ville}}</td>
+                    <td>{{apps.type}}</td>
+                    <td>{{apps.vente_location}}</td>
+                    <td>{{apps.surface}}</td>
+                    <td>{{apps.pièces}}</td>
+                    <td>{{apps.chambres}}</td>
+                    <td>{{apps.loyer}}</td>
+                    <td>{{apps.meublé}}</td>
+                    <td>{{apps.jardin}}</td>
+                    <td>{{apps.terrasse}}</td>
+                    <td>{{apps.dist_centre}}</td>
+                    <td>{{apps.dist_transport}}</th>
+                </tr>
+            {% endfor %}
+        </table>  
+    </div>
+</body>
+</html>
