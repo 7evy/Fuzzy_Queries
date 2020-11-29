@@ -11,9 +11,12 @@ BDD :
 	Supprimer doublons
 	Lien Django
 	Init BDD
+	CSV header
 
 Interface utilisateur version 1 : sélection aléatoire
 	Aspect graphique
+	Sélection aléatoire OK
+	Affichage des X meilleurs résultats OK
 	Clustering adapté OK
 
 Interface utilisateur :
