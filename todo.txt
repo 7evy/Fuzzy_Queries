@@ -5,7 +5,7 @@ Clustering :
 	Tester les valeurs de préférence OK
 
 Django :
-	Cacher secret key + ajouter .env au .gitignore
+	Cacher secret key
 
 BDD :
 	Supprimer doublons

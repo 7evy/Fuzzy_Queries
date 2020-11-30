@@ -20,9 +20,9 @@ class Dataset(object):
         if Data[0] : self.n_attr = len(Data[0])
         lf, lt = len(Functions), len(Thresholds)
         if lf < self.n_attr :
-            self.Functions += [eq for _ in range(n_attr-lf)]
+            self.Functions += [eq for _ in range(self.n_attr-lf)]
         if lt < self.n_attr :
-            self.Thresholds += [0 for _ in range(n_attr-lt)]
+            self.Thresholds += [0 for _ in range(self.n_attr-lt)]
 
 
 
@@ -187,7 +187,7 @@ class Fuzzy_Dataset(Dataset):
         if Data[0] : self.n_attr = len(Data[0])
         lf = len(Functions)
         if lf < self.n_attr :
-            self.Functions += [eq for _ in range(n_attr-lf)]
+            self.Functions += [eq for _ in range(self.n_attr-lf)]
 
 
 
@@ -222,7 +222,7 @@ class Fuzzy_Dataset(Dataset):
 
 
     def choquet(self, x):
-        """Returns a measure of how well x satisfies the concept described by the examples in data (between 0 and 1), based on a Choquet integral. It takes into account the satisfaction of the most important properties in data, as well as the closeness to all examples.
+        """Returns a measure of how well x satisfies the concept described by the examples in Data (between 0 and 1), based on a Choquet integral. It takes into account the satisfaction of the most important properties in data, as well as the closeness to all examples.
         The fuzzy functions used for the delta and mu measures are strict equality by default."""
 
         deltas = []
