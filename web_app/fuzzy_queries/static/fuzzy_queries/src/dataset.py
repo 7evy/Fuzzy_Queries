@@ -17,7 +17,7 @@ class Dataset(object):
         self.Data = Data
         self.Functions = Functions
         self.Thresholds = Thresholds
-        if Data[0] : self.n_attr = len(Data[0])
+        if Data and Data[0] : self.n_attr = len(Data[0])
         lf, lt = len(Functions), len(Thresholds)
         if lf < self.n_attr :
             self.Functions += [eq for _ in range(self.n_attr-lf)]
@@ -117,7 +117,8 @@ class Dataset(object):
         """Applies the CHOCOLATE method to each row of Set (2D table), and returns the n entries with the highest scores."""
         scores = []
         for entry in Set :
-            scores.append([self.choquet(entry), entry])
+            # scores.append([self.choquet(entry), entry])
+            scores.append(entry + self.choquet(entry))
         scores.sort(reverse=True)
         return scores[:n]
 

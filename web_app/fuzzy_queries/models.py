@@ -9,6 +9,9 @@ from django.db import models
 
 
 class Immo(models.Model):
+    # FUNCTIONS_CLUSTER = [eq, relative_sim, discrete_sim, discrete_sim, relative_sim, eq, eq, eq, relative_sim, relative_sim, relative_sim]
+    # FUNCTIONS_CHOQUET = [eq, relative_sim, discrete_sim, discrete_sim, inf_or_relative, eq, eq, eq, relative_sim, relative_sim, relative_sim]
+
     ville = models.CharField(max_length=200, blank=True, null=True)
     type = models.CharField(max_length=200, blank=True, null=True)
     vente_location = models.CharField(max_length=200, blank=True, null=True)

@@ -14,13 +14,13 @@ except :
 
 
 
-AllData = read_csv("../../../../data/db.csv", sep=";", header=None, engine='c').values.tolist()
+# AllData = read_csv("../../../../data/db.csv", sep=";", header=None, engine='c').values.tolist()
 
-Data = [AllData[4*k] for k in range(0, 625)] # Real data
+# Data = [AllData[4*k] for k in range(0, 625)] # Real data
 
-FUNCTIONS = [eq, relative_sim, discrete_sim, discrete_sim, relative_sim, eq, eq, eq, relative_sim, relative_sim, relative_sim] # functions to compute affinities between points
-FUNCTIONS2 = [ne, relative_distance, discrete_distance, discrete_distance, relative_distance, ne, ne, ne, relative_distance, relative_distance, relative_distance] # functions to compute distances between points]
-INDICES = [1, 4, 8, 9, 10] # attributes to consider for clustering
+# FUNCTIONS = [eq, relative_sim, discrete_sim, discrete_sim, relative_sim, eq, eq, eq, relative_sim, relative_sim, relative_sim] # functions to compute affinities between points
+# FUNCTIONS2 = [ne, relative_distance, discrete_distance, discrete_distance, relative_distance, ne, ne, ne, relative_distance, relative_distance, relative_distance] # functions to compute distances between points]
+# INDICES = [1, 4, 8, 9, 10] # attributes to consider for clustering
 
 def dist_matrix(data, indices, Functions):
     """Returns the distance matrix (between each pair of points in data) used for affinity/agglomerative clustering."""
@@ -151,23 +151,23 @@ class Clustering():
 # C.by_affinity(-1)
 # print(C.n_clusters)
 
-labels=["Type de logement", "Surface (en m²)", "Nombre de pièces", "Nombre de chambres", "Loyer mensuel (en €)", "Meublé", "Jardin", "Terrasse", "Distance au centre-ville (en m)", "Distance aux transports (en m)", "Distance aux commerces (en m)"]
+# labels=["Type de logement", "Surface (en m²)", "Nombre de pièces", "Nombre de chambres", "Loyer mensuel (en €)", "Meublé", "Jardin", "Terrasse", "Distance au centre-ville (en m)", "Distance aux transports (en m)", "Distance aux commerces (en m)"]
 # ctr = C.centers()
 # reduced_ctr = [[c[8], c[4]] for c in ctr]
-reduced_ctr=[[500, 1500], [5000, 500]]
-D = ds.Fuzzy_Dataset(reduced_ctr, [relative_sim, inf_or_relative])
+# reduced_ctr=[[200, 20], [500, 20], [600, 30], [300, 25], [7000, 60]]
+# D = ds.Fuzzy_Dataset(reduced_ctr, [relative_sim, relative_sim])
 # D = ds.Fuzzy_Dataset(ctr, [eq, relative_sim, discrete_sim, discrete_sim, inf_or_relative, eq, eq, eq, relative_sim, relative_sim, relative_sim], [0, 0.75, 0.5, 0.5, 0.75, 0, 0, 0, 0.75, 0.75, 0.75])
 
 
 
 ## Print attributes value repartition, Choquet scores... etc
 
-x_axis, y_axis, z_axis = [], [], []
+# x_axis, y_axis, z_axis = [], [], []
 # r_axis, g_axis, b_axis = [], [], []
-for x in AllData :
-    x_axis.append(x[8])
-    y_axis.append(x[4])
-    z_axis.append(D.choquet([x[8], x[4]]))
+# for x in AllData :
+#     x_axis.append(x[8])
+#     y_axis.append(x[1])
+#     z_axis.append(D.choquet([x[8], x[1]]))
 #   r_axis.append(x[8])
 #   g_axis.append(x[9])
 #   b_axis.append(x[10])
@@ -182,17 +182,17 @@ for x in AllData :
 #     plt.plot(x_axis[i], y_axis[i], marker='o', c=clr, markersize=msize)
     # plt.plot(x_axis[i], y_axis[i], marker='o', c=rgb[i], markersize=msize)
 # plt.show()
-_, ax = plt.subplots()
-colorbar = plt.scatter(x_axis, y_axis, marker='o', s=55, c=z_axis, cmap=plt.cm.coolwarm)
-for x in reduced_ctr :
-    plt.plot(x[0], x[1], marker='*', markersize=20, c='lightgreen', markeredgecolor='black')
-plt.colorbar(colorbar, orientation="horizontal").set_label("Degré d'appartenance")
-plt.xlabel(labels[8])
-plt.ylabel(labels[4])
-ax.xaxis.tick_top()
-ax.xaxis.set_label_position("top")
-plt.grid(color='black', alpha=0.1)
-plt.show()
+# _, ax = plt.subplots()
+# colorbar = plt.scatter(x_axis, y_axis, marker='o', s=55, c=z_axis, cmap=plt.cm.coolwarm)
+# for x in reduced_ctr :
+#     plt.plot(x[0], x[1], marker='*', markersize=20, c='lightgreen', markeredgecolor='black')
+# plt.colorbar(colorbar, orientation="horizontal").set_label("Degré d'appartenance")
+# plt.xlabel(labels[8])
+# plt.ylabel(labels[1])
+# ax.xaxis.tick_top()
+# ax.xaxis.set_label_position("top")
+# plt.grid(color='black', alpha=0.1)
+# plt.show()
 
 
 
