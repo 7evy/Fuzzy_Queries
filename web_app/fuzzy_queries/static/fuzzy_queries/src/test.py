@@ -1,2 +1,0 @@
-def msg():
-    return "Ok"
