@@ -6,6 +6,7 @@ Clustering :
 
 Django :
 	Cacher secret key
+	Passer à un serveur non test (???)
 
 BDD :
 	Supprimer doublons
@@ -23,3 +24,13 @@ Interface utilisateur :
 	Pré-sélection (?)
 	Affichage clair avec les attributs importants
 	Ajouter des poids aux attributs (?)
+
+Rapport :
+	Expliquer un peu plus en détail le principe d'agrégation de CHOCOLATE
+	(exemple du papier ?)
+
+Tests utilisateur :
+	Méthode
+	Charge mentale
+	Mesures de pertinence
+	Prise en compte de la diversité (?)
