@@ -5,15 +5,18 @@ Clustering :
 	Tester les valeurs de préférence OK
 
 Django :
-	Cacher secret key + ajouter .env au .gitignore
+	Cacher secret key
 
 BDD :
 	Supprimer doublons
 	Lien Django
 	Init BDD
+	CSV header
 
 Interface utilisateur version 1 : sélection aléatoire
 	Aspect graphique
+	Sélection aléatoire OK
+	Affichage des X meilleurs résultats OK
 	Clustering adapté OK
 
 Interface utilisateur :

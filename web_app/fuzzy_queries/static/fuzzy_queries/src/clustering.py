@@ -1,20 +1,26 @@
 from sklearn.cluster import AgglomerativeClustering, AffinityPropagation
 import numpy as np
-from fuzzy_queries.static.fuzzy_queries.src.utils import *
+try :
+    from fuzzy_queries.static.fuzzy_queries.src.utils import *
+except :
+    from utils import *
 from operator import add, ne, eq
 from pandas import read_csv
 import matplotlib.pyplot as plt
-import fuzzy_queries.static.fuzzy_queries.src.dataset as ds
+try :
+    import fuzzy_queries.static.fuzzy_queries.src.dataset as ds
+except :
+    import dataset as ds
 
 
 
-AllData = read_csv("./data/db.csv", sep=";", header=None, engine='c').values.tolist()
+# AllData = read_csv("../../../../data/db.csv", sep=";", header=None, engine='c').values.tolist()
 
-Data = [AllData[4*k] for k in range(0, 625)] # Real data
+# Data = [AllData[4*k] for k in range(0, 625)] # Real data
 
-FUNCTIONS = [eq, relative_sim, discrete_sim, discrete_sim, relative_sim, eq, eq, eq, relative_sim, relative_sim, relative_sim] # functions to compute affinities between points
-FUNCTIONS2 = [ne, relative_distance, discrete_distance, discrete_distance, relative_distance, ne, ne, ne, relative_distance, relative_distance, relative_distance] # functions to compute distances between points]
-INDICES = [1, 4, 8, 9, 10] # attributes to consider for clustering
+# FUNCTIONS = [eq, relative_sim, discrete_sim, discrete_sim, relative_sim, eq, eq, eq, relative_sim, relative_sim, relative_sim] # functions to compute affinities between points
+# FUNCTIONS2 = [ne, relative_distance, discrete_distance, discrete_distance, relative_distance, ne, ne, ne, relative_distance, relative_distance, relative_distance] # functions to compute distances between points]
+# INDICES = [1, 4, 8, 9, 10] # attributes to consider for clustering
 
 def dist_matrix(data, indices, Functions):
     """Returns the distance matrix (between each pair of points in data) used for affinity/agglomerative clustering."""
@@ -141,22 +147,30 @@ class Clustering():
             print(self.Data[c])
 
 
-C = Clustering(Data, FUNCTIONS)
-C.by_affinity(-1)
-print(C.cluster_distribution())
-print(C.n_clusters)
+# C = Clustering(Data, FUNCTIONS, [4, 8])
+# C.by_affinity(-1)
+# print(C.n_clusters)
 
-D = ds.Dataset(C.centers(), [eq, relative_sim, discrete_sim, discrete_sim, inf_or_relative, eq, eq, eq, relative_sim, relative_sim, relative_sim], [0, 0.75, 0.5, 0.5, 0.75, 0, 0, 0, 0.75, 0.75, 0.75])
+# labels=["Type de logement", "Surface (en m²)", "Nombre de pièces", "Nombre de chambres", "Loyer mensuel (en €)", "Meublé", "Jardin", "Terrasse", "Distance au centre-ville (en m)", "Distance aux transports (en m)", "Distance aux commerces (en m)"]
+# ctr = C.centers()
+# reduced_ctr = [[c[8], c[4]] for c in ctr]
+# reduced_ctr=[[200, 20], [500, 20], [600, 30], [300, 25], [7000, 60]]
+# D = ds.Fuzzy_Dataset(reduced_ctr, [relative_sim, relative_sim])
+# D = ds.Fuzzy_Dataset(ctr, [eq, relative_sim, discrete_sim, discrete_sim, inf_or_relative, eq, eq, eq, relative_sim, relative_sim, relative_sim], [0, 0.75, 0.5, 0.5, 0.75, 0, 0, 0, 0.75, 0.75, 0.75])
 
-x_axis, y_axis, z_axis = [], [], []
+
+
+## Print attributes value repartition, Choquet scores... etc
+
+# x_axis, y_axis, z_axis = [], [], []
 # r_axis, g_axis, b_axis = [], [], []
-for x in Data :
-    x_axis.append(x[1])
-    y_axis.append(x[4])
-#     r_axis.append(x[8])
-#     g_axis.append(x[9])
-#     b_axis.append(x[10])
-    z_axis.append(D.choquet(x))
+# for x in AllData :
+#     x_axis.append(x[8])
+#     y_axis.append(x[1])
+#     z_axis.append(D.choquet([x[8], x[1]]))
+#   r_axis.append(x[8])
+#   g_axis.append(x[9])
+#   b_axis.append(x[10])
 # r_axis = np.array(r_axis)/max(r_axis)
 # g_axis = np.array(g_axis)/max(g_axis)
 # b_axis = np.array(b_axis)/max(b_axis)
@@ -168,5 +182,39 @@ for x in Data :
 #     plt.plot(x_axis[i], y_axis[i], marker='o', c=clr, markersize=msize)
     # plt.plot(x_axis[i], y_axis[i], marker='o', c=rgb[i], markersize=msize)
 # plt.show()
-plt.scatter(x_axis, y_axis, marker='o', c=z_axis, cmap=plt.cm.coolwarm)
-plt.show()
+# _, ax = plt.subplots()
+# colorbar = plt.scatter(x_axis, y_axis, marker='o', s=55, c=z_axis, cmap=plt.cm.coolwarm)
+# for x in reduced_ctr :
+#     plt.plot(x[0], x[1], marker='*', markersize=20, c='lightgreen', markeredgecolor='black')
+# plt.colorbar(colorbar, orientation="horizontal").set_label("Degré d'appartenance")
+# plt.xlabel(labels[8])
+# plt.ylabel(labels[1])
+# ax.xaxis.tick_top()
+# ax.xaxis.set_label_position("top")
+# plt.grid(color='black', alpha=0.1)
+# plt.show()
+
+
+
+## Print clusters and associated points
+
+# _, ax = plt.subplots()
+
+# colors = ['red', 'black', 'gray', 'yellow', 'purple', 'pink', 'cyan', 'lightblue', 'lightgreen', 'darkgray', 'darkgreen', 'maroon', 'darkblue', 'darkorange', 'green', 'orange', 'maroon', 'blue']
+# np.random.shuffle(colors)
+# for c in range(C.n_clusters):
+#     cluster = C.cluster(c)
+#     center = C.centers()[c]
+#     d = distances(cluster, [4, 8], center, FUNCTIONS)
+#     for k in range(len(cluster)):
+#         if d[k] > 0.6 :
+#             plt.plot(cluster[k][8], cluster[k][4], 'o', markersize=6, c='darkgray', markeredgecolor='black')
+#     #         plt.plot([center[8], cluster[k][8]], [center[4], cluster[k][4]], 'ro-', markersize=6, c=colors[c])
+#     # plt.plot(center[8], center[4], marker='o', markersize=12, c=colors[c], markeredgecolor='black')
+
+# ax.xaxis.tick_top()
+# ax.xaxis.set_label_position("top")
+# plt.xlabel(labels[8])
+# plt.ylabel(labels[4])
+# plt.grid(color='black', alpha=0.1)
+# plt.show()
