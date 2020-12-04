@@ -2,10 +2,9 @@ from copy import deepcopy
 from numpy import mean, sqrt
 from operator import eq
 
-
-
 class Dataset(object):
 
+    FUNCTIONS = [eq, relative_sim, discrete_sim, discrete_sim, inf_or_relative, eq, eq, eq, relative_sim, relative_sim, relative_sim]
     n_attr = 0
     Data = []
     Functions = []
@@ -23,11 +22,8 @@ class Dataset(object):
             self.Functions += [eq for _ in range(self.n_attr-lf)]
         if lt < self.n_attr :
             self.Thresholds += [0 for _ in range(self.n_attr-lt)]
-<<<<<<< HEAD
-=======
 
 
->>>>>>> main
 
     def add_example(self, example):
         """Add a row to Data."""
@@ -120,12 +116,8 @@ class Dataset(object):
         """Applies the CHOCOLATE method to each row of Set (2D table), and returns the n entries with the highest scores."""
         scores = []
         for entry in Set :
-<<<<<<< HEAD
-            scores.append([self.choquet(entry), entry])
-=======
             # scores.append([self.choquet(entry), entry])
             scores.append(entry + self.choquet(entry))
->>>>>>> main
         scores.sort(reverse=True)
         return scores[:n]
 

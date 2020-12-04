@@ -10,18 +10,8 @@ from numpy.lib.function_base import sinc
 
 
 class Immo(models.Model):
-<<<<<<< HEAD
-
 
     type = models.CharField(max_length=25, blank=True, null=True)
-=======
-    # FUNCTIONS_CLUSTER = [eq, relative_sim, discrete_sim, discrete_sim, relative_sim, eq, eq, eq, relative_sim, relative_sim, relative_sim]
-    # FUNCTIONS_CHOQUET = [eq, relative_sim, discrete_sim, discrete_sim, inf_or_relative, eq, eq, eq, relative_sim, relative_sim, relative_sim]
-
-    ville = models.CharField(max_length=200, blank=True, null=True)
-    type = models.CharField(max_length=200, blank=True, null=True)
-    vente_location = models.CharField(max_length=200, blank=True, null=True)
->>>>>>> main
     surface = models.FloatField(blank=True, null=True)
     pieces = models.SmallIntegerField(blank=True, null=True)
     chambres = models.SmallIntegerField(blank=True, null=True)
