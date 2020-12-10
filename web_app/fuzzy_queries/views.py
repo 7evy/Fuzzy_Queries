@@ -43,20 +43,18 @@ def results(request):
     res = []
     immo_list = request.session['immo_list']
     ex = request.session['examples']
-    for e in ex :
-        e.pop(0)
     for row in immo_list :
         row.pop(0)
     D = Fuzzy_Dataset(ex, Fuzzy_Dataset.FUNCTIONS)
     best = D.select_most_satisfying(immo_list, 10)
+    ex2, best2 = [], []
     for e in ex :
-        e = dict(zip(Fuzzy_Dataset.LABELS, e))
+        ex2.append(dict(zip(Fuzzy_Dataset.LABELS, e)))
     for b in best :
-        b = dict(zip(["score"] + Fuzzy_Dataset.LABELS, b))
-    print(best)
+        best2.append(dict(zip(["score"] + Fuzzy_Dataset.LABELS, b)))
     context = {
-        'immo': best,
-        'examples': ex
+        'immo': best2,
+        'examples': ex2
     }
     return render(request, 'fuzzy_queries/results.html', context)
 
