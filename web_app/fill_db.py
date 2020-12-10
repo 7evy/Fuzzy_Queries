@@ -31,11 +31,10 @@ if cursor.fetchall()[0][0] == 0 :
         for k in [5, 6, 7] :
             D[k] = True if D[k] == 1 else False
 
-    for D in data :
         cursor.execute("INSERT INTO immo (type, surface, pieces, chambres, loyer, meuble, jardin, terrasse, dist_centre, dist_transport, dist_commerce) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s);", D)
     
     print("Database filled from data/db.csv")
 
-else : print("Database OK")
+else : print("Database ready")
 
 ps_connection.commit()

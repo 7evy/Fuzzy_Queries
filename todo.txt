@@ -1,36 +1,19 @@
 Clustering :
-	Trier par cluster OK
-	Test AffinityPropagation OK
-	Ajouter les indices comme attribut de Dataset (pe pas utile)
-	Tester les valeurs de préférence OK
+	Plus de clusters et nombre limité d'exemples (5/6)
 
 Django :
 	Cacher secret key
-	Passer à un serveur non test (???)
-
-BDD :
-	Supprimer doublons
-	Lien Django
-	Init BDD
-	CSV header
-
-Interface utilisateur version 1 : sélection aléatoire
-	Aspect graphique
-	Sélection aléatoire OK
-	Affichage des X meilleurs résultats OK
-	Clustering adapté OK
 
 Interface utilisateur :
-	Pré-sélection (?)
 	Affichage clair avec les attributs importants
 	Ajouter des poids aux attributs (?)
-
-Rapport :
-	Expliquer un peu plus en détail le principe d'agrégation de CHOCOLATE
-	(exemple du papier ?)
 
 Tests utilisateur :
 	Méthode
 	Charge mentale
-	Mesures de pertinence
-	Prise en compte de la diversité (?)
+	Mesures de pertinence (notes pondérées par les degrés de satisfaction)
+	Implémentation des notes
+	Implémentation des correspondances
+	Diagramme de séquences
+	Prise en compte de la diversité (eg 10 meilleurs, 5 exotiques, 5 mauvais)
+	Mesure de correspondance avec l'ensemble des exemples

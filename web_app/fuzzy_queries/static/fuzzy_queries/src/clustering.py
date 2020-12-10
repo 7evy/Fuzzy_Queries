@@ -77,10 +77,12 @@ def affinity_clustering(data, indices, Functions, preference):
     AC.fit(M)
     return AC.labels_, AC.cluster_centers_indices_
 
+
+
 class Clustering():
     """Class used to manage the results of affinity propagation and agglomerative clustering."""
     
-    FUNCTIONS = [None, eq, relative_sim, discrete_sim, discrete_sim, relative_sim, eq, eq, eq, relative_sim, relative_sim, relative_sim]
+    FUNCTIONS = [eq, relative_sim, discrete_sim, discrete_sim, relative_sim, eq, eq, eq, relative_sim, relative_sim, relative_sim]
     Data = []
     Labels = []
     Centers = []
