@@ -123,7 +123,7 @@ class Dataset(object):
         scores = []
         for entry in Set :
             # scores.append([self.choquet(entry), entry])
-            scores.append(entry + self.choquet(entry))
+            scores.append([self.choquet(entry)] + entry)
         scores.sort(reverse=True)
         return scores[:n]
 
