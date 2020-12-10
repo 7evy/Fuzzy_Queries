@@ -7,7 +7,7 @@ from fuzzy_queries.static.fuzzy_queries.src.clustering import Clustering
 # from fuzzy_queries.static.fuzzy_queries.src.clustering import *
 # Create your views here.
 
-    
+
 
 def index(request):
     immo_list = list([list(Immo.objects.values()[k].values()) for k in range(len(Immo.objects.all()))])
@@ -20,6 +20,20 @@ def index(request):
     context = {
         'current': request.session['suggestions'][1],
         'pos': 1
+    }
+    return render(request, 'fuzzy_queries/index.html', context)
+
+
+
+def next_suggestion(request, pos, ans):
+    print(request.session['max'])
+    if ans :
+        request.session['examples'].append(request.session['suggestions'][pos])
+    if pos+1 >= request.session['max'] :
+        return results(request)
+    context = {
+        'current': request.session['suggestions'][pos+1],
+        'pos': pos+1
     }
     return render(request, 'fuzzy_queries/index.html', context)
 
@@ -43,15 +57,3 @@ def results(request):
     }
     return render(request, 'fuzzy_queries/results.html', context)
 
-
-
-def next_suggestion(request, pos, ans):
-    if ans :
-        request.session['examples'].append(request.session['suggestions'][pos])
-    if pos+1 >= request.session['max'] :
-        return results(request)
-    context = {
-        'current': request.session['suggestions'][pos+1],
-        'pos': pos+1
-    }
-    return render(request, 'fuzzy_queries/index.html', context)
