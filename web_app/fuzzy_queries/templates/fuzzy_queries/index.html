@@ -55,5 +55,38 @@
     </div>
     <button id="yes" name="yes" onclick="yes()">Oui</button>
     <button id="no" name="no" onclick="no()">Non</button>
+    <div>
+        <table>
+            <caption>Exemples représentatifs</caption>
+            <tr>
+                <th>Type</th>
+                <th>Surface</th>
+                <th>Pièces</th>
+                <th>Chambres</th>
+                <th>Loyer</th>
+                <th>Meublé</th>
+                <th>Jardin</th>
+                <th>Terrasse</th>
+                <th>Distance Centre</th>
+                <th>Distance Transport</th>
+                <th>Distance Commerce</th>
+            </tr>
+            {% for apps in examples %}
+            <tr>
+                <td>{{apps.1}}</td>
+                <td>{{apps.2}}</td>
+                <td>{{apps.3}}</td>
+                <td>{{apps.4}}</td>
+                <td>{{apps.5}}</td>
+                <td>{{apps.6}}</td>
+                <td>{{apps.7}}</td>
+                <td>{{apps.8}}</td>
+                <td>{{apps.9}}</td>
+                <td>{{apps.10}}</td>
+                <td>{{apps.11}}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
 </body>
 </html>

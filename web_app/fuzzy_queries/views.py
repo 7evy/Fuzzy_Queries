@@ -26,14 +26,14 @@ def index(request):
 
 
 def next_suggestion(request, pos, ans):
-    print(request.session['max'])
     if ans :
         request.session['examples'].append(request.session['suggestions'][pos])
     if pos+1 >= request.session['max'] :
         return results(request)
     context = {
         'current': request.session['suggestions'][pos+1],
-        'pos': pos+1
+        'pos': pos+1,
+        'examples': request.session['examples']
     }
     return render(request, 'fuzzy_queries/index.html', context)
 
