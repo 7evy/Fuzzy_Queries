@@ -1,10 +1,11 @@
 from copy import deepcopy
 from numpy import mean, sqrt
 from operator import eq
-try :
-    from fuzzy_queries.static.fuzzy_queries.src.utils import *
-except :
-    from utils import *
+from fuzzy_queries.static.fuzzy_queries.src.utils import *
+# try :
+#     from fuzzy_queries.static.fuzzy_queries.src.utils import *
+# except :
+#     from utils import *
 
 class Dataset(object):
 
@@ -38,7 +39,7 @@ class Dataset(object):
 
     def remove_example(self, index, id=None):
         """Remove one of the data points."""
-        if index < len(Data) :
+        if index < len(self.Data) :
             self.Data.pop(index)
         # elif id :
         #     for d in self.Data :
