@@ -11,12 +11,21 @@ services:
       - "5432:5432"
     volumes:
       - /var/lib/docker/volumes/PSQLdata/_data
+      - /var/run/postgresql/:/var/run/postgresql/
+  init:
+    build: .
+    volumes:
+      - /var/run/postgresql/:/var/run/postgresql/
+    command: python fill_db.py
+    depends_on:
+      - db
   web:
     build: .
     volumes:
-      - ./
+      - /var/run/postgresql/:/var/run/postgresql/
     command: python manage.py runserver 0.0.0.0:8000
     ports:
-      - "8080:8080"
+      - "8000:8000"
     depends_on:
       - db
+      - init

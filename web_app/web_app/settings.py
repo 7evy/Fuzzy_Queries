@@ -52,6 +52,8 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'web_app.urls'
 
+SESSION_ENGINE = 'django.contrib.sessions.backends.cache'
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -67,8 +69,6 @@ TEMPLATES = [
         },
     },
 ]
-
-WSGI_APPLICATION = 'web_app.wsgi.application'
 
 
 # Database

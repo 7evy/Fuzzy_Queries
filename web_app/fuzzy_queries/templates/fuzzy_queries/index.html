@@ -6,76 +6,49 @@
 </head>
 {% load static %}
 <link rel="stylesheet" type="text/css" href="{% static 'fuzzy_queries/css/index.css' %}">
+<script type="text/javascript" charset="utf-8">
+    function yes()
+    {
+        window.location = "{% url 'fuzzy_queries:next' 1234 1 %}".replace(/1234/, pos)
+    }
+    function no()
+    {
+        window.location = "{% url 'fuzzy_queries:next' 1234 0 %}".replace(/1234/, pos)
+    }
+</script>
 
 
 <body>
     <div>
-        <table>
-            <caption>Exemples représentatifs</caption>
-            <tr>
-                <th>Type</th>
-                <th>Surface</th>
-                <th>Pièces</th>
-                <th>Chambres</th>
-                <th>Loyer</th>
-                <th>Meublé</th>
-                <th>Jardin</th>
-                <th>Terrasse</th>
-                <th>Distance Centre</th>
-                <th>Distance Transport</th>
-                <th>Distance Commerce</th>
-            </tr>
-            {% for apps in examples %}
-                <tr>
-                    <td>{{apps.type}}</td>
-                    <td>{{apps.surface}}</td>
-                    <td>{{apps.pieces}}</td>
-                    <td>{{apps.chambres}}</td>
-                    <td>{{apps.loyer}}</td>
-                    <td>{{apps.meuble}}</td>
-                    <td>{{apps.jardin}}</td>
-                    <td>{{apps.terrasse}}</td>
-                    <td>{{apps.dist_centre}}</td>
-                    <td>{{apps.dist_transport}}</td>
-                    <td>{{apps.dist_commerce}}</td>
-                </tr>
-            {% endfor %}
-        </table>  
+        <large>Ce logement conviendrait-il ?</large>
+        <tr>
+            <th>Type</th>
+            <th>Surface</th>
+            <th>Pièces</th>
+            <th>Chambres</th>
+            <th>Loyer</th>
+            <th>Meublé</th>
+            <th>Jardin</th>
+            <th>Terrasse</th>
+            <th>Distance Centre</th>
+            <th>Distance Transport</th>
+            <th>Distance Commerce</th>
+        </tr>
+        <tr>
+            <td>{{current.type}}</td>
+            <td>{{current.surface}}</td>
+            <td>{{current.pieces}}</td>
+            <td>{{current.chambres}}</td>
+            <td>{{current.loyer}}</td>
+            <td>{{current.meuble}}</td>
+            <td>{{current.jardin}}</td>
+            <td>{{current.terrasse}}</td>
+            <td>{{current.dist_centre}}</td>
+            <td>{{current.dist_transport}}</td>
+            <td>{{current.dist_commerce}}</td></div>
+        </tr>
     </div>
-    <div>
-        <table>
-            <caption>Résultats</caption>
-            <tr>
-                <th>Type</th>
-                <th>Surface</th>
-                <th>Pièces</th>
-                <th>Chambres</th>
-                <th>Loyer</th>
-                <th>Meublé</th>
-                <th>Jardin</th>
-                <th>Terrasse</th>
-                <th>Distance Centre</th>
-                <th>Distance Transport</th>
-                <th>Distance Commerce</th>
-                <th>Taux d'appartenance</th>
-            </tr>
-            {% for apps in immo %}
-                <tr>
-                    <td>{{apps.type}}</td>
-                    <td>{{apps.surface}}</td>
-                    <td>{{apps.pieces}}</td>
-                    <td>{{apps.chambres}}</td>
-                    <td>{{apps.loyer}}</td>
-                    <td>{{apps.meuble}}</td>
-                    <td>{{apps.jardin}}</td>
-                    <td>{{apps.terrasse}}</td>
-                    <td>{{apps.dist_centre}}</td>
-                    <td>{{apps.dist_transport}}</td>
-                    <td>{{apps.dist_commerce}}</td>
-                    <td>{{apps.score}}</td>
-                </tr>
-            {% endfor %}
-        </table> 
-    </div>
+    <button id="yes" name="yes" onclick="yes()">Oui</button>
+    <button id="no" name="no" onclick="no()">Non</button>
 </body>
 </html>

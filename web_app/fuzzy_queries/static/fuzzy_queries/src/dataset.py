@@ -1,10 +1,15 @@
 from copy import deepcopy
 from numpy import mean, sqrt
 from operator import eq
+try :
+    from fuzzy_queries.static.fuzzy_queries.src.utils import *
+except :
+    from utils import *
 
 class Dataset(object):
 
     FUNCTIONS = [eq, relative_sim, discrete_sim, discrete_sim, inf_or_relative, eq, eq, eq, relative_sim, relative_sim, relative_sim]
+    LABELS = ["type", "surface", "pieces", "chambres", "loyer", "meuble", "jardin", "terrasse", "dist_centre", "dist_transport", "dist_commerce"]
     n_attr = 0
     Data = []
     Functions = []

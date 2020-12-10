@@ -7,10 +7,27 @@ from fuzzy_queries.static.fuzzy_queries.src.clustering import Clustering
 # from fuzzy_queries.static.fuzzy_queries.src.clustering import *
 # Create your views here.
 
+    
 
 def index(request):
-    # immo = Immo.objects.all()
     immo_list = list([list(Immo.objects.values()[k].values()) for k in range(len(Immo.objects.all()))])
+    real_immo = [immo_list[4*k] for k in range(0, len(immo_list)//4)]
+    C = Clustering(real_immo, Clustering.FUNCTIONS, [k for k in range(1, 12)])
+    C.by_affinity(0)
+    request.session['suggestions'] = C.centers()
+    request.session['max'] = C.n_clusters
+    request.session['examples'] = []
+    context = {
+        'current': request.session['suggestions'][1],
+        'pos': 1
+    }
+    return render(request, 'fuzzy_queries/index.html', context)
+
+
+
+def results(request):
+    # immo = Immo.objects.all()
+    immo_list = [[]]#list([list(Immo.objects.values()[k].values()) for k in range(len(Immo.objects.all()))])
     sel, best = random_selection(immo_list, 10)
     examples = []
     for b in sel :
@@ -24,24 +41,17 @@ def index(request):
         'immo': immo,
         'examples': examples
     }
+    return render(request, 'fuzzy_queries/results.html', context)
+
+
+
+def next_suggestion(request, pos, ans):
+    if ans :
+        request.session['examples'].append(request.session['suggestions'][pos])
+    if pos+1 >= request.session['max'] :
+        return results(request)
+    context = {
+        'current': request.session['suggestions'][pos+1],
+        'pos': pos+1
+    }
     return render(request, 'fuzzy_queries/index.html', context)
-
-    
-
-# def index(request):
-#     immo = list(Immo.objects.values().values())
-#     real_immo = [immo[4*k] for k in range(0, len(immo)//4)]
-#     suggestions = Clustering(immo, Clustering.FUNCTIONS)
-#     context = {
-#         'suggestions': suggestions
-#     }
-#     return render(request, 'fuzzy_queries/index.html', context)
-
-# def results(request):
-#     immo = Immo.objects.all()
-#     message = msg()
-#     context = {
-#         'immo': immo,
-#         'msg': message
-#     }
-#     return render(request, 'fuzzy_queries/index.html', context)

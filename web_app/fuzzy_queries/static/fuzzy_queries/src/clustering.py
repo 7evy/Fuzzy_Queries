@@ -5,8 +5,8 @@ try :
 except :
     from utils import *
 from operator import add, ne, eq
-from pandas import read_csv
-import matplotlib.pyplot as plt
+# from pandas import read_csv
+# import matplotlib.pyplot as plt
 try :
     import fuzzy_queries.static.fuzzy_queries.src.dataset as ds
 except :
@@ -80,7 +80,7 @@ def affinity_clustering(data, indices, Functions, preference):
 class Clustering():
     """Class used to manage the results of affinity propagation and agglomerative clustering."""
     
-    FUNCTIONS = [eq, relative_sim, discrete_sim, discrete_sim, relative_sim, eq, eq, eq, relative_sim, relative_sim, relative_sim]
+    FUNCTIONS = [None, eq, relative_sim, discrete_sim, discrete_sim, relative_sim, eq, eq, eq, relative_sim, relative_sim, relative_sim]
     Data = []
     Labels = []
     Centers = []

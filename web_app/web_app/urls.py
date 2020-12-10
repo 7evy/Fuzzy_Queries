@@ -19,5 +19,5 @@ from django.urls import path
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    url(r'^fuzzy_queries/', include('fuzzy_queries.urls'))
+    url(r'^fuzzy_queries/', include('fuzzy_queries.urls', namespace="fuzzy_queries"))
 ]
