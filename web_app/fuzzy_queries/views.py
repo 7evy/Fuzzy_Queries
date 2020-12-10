@@ -1,7 +1,7 @@
 from django.db.models.query import QuerySet
 from django.shortcuts import render
 from fuzzy_queries.models import Immo
-from fuzzy_queries.static.fuzzy_queries.src.dataset import Dataset
+from fuzzy_queries.static.fuzzy_queries.src.dataset import Fuzzy_Dataset
 from fuzzy_queries.static.fuzzy_queries.src.utils import *
 from fuzzy_queries.static.fuzzy_queries.src.clustering import Clustering
 # from fuzzy_queries.static.fuzzy_queries.src.clustering import *
@@ -10,8 +10,8 @@ from fuzzy_queries.static.fuzzy_queries.src.clustering import Clustering
 
 
 def index(request):
-    immo_list = list([list(Immo.objects.values()[k].values()) for k in range(len(Immo.objects.all()))])
-    real_immo = [immo_list[4*k] for k in range(0, len(immo_list)//4)]
+    request.session['immo_list'] = list([list(Immo.objects.values()[k].values()) for k in range(len(Immo.objects.all()))])
+    real_immo = [request.session['immo_list'][4*k] for k in range(0, len(request.session['immo_list'])//4)]
     C = Clustering(real_immo, Clustering.FUNCTIONS, [k for k in range(1, 12)])
     C.by_affinity(0)
     request.session['suggestions'] = C.centers()
@@ -40,20 +40,23 @@ def next_suggestion(request, pos, ans):
 
 
 def results(request):
-    # immo = Immo.objects.all()
-    immo_list = [[]]#list([list(Immo.objects.values()[k].values()) for k in range(len(Immo.objects.all()))])
-    sel, best = random_selection(immo_list, 10)
-    examples = []
-    for b in sel :
-        examples.append(dict({"type":b[1], "surface":b[2], "pieces":b[3], "chambres":b[4], "loyer":b[5], "meuble":b[6],
-            "jardin":b[7], "terrasse":b[8], "dist_centre":b[9], "dist_transport":b[10], "dist_commerce":b[11]}))
-    immo = []
+    res = []
+    immo_list = request.session['immo_list']
+    ex = request.session['examples']
+    for e in ex :
+        e.pop(0)
+    for row in immo_list :
+        row.pop(0)
+    D = Fuzzy_Dataset(ex, Fuzzy_Dataset.FUNCTIONS)
+    best = D.select_most_satisfying(immo_list, 10)
+    for e in ex :
+        e = dict(zip(Fuzzy_Dataset.LABELS, e))
     for b in best :
-        immo.append(dict({"type":b[1][1], "surface":b[1][2], "pieces":b[1][3], "chambres":b[1][4], "loyer":b[1][5], "meuble":b[1][6],
-            "jardin":b[1][7], "terrasse":b[1][8], "dist_centre":b[1][9], "dist_transport":b[1][10], "dist_commerce":b[1][11], "score":b[0]}))
+        b = dict(zip(["score"] + Fuzzy_Dataset.LABELS, b))
+    print(best)
     context = {
-        'immo': immo,
-        'examples': examples
+        'immo': best,
+        'examples': ex
     }
     return render(request, 'fuzzy_queries/results.html', context)
 
