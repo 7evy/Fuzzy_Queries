@@ -6,6 +6,21 @@
 </head>
 {% load static %}
 <link rel="stylesheet" type="text/css" href="{% static 'fuzzy_queries/css/index.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'fuzzy_queries/css/result.css' %}">
+
+<script type="text/javascript" charset="utf-8">
+
+    function satisfied(apps,value){
+        var string = apps.replace(/'/gi,"\"")
+        string = string.replace(/True/gi,"\"True\"")
+        string = string.replace(/False/gi,"\"False\"")
+        var obj = JSON.parse(string)
+        var val = parseFloat(value)
+        var sat = obj.score*val
+        console.log(sat,val)
+    }
+
+</script>
 
 
 <body>
@@ -73,6 +88,17 @@
                     <td>{{apps.dist_transport}}</td>
                     <td>{{apps.dist_commerce}}</td>
                     <td>{{apps.score}}</td>
+                    <td>
+                        <ul class="likert">
+                            <li> Pas satisfait </li>
+                            <li><input type="radio" name="{{apps}}" value="0.2" onclick="satisfied(this.getAttribute('name'),this.getAttribute('value'))" /></li>
+                            <li><input type="radio" name="{{apps}}" value="0.4" onclick="satisfied(this.getAttribute('name'),this.getAttribute('value'))"/></li>
+                            <li><input type="radio" name="{{apps}}" value="0.6" onclick="satisfied(this.getAttribute('name'),this.getAttribute('value'))"/></li>
+                            <li><input type="radio" name="{{apps}}" value="0.8" onclick="satisfied(this.getAttribute('name'),this.getAttribute('value'))"/></li>
+                            <li><input type="radio" name="{{apps}}" value="1" onclick="satisfied(this.getAttribute('name'),this.getAttribute('value'))"/></li>
+                            <li> Très satisfait </li>
+                      </ul>
+                    </td>
                 </tr>
             {% endfor %}
         </table> 
