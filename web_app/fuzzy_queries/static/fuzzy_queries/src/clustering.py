@@ -29,21 +29,6 @@ def dist_matrix(data, indices, Functions):
         M.append(distances(data, indices, x, Functions))
     return M
 
-def distances(data, indices, element, Functions):
-    """Returns the respective relative distances between element and all data points in Data.
-    Takes into account all of the attributes listed in indices."""
-    result = [0 for _ in range(len(data))]
-    for attr in indices :
-        result = list(map(add, result, distances_1D(data, attr, element, Functions[attr])))
-    return list(np.array(result) / len(indices))
-
-def distances_1D(data, attr, element, f):
-    """Returns the respective relative distances between element and all data points in Data, taking only one attribute into account."""
-    dist = []
-    for x in data :
-        dist.append(f(element[attr], x[attr]))
-    return dist
-
 def agglo_clustering(data, n_clusters, indices, Functions):
     """Hierarchical clustering with n_clusters clusters. Returns the labels corresponding to data."""
     M = np.asfarray(dist_matrix(data, indices, Functions))

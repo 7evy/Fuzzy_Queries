@@ -122,63 +122,62 @@ class Dataset(object):
         """Applies the CHOCOLATE method to each row of Set (2D table), and returns the n entries with the highest scores."""
         scores = []
         for entry in Set :
-            # scores.append([self.choquet(entry), entry])
             scores.append([self.choquet(entry)] + entry)
         scores.sort(reverse=True)
         return scores[:n]
 
 
 
-    def Sc_min(self, attr, element):
-        """Finds the minimal relative distance between element and a data point in Data, taking only one attribute into account."""
-        dist = []
-        for x in self.Data:
-            m = max([x[attr],element[attr]])
-            if not m:
-                continue
-            else:
-                dist.append(abs(x[attr]-element[attr])/m)
-        return min(dist)
+    # def Sc_min(self, attr, element):
+    #     """Finds the minimal relative distance between element and a data point in Data, taking only one attribute into account."""
+    #     dist = []
+    #     for x in self.Data:
+    #         m = max([x[attr],element[attr]])
+    #         if not m:
+    #             continue
+    #         else:
+    #             dist.append(abs(x[attr]-element[attr])/m)
+    #     return min(dist)
 
 
 
-    def nearest_neighbor(self, indices, element):
-        """Returns the nearest neighbor of element in Data and their relative distance.
-        Takes into account all of the attributes listed in indices."""
-        dist = []
-        for x in self.Data:
-            dist.append([])
-            for attr in indices :
-                m = max([x[attr],element[attr]])
-                if not m:
-                    dist[-1].append(0)
-                else:
-                    dist[-1].append((abs(x[attr]-element[attr])/m)**2)
-        mean_dist = []
-        for d in dist :
-            mean_dist.append(sqrt(sum(d))/len(indices))
-        minimum = min(mean_dist)
-        return mean_dist.index(minimum), minimum
+    # def nearest_neighbor(self, indices, element):
+    #     """Returns the nearest neighbor of element in Data and their relative distance.
+    #     Takes into account all of the attributes listed in indices."""
+    #     dist = []
+    #     for x in self.Data:
+    #         dist.append([])
+    #         for attr in indices :
+    #             m = max([x[attr],element[attr]])
+    #             if not m:
+    #                 dist[-1].append(0)
+    #             else:
+    #                 dist[-1].append((abs(x[attr]-element[attr])/m)**2)
+    #     mean_dist = []
+    #     for d in dist :
+    #         mean_dist.append(sqrt(sum(d))/len(indices))
+    #     minimum = min(mean_dist)
+    #     return mean_dist.index(minimum), minimum
 
 
 
-    def mean_total_distance(self, indices, element):
-        """Returns the average relative distance between element and all data points in Data.
-        Takes into account all of the attributes listed in indices."""
-        return mean([self.Sc_avg(attr, element) for attr in indices])
+    # def mean_total_distance(self, indices, element):
+    #     """Returns the average relative distance between element and all data points in Data.
+    #     Takes into account all of the attributes listed in indices."""
+    #     return mean([self.Sc_avg(attr, element) for attr in indices])
 
 
 
-    def Sc_avg(self, attr, element):
-        """Returns the average relative distance between element and all data points in Data, taking only one attribute into account."""
-        dist = []
-        for x in self.Data :
-            m = max([x[attr],element[attr]])
-            if not m:
-                continue
-            else:
-                dist.append(abs(x[attr]-element[attr])/m)
-        return mean(dist)
+    # def Sc_avg(self, attr, element):
+    #     """Returns the average relative distance between element and all data points in Data, taking only one attribute into account."""
+    #     dist = []
+    #     for x in self.Data :
+    #         m = max([x[attr],element[attr]])
+    #         if not m:
+    #             continue
+    #         else:
+    #             dist.append(abs(x[attr]-element[attr])/m)
+    #     return mean(dist)
 
 
 
@@ -250,3 +249,21 @@ class Fuzzy_Dataset(Dataset):
             Sc += deltas[i][0] * (self.mu(G, F) - self.mu(H, F))
             H = deepcopy(G)
         return Sc
+
+
+
+    def user_test_selection(self, Set, n_best, n_worst, n_strange):
+        """Applies the CHOCOLATE method to each row of Set (2D table), and returns the n_best entries with the highest scores, the n_worst entries with the lowest scores, and n_strange entries that are distant from the selected examples in Data."""
+        scores = []
+        for entry in Set :
+            scores.append([self.choquet(entry)] + entry)
+        scores.sort(reverse=True)
+        sel = scores[:n_best]
+        sel += scores[-n_worst:]
+        scores_left = scores[n_best:-n_worst]
+        for i in range(n_strange):
+            r = np.random.randint(len(scores_left))
+            sel.append(scores_left[r])
+            scores_left.pop(r)
+        sel.sort(reverse=True)
+        return sel

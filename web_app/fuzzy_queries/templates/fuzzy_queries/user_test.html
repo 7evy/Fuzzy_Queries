@@ -7,11 +7,47 @@
 {% load static %}
 <link rel="stylesheet" type="text/css" href="{% static 'fuzzy_queries/css/index.css' %}">
 
+<script type="text/javascript" charset="utf-8">
+    var marks = []
+    for (var i=0 ; i<"{{ length }}" ; i++){
+        marks.push(-1)
+    }
+
+    function satisfied(pos,value){
+        var val = parseFloat(value)
+        marks[pos] = val
+    }
+
+    function contains(array, obj){
+        for (var i=0 ; i<array.length ; i++){
+            if (array[i] == obj){
+                return true
+            }
+        }
+        return false
+    }
+
+    function test_done(){
+        console.log(marks)
+        if (contains(marks, -1)){
+            document.getElementById("warning").innerHTML = "Veuillez noter tous les résultats"
+        }
+        else{
+            var str_marks = ""
+            for (var i=0 ; i<marks.length ; i++){
+                str_marks = str_marks + marks[i].toString() + ";"
+            }
+            window.location = "{% url 'fuzzy_queries:user_test_part2' 1234 %}".replace(/1234/, str_marks)
+        }
+    }
+
+</script>
+
 
 <body>
     <div>
         <table>
-            <caption>Exemples représentatifs</caption>
+            <caption>Exemples sélectionnés</caption>
             <tr>
                 <th>Type</th>
                 <th>Surface</th>
@@ -43,6 +79,8 @@
         </table>  
     </div>
     <div>
+        <p>Veuillez noter les logements ci-dessous, selon leur correspondance à ce que vous recherchez :</p>
+        <p id="warning" color="red"></p>
         <table>
             <caption>Résultats</caption>
             <tr>
@@ -72,10 +110,21 @@
                     <td>{{apps.dist_centre}}</td>
                     <td>{{apps.dist_transport}}</td>
                     <td>{{apps.dist_commerce}}</td>
-                    <td>{{apps.score}}</td>
+                    <td>
+                        <ul class="likert">
+                            <li> Pas satisfait </li>
+                            <li><input type="radio" name={{ forloop.counter0 }} value="1" onclick="satisfied(this.getAttribute('name'),this.getAttribute('value'))" /></li>
+                            <li><input type="radio" name={{ forloop.counter0 }} value="2" onclick="satisfied(this.getAttribute('name'),this.getAttribute('value'))"/></li>
+                            <li><input type="radio" name={{ forloop.counter0 }} value="3" onclick="satisfied(this.getAttribute('name'),this.getAttribute('value'))"/></li>
+                            <li><input type="radio" name={{ forloop.counter0 }} value="4" onclick="satisfied(this.getAttribute('name'),this.getAttribute('value'))"/></li>
+                            <li><input type="radio" name={{ forloop.counter0 }} value="5" onclick="satisfied(this.getAttribute('name'),this.getAttribute('value'))"/></li>
+                            <li> Très satisfait </li>
+                      </ul>
+                    </td>
                 </tr>
             {% endfor %}
-        </table> 
+        </table>
+        <button id="done" onclick="test_done()">J'ai terminé</button>
     </div>
 </body>
 </html>

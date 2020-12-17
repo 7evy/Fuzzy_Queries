@@ -36,7 +36,8 @@ def next_suggestion(request, pos, ans):
         if not request.session['examples'] :
             return index(request)
         else :
-            return results(request)
+            # return results(request)
+            return user_test(request)
     context = {
         'current': request.session['suggestions'][pos+1],
         'pos': pos+1,
@@ -46,20 +47,44 @@ def next_suggestion(request, pos, ans):
 
 
 
-def results(request):
+def user_test(request):
     res = []
     immo_list = request.session['immo_list']
     ex = request.session['examples']
-    print(ex)
     D = Fuzzy_Dataset(ex, Fuzzy_Dataset.FUNCTIONS)
-    best = D.select_most_satisfying(immo_list, 10)
-    ex2, best2 = [], []
+    sel = D.user_test_selection(immo_list, 10, 5, 5)
+    ex2, sel2 = [], []
     for e in ex :
         ex2.append(dict(zip(Fuzzy_Dataset.LABELS, e)))
-    for b in best :
-        best2.append(dict(zip(["score"] + Fuzzy_Dataset.LABELS, b)))
+    for s in sel :
+        sel2.append(dict(zip(["score"] + Fuzzy_Dataset.LABELS, s)))
     context = {
-        'immo': best2,
-        'examples': ex2
+        'immo': sel2,
+        'examples': ex2,
+        'length': len(sel2)
     }
-    return render(request, 'fuzzy_queries/results.html', context)
+    return render(request, 'fuzzy_queries/user_test.html', context)
+
+
+
+def user_test_part2(request, str_marks):
+    return render(request, "fuzzy_queries/user_test_part2.html")
+
+
+
+# def results(request):
+#     res = []
+#     immo_list = request.session['immo_list']
+#     ex = request.session['examples']
+#     D = Fuzzy_Dataset(ex, Fuzzy_Dataset.FUNCTIONS)
+#     best = D.select_most_satisfying(immo_list, 10)
+#     ex2, best2 = [], []
+#     for e in ex :
+#         ex2.append(dict(zip(Fuzzy_Dataset.LABELS, e)))
+#     for b in best :
+#         best2.append(dict(zip(["score"] + Fuzzy_Dataset.LABELS, b)))
+#     context = {
+#         'immo': best2,
+#         'examples': ex2
+#     }
+#     return render(request, 'fuzzy_queries/results.html', context)
