@@ -71,6 +71,14 @@ def user_test_part2(request, str_marks):
     return render(request, "fuzzy_queries/user_test_part2.html")
 
 
+def test(request):
+    immo = Immo.objects.all()
+    context = {
+        'immo': immo
+    }
+    return render(request, "fuzzy_queries/test.html",context)
+
+
 
 # def results(request):
 #     res = []

@@ -1,0 +1,67 @@
+<html lang="en">
+<head>
+    <meta charset="Uli-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CHOCOLATE</title>
+</head>
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'fuzzy_queries/css/test.css' %}">
+
+<div class="demo10">
+    <div class="container">
+        <h4 class="py-4 text-center">Pricing Table</h4>
+        <div class="row">
+            {% for apps in immo %}
+            <div>
+                <div class="pricingTable10">
+                    <div class="pricingTable-header">
+                        <h3 class="heading">{{apps.type}}</h3>
+                        <span class="price-value">
+                            <span class="currency"></span> {{apps.surface}}
+                            <span class="month">m<sup>2</sup></span>
+                        </span>
+                    </div>
+                    <div class="pricing-content">
+                        <ul>
+                            <li>{{apps.pieces}} pièce(s)</li>
+                            <li>{{apps.chambres}} chambre(s)</li>
+                            <li>{{apps.loyer}} €</li>
+                            {% if apps.meuble %}
+                                <li>Meublé</li>
+                            {% else %}
+                                <li>Non Meublé</li>
+                            {% endif %}
+                            {% if apps.jardin %}
+                                <li>Avec jardin</li>
+                            {% else %}
+                                <li>Pas de jardin</li>
+                            {% endif %}
+                            {% if apps.terrasse %}
+                                <li>Avec terrasse</li>
+                            {% else %}
+                                <li>Pas de terrasse</li>
+                            {% endif %}
+                            <li>A {{apps.dist_centre}} m du centre-ville</li>
+                            <li>A {{apps.dist_transport}} m des transports en communs</li>
+                            <li>A {{apps.dist_commerce}} m des commerces</li>
+                            <!-- <li>{{apps.score}}</li> -->
+                            <ul class="likert">
+                                <li>
+                                Pas satisfait 
+                                <input type="radio" name={{ forloop.counter0 }} value="1" onclick="satisfied(this.getAttribute('name'),this.getAttribute('value'))" />
+                                <input type="radio" name={{ forloop.counter0 }} value="2" onclick="satisfied(this.getAttribute('name'),this.getAttribute('value'))"/>
+                                <input type="radio" name={{ forloop.counter0 }} value="3" onclick="satisfied(this.getAttribute('name'),this.getAttribute('value'))"/>
+                                <input type="radio" name={{ forloop.counter0 }} value="4" onclick="satisfied(this.getAttribute('name'),this.getAttribute('value'))"/>
+                                <input type="radio" name={{ forloop.counter0 }} value="5" onclick="satisfied(this.getAttribute('name'),this.getAttribute('value'))"/>
+                                Très satisfait
+                                </li>
+                          </ul>
+                        </ul>
+                        
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
