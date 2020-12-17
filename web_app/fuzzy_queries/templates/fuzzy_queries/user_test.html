@@ -30,7 +30,7 @@
     function test_done(){
         console.log(marks)
         if (contains(marks, -1)){
-            document.getElementById("warning").innerHTML = "Veuillez noter tous les résultats"
+            document.getElementById("warning").innerHTML = "<big>Veuillez noter tous les résultats</big>"
         }
         else{
             var str_marks = ""
@@ -80,7 +80,7 @@
     </div>
     <div>
         <p>Veuillez noter les logements ci-dessous, selon leur correspondance à ce que vous recherchez :</p>
-        <p id="warning" color="red"></p>
+        <p id="warning"></p>
         <table>
             <caption>Résultats</caption>
             <tr>
