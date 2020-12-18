@@ -28,7 +28,6 @@
     }
 
     function test_done(){
-        console.log(marks)
         if (contains(marks, -1)){
             document.getElementById("warning").innerHTML = "<big>Veuillez noter tous les résultats</big>"
         }
@@ -37,7 +36,7 @@
             for (var i=0 ; i<marks.length ; i++){
                 str_marks = str_marks + marks[i].toString() + ";"
             }
-            window.location = "{% url 'fuzzy_queries:user_test_part2' 1234 %}".replace(/1234/, str_marks)
+            window.location = "{% url 'fuzzy_queries:user_test_inter' 1234 %}".replace(/1234/, str_marks)
         }
     }
 
@@ -63,17 +62,17 @@
             </tr>
             {% for apps in examples %}
                 <tr>
-                    <td>{{apps.type}}</td>
-                    <td>{{apps.surface}}</td>
-                    <td>{{apps.pieces}}</td>
-                    <td>{{apps.chambres}}</td>
-                    <td>{{apps.loyer}}</td>
-                    <td>{{apps.meuble}}</td>
-                    <td>{{apps.jardin}}</td>
-                    <td>{{apps.terrasse}}</td>
-                    <td>{{apps.dist_centre}}</td>
-                    <td>{{apps.dist_transport}}</td>
-                    <td>{{apps.dist_commerce}}</td>
+                    <td>{{apps.0}}</td>
+                    <td>{{apps.1}}</td>
+                    <td>{{apps.2}}</td>
+                    <td>{{apps.3}}</td>
+                    <td>{{apps.4}}</td>
+                    <td>{{apps.5}}</td>
+                    <td>{{apps.6}}</td>
+                    <td>{{apps.7}}</td>
+                    <td>{{apps.8}}</td>
+                    <td>{{apps.9}}</td>
+                    <td>{{apps.10}}</td>
                 </tr>
             {% endfor %}
         </table>  
@@ -99,17 +98,17 @@
             </tr>
             {% for apps in immo %}
                 <tr>
-                    <td>{{apps.type}}</td>
-                    <td>{{apps.surface}}</td>
-                    <td>{{apps.pieces}}</td>
-                    <td>{{apps.chambres}}</td>
-                    <td>{{apps.loyer}}</td>
-                    <td>{{apps.meuble}}</td>
-                    <td>{{apps.jardin}}</td>
-                    <td>{{apps.terrasse}}</td>
-                    <td>{{apps.dist_centre}}</td>
-                    <td>{{apps.dist_transport}}</td>
-                    <td>{{apps.dist_commerce}}</td>
+                    <td>{{apps.0}}</td>
+                    <td>{{apps.1}}</td>
+                    <td>{{apps.2}}</td>
+                    <td>{{apps.3}}</td>
+                    <td>{{apps.4}}</td>
+                    <td>{{apps.5}}</td>
+                    <td>{{apps.6}}</td>
+                    <td>{{apps.7}}</td>
+                    <td>{{apps.8}}</td>
+                    <td>{{apps.9}}</td>
+                    <td>{{apps.10}}</td>
                     <td>
                         <ul class="likert">
                             <li> Pas satisfait </li>

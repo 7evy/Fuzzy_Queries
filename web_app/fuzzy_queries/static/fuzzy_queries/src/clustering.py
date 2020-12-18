@@ -14,7 +14,7 @@ except :
 
 
 
-# AllData = read_csv("../../../../data/db.csv", sep=";", header=None, engine='c').values.tolist()
+# AllData = read_csv("./data/db.csv", sep=";", header=None, engine='c').values.tolist()
 
 # Data = [AllData[4*k] for k in range(0, 625)] # Real data
 
@@ -85,9 +85,30 @@ class Clustering():
         self.n_clusters = n_clusters
         self.Labels = agglo_clustering(self.Data, self.n_clusters, self.indices, self.Functions)
     
-    def by_affinity(self, preference=None):
-        """Affinity propagation clustering using stored data."""
+    def by_affinity(self, preference=None, n_clusters=0):
+        """Affinity propagation clustering using stored data. If a strictly positive n_clusters is given, the algorithm will try to compute this number of clusters +/- 10%."""
         self.Labels, self.Centers = affinity_clustering(self.Data, self.indices, self.Functions, preference)
+        if n_clusters > 0 :
+            pref = preference
+            shift = 0
+            count = 1
+            for i in range(20):
+                if len(self.Centers) <= n_clusters*0.9 :
+                    pref += 1/count
+                    if shift :
+                        count += 1
+                    shift = 0
+                    self.Labels, self.Centers = affinity_clustering(self.Data, self.indices, self.Functions, pref)
+                elif len(self.Centers) >= n_clusters*1.1 :
+                    pref -= 1/count
+                    if not shift :
+                        count += 1
+                    shift = 1
+                    self.Labels, self.Centers = affinity_clustering(self.Data, self.indices, self.Functions, pref)
+                else :
+                    break
+                if i == 19 :
+                    print("Warning : Could not compute", n_clusters, "cluster(s) ! There are", len(self.Centers), "clusters instead.")
         self.n_clusters = len(self.Centers)
 
     def sort_by_cluster(self):
@@ -136,8 +157,8 @@ class Clustering():
             print(self.Data[c])
 
 
-# C = Clustering(Data, FUNCTIONS, [4, 8])
-# C.by_affinity(-1)
+# C = Clustering(Data, FUNCTIONS)
+# C.by_affinity(0.47)
 # print(C.n_clusters)
 
 # labels=["Type de logement", "Surface (en m²)", "Nombre de pièces", "Nombre de chambres", "Loyer mensuel (en €)", "Meublé", "Jardin", "Terrasse", "Distance au centre-ville (en m)", "Distance aux transports (en m)", "Distance aux commerces (en m)"]

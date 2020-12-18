@@ -4,6 +4,96 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CHOCOLATE</title>
 </head>
+
+<script type="text/javascript" charset="utf-8">
+    const pos = "{{ pos }}"
+    var compatibles = []
+
+    function compatible(id){
+        var nb = parseInt(id)
+        if (document.getElementById(nb).checked){
+            compatibles.push(nb)
+        }
+        else{
+            compatibles.splice(compatibles.indexOf(nb), 1)
+        }
+    }
+
+    function next(){
+        var strcomp = ";"
+        for (var i=0 ; i<compatibles.length ; i++){
+            strcomp = strcomp + compatibles[i].toString() + ";"
+        }
+        window.location = "{% url 'fuzzy_queries:user_test_part2' 1234 5678 %}".replace(/1234/, pos).replace(/5678/, strcomp)
+    }
+</script>
+
 <body>
+    <div>
+        <p>A quels exemples correspond ce logement ?</p>
+        <table>
+            <caption>Suggestion n°{{pos}}</caption>
+            <tr>
+                <th>Type</th>
+                <th>Surface</th>
+                <th>Pièces</th>
+                <th>Chambres</th>
+                <th>Loyer</th>
+                <th>Meublé</th>
+                <th>Jardin</th>
+                <th>Terrasse</th>
+                <th>Distance Centre</th>
+                <th>Distance Transport</th>
+                <th>Distance Commerce</th>
+            </tr>
+            <tr>
+                <td>{{current.0}}</td>
+                <td>{{current.1}}</td>
+                <td>{{current.2}}</td>
+                <td>{{current.3}}</td>
+                <td>{{current.4}}</td>
+                <td>{{current.5}}</td>
+                <td>{{current.6}}</td>
+                <td>{{current.7}}</td>
+                <td>{{current.8}}</td>
+                <td>{{current.9}}</td>
+                <td>{{current.10}}</td>
+            </tr>
+        </table>  
+        <table>
+            <caption>Exemples sélectionnés</caption>
+            <tr>
+                <th>Correspond à :</th>
+                <th>Type</th>
+                <th>Surface</th>
+                <th>Pièces</th>
+                <th>Chambres</th>
+                <th>Loyer</th>
+                <th>Meublé</th>
+                <th>Jardin</th>
+                <th>Terrasse</th>
+                <th>Distance Centre</th>
+                <th>Distance Transport</th>
+                <th>Distance Commerce</th>
+            </tr>
+            {% for apps in examples %}
+                <tr>
+                    <td><input type="checkbox" id={{ forloop.counter0 }} onclick="compatible(this.getAttribute('id'))" /></td>
+                    <td>{{apps.0}}</td>
+                    <td>{{apps.1}}</td>
+                    <td>{{apps.2}}</td>
+                    <td>{{apps.3}}</td>
+                    <td>{{apps.4}}</td>
+                    <td>{{apps.5}}</td>
+                    <td>{{apps.6}}</td>
+                    <td>{{apps.7}}</td>
+                    <td>{{apps.8}}</td>
+                    <td>{{apps.9}}</td>
+                    <td>{{apps.10}}</td>
+                </tr>
+            {% endfor %}
+        </table>  
+    </div>
+    <button id="next" onclick="next()">Suivant</button>
 </body>
 </html>

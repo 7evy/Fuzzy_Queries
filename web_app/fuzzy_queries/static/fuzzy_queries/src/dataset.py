@@ -258,12 +258,12 @@ class Fuzzy_Dataset(Dataset):
         for entry in Set :
             scores.append([self.choquet(entry)] + entry)
         scores.sort(reverse=True)
-        sel = scores[:n_best]
-        sel += scores[-n_worst:]
+        best = scores[:n_best]
+        worst = scores[-n_worst:]
+        strange = []
         scores_left = scores[n_best:-n_worst]
         for i in range(n_strange):
             r = np.random.randint(len(scores_left))
-            sel.append(scores_left[r])
+            strange.append(scores_left[r])
             scores_left.pop(r)
-        sel.sort(reverse=True)
-        return sel
+        return best + strange + worst
