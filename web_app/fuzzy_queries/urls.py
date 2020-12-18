@@ -12,4 +12,5 @@ urlpatterns = [
     path("user_test_part2/<int:pos>/<ans>", views.user_test_part2, name="user_test_part2"),
     # path("results/", views.results, name="results"),
     path("", views.index, name="index"),
+    path("test",views.test, name="test")
 ]

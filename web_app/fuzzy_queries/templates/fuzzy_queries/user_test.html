@@ -6,6 +6,7 @@
 </head>
 {% load static %}
 <link rel="stylesheet" type="text/css" href="{% static 'fuzzy_queries/css/index.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'fuzzy_queries/css/result.css' %}">
 
 <script type="text/javascript" charset="utf-8">
     var marks = []
@@ -61,7 +62,7 @@
                 <th>Distance Commerce</th>
             </tr>
             {% for apps in examples %}
-                <tr>
+                <tr class="grid">
                     <td>{{apps.0}}</td>
                     <td>{{apps.1}}</td>
                     <td>{{apps.2}}</td>
