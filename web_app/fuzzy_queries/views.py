@@ -81,6 +81,7 @@ def user_test_inter(request, str_marks):
     context = {
         'current': request.session['results'][0],
         'pos': 0,
+        'nextpos': 1,
         'examples': request.session['examples']
     }
     return render(request, "fuzzy_queries/user_test_part2.html", context)
@@ -96,6 +97,7 @@ def user_test_part2(request, pos, ans):
     context = {
         'current': request.session['results'][pos+1],
         'pos': pos+1,
+        'nextpos': pos+2,
         'examples': request.session['examples']
     }
     return render(request, 'fuzzy_queries/user_test_part2.html', context)
