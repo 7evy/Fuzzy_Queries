@@ -68,57 +68,56 @@
     <button id="no" name="no" onclick="no()">Non</button> -->
     <section>
     {% for apps in examples %}
-            <div>
-                <div class="pricingTable10">
-                    <div class="pricingTable-header">
-                        <h3 class="heading">{{apps.0}}</h3>
-                        <span class="price-value">
-                            <span class="currency"></span> {{apps.1}}
-                            <span class="month">m<sup>2</sup></span>
-                        </span>
-                    </div>
-                    <div class="pricing-content">
-                        <ul>
-                            <li>{{apps.2}} pièce(s)</li>
-                            <li>{{apps.3}} chambre(s)</li>
-                            <li>{{apps.4}} €</li>
-                            {% if apps.5 %}
-                                <li>Meublé</li>
-                            {% else %}
-                                <li>Non Meublé</li>
-                            {% endif %}
-                            {% if apps.6 %}
-                                <li>Avec jardin</li>
-                            {% else %}
-                                <li>Pas de jardin</li>
-                            {% endif %}
-                            {% if apps.7 %}
-                                <li>Avec terrasse</li>
-                            {% else %}
-                                <li>Pas de terrasse</li>
-                            {% endif %}
-                            <li>A {{apps.8}} m du centre-ville</li>
-                            <li>A {{apps.9}} m des transports en communs</li>
-                            <li>A {{apps.10}} m des commerces</li>
-                            <!-- <li>{{apps.score}}</li> -->
-                            <ul class="likert">
-                                <li>
-                                Pas satisfait 
-                                <input type="radio" name={{ forloop.counter0 }} value="1" onclick="satisfied(this.getAttribute('name'),this.getAttribute('value'))" />
-                                <input type="radio" name={{ forloop.counter0 }} value="2" onclick="satisfied(this.getAttribute('name'),this.getAttribute('value'))"/>
-                                <input type="radio" name={{ forloop.counter0 }} value="3" onclick="satisfied(this.getAttribute('name'),this.getAttribute('value'))"/>
-                                <input type="radio" name={{ forloop.counter0 }} value="4" onclick="satisfied(this.getAttribute('name'),this.getAttribute('value'))"/>
-                                <input type="radio" name={{ forloop.counter0 }} value="5" onclick="satisfied(this.getAttribute('name'),this.getAttribute('value'))"/>
-                                Très satisfait
-                                </li>
-                          </ul>
+        <div>
+            <div class="pricingTable10">
+                <div class="pricingTable-header">
+                    <h3 class="heading">{{apps.0}}</h3>
+                    <span class="price-value">
+                        <span class="currency"></span> {{apps.1}}
+                        <span class="month">m<sup>2</sup></span>
+                    </span>
+                </div>
+                <div class="pricing-content">
+                    <ul>
+                        <li>{{apps.2}} pièce(s)</li>
+                        <li>{{apps.3}} chambre(s)</li>
+                        <li>{{apps.4}} €</li>
+                        {% if apps.5 %}
+                            <li>Meublé</li>
+                        {% else %}
+                            <li>Non Meublé</li>
+                        {% endif %}
+                        {% if apps.6 %}
+                            <li>Avec jardin</li>
+                        {% else %}
+                            <li>Pas de jardin</li>
+                        {% endif %}
+                        {% if apps.7 %}
+                            <li>Avec terrasse</li>
+                        {% else %}
+                            <li>Pas de terrasse</li>
+                        {% endif %}
+                        <li>A {{apps.8}} m du centre-ville</li>
+                        <li>A {{apps.9}} m des transports en communs</li>
+                        <li>A {{apps.10}} m des commerces</li>
+                        <!-- <li>{{apps.score}}</li> -->
+                        <ul class="likert">
+                            <li>
+                            Pas satisfait 
+                            <input type="radio" name={{ forloop.counter0 }} value="1" onclick="satisfied(this.getAttribute('name'),this.getAttribute('value'))" />
+                            <input type="radio" name={{ forloop.counter0 }} value="2" onclick="satisfied(this.getAttribute('name'),this.getAttribute('value'))"/>
+                            <input type="radio" name={{ forloop.counter0 }} value="3" onclick="satisfied(this.getAttribute('name'),this.getAttribute('value'))"/>
+                            <input type="radio" name={{ forloop.counter0 }} value="4" onclick="satisfied(this.getAttribute('name'),this.getAttribute('value'))"/>
+                            <input type="radio" name={{ forloop.counter0 }} value="5" onclick="satisfied(this.getAttribute('name'),this.getAttribute('value'))"/>
+                            Très satisfait
+                            </li>
                         </ul>
-                        
-                    </div>
+                    </ul>
+                    
                 </div>
             </div>
-            {% endfor %}
-        </section>
-    </div>
+        </div>
+        {% endfor %}
+    </section>
 </body>
 </html>

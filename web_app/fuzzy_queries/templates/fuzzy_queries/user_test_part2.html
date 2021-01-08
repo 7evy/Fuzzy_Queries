@@ -4,7 +4,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CHOCOLATE</title>
 </head>
-<link rel="stylesheet" type="text/css" href="{% static 'fuzzy_queries/css/user_test_part2.css' %}">
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'fuzzy_queries/css/test.css' %}">
 
 <script type="text/javascript" charset="utf-8">
     const pos = "{{ pos }}"
@@ -48,7 +49,6 @@
                 <th>Distance Commerce</th>
             </tr>
             <tr>
-                <td>{{current.0}}</td>
                 <td>{{current.1}}</td>
                 <td>{{current.2}}</td>
                 <td>{{current.3}}</td>
@@ -59,6 +59,7 @@
                 <td>{{current.8}}</td>
                 <td>{{current.9}}</td>
                 <td>{{current.10}}</td>
+                <td>{{current.11}}</td>
             </tr>
         </table>  
         <table>
