@@ -1,11 +1,26 @@
+body{
+    display: flex;
+    flex-direction: column;
+}
+
+section{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+.question{
+    margin: 10px;
+    color:#fff;
+}
+
 .demo10{
     background:#C0BFBF;
-    padding:30px 0;
+    padding:30px 0;-++-
 }
 
 .pricingTable10{
     text-align:center;
-    width: 21%;
+    /* width: 21%; */
     float: left;
     margin: 2%;
 }
