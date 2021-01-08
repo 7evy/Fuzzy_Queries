@@ -1,5 +1,6 @@
 from copy import deepcopy
 from numpy import mean, sqrt
+from numpy.random import randint
 from operator import eq
 from fuzzy_queries.static.fuzzy_queries.src.utils import *
 # try :
@@ -263,7 +264,7 @@ class Fuzzy_Dataset(Dataset):
         strange = []
         scores_left = scores[n_best:-n_worst]
         for i in range(n_strange):
-            r = np.random.randint(len(scores_left))
+            r = randint(len(scores_left))
             strange.append(scores_left[r])
             scores_left.pop(r)
         return best + strange + worst

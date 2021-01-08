@@ -1,0 +1,57 @@
+Les meilleurs résultats selon CHOCOLATE ont un score moyen de : 0.07273498615393117
+La note moyenne attribuée par l'utilisateur est : 0.18
+Score total : 0.014546997230786235
+
+Les résultats aléatoires ont un score moyen de : 0.07544535435844607
+La note moyenne attribuée par l'utilisateur est : 0.0
+Score total : 0.04526721261506764
+
+Les pires résultats selon CHOCOLATE ont un score moyen de : 0.040616060290439585
+La note moyenne attribuée par l'utilisateur est : 0.0
+Score total : 0.040616060290439585
+
+
+L'exemple n°0 est représentatif de 2 résultats.
+L'exemple n°1 est représentatif de 0 résultats.
+L'exemple n°2 est représentatif de 2 résultats.
+L'exemple n°3 est représentatif de 2 résultats.
+L'exemple n°4 est représentatif de 0 résultats.
+L'exemple n°5 est représentatif de 0 résultats.
+L'exemple n°6 est représentatif de 0 résultats.
+L'exemple n°7 est représentatif de 0 résultats.
+L'exemple n°8 est représentatif de 0 résultats.
+L'exemple n°9 est représentatif de 0 résultats.
+L'exemple n°10 est représentatif de 0 résultats.
+L'exemple n°11 est représentatif de 0 résultats.
+L'exemple n°12 est représentatif de 0 résultats.
+L'exemple n°13 est représentatif de 0 résultats.
+L'exemple n°14 est représentatif de 0 résultats.
+L'exemple n°15 est représentatif de 0 résultats.
+L'exemple n°16 est représentatif de 0 résultats.
+L'exemple n°17 est représentatif de 0 résultats.
+L'exemple n°18 est représentatif de 0 résultats.
+L'exemple n°19 est représentatif de 0 résultats.
+L'exemple n°20 est représentatif de 0 résultats.
+L'exemple n°21 est représentatif de 0 résultats.
+L'exemple n°22 est représentatif de 0 résultats.
+L'exemple n°23 est représentatif de 0 résultats.
+L'exemple n°24 est représentatif de 0 résultats.
+L'exemple n°25 est représentatif de 0 résultats.
+L'exemple n°26 est représentatif de 0 résultats.
+L'exemple n°27 est représentatif de 0 résultats.
+L'exemple n°28 est représentatif de 0 résultats.
+L'exemple n°29 est représentatif de 0 résultats.
+L'exemple n°30 est représentatif de 0 résultats.
+L'exemple n°31 est représentatif de 0 résultats.
+L'exemple n°32 est représentatif de 0 résultats.
+L'exemple n°33 est représentatif de 0 résultats.
+L'exemple n°34 est représentatif de 0 résultats.
+L'exemple n°35 est représentatif de 0 résultats.
+L'exemple n°36 est représentatif de 0 résultats.
+L'exemple n°37 est représentatif de 0 résultats.
+L'exemple n°38 est représentatif de 0 résultats.
+L'exemple n°39 est représentatif de 0 résultats.
+
+
+Note globale : 16.811948354278325/100
+Le test a duré 14.788194417953491s.

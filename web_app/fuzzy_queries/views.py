@@ -6,6 +6,7 @@ from fuzzy_queries.static.fuzzy_queries.src.dataset import Fuzzy_Dataset
 from fuzzy_queries.static.fuzzy_queries.src.utils import *
 from fuzzy_queries.static.fuzzy_queries.src.clustering import Clustering
 from time import time
+from numpy import mean
 # Create your views here.
 
 
@@ -73,6 +74,7 @@ def user_test_inter(request, str_marks):
     marks = []
     for m in str_marks.split(";")[:-1] :
         marks.append(int(m))
+    request.session['marks'] = marks
     request.session['global_marks'] = {}
     request.session['global_marks']['best'] = sum(marks[:10])/50
     request.session['global_marks']['strange'] = sum(marks[10:15])/25
@@ -89,11 +91,16 @@ def user_test_inter(request, str_marks):
 
 
 def user_test_part2(request, pos, ans):
-    request.session['individual_marks'].append(ans.split(";"))
-    print(request.session['individual_marks'])
+    request.session['individual_marks'].append(ans.split(";")[1:-1])
+
     if pos+1 >= len(request.session['results']) :
         request.session['time'] = time() - request.session['time']
-        return None
+        request.session['example_marks'] = [0 for _ in range(request.session['max'])]
+        for l in request.session['individual_marks'] :
+            if l :
+                for e in l :
+                    request.session['example_marks'][int(e)] += 1
+        return user_test_results(request)
     context = {
         'current': request.session['results'][pos+1],
         'pos': pos+1,
@@ -101,6 +108,51 @@ def user_test_part2(request, pos, ans):
         'examples': request.session['examples']
     }
     return render(request, 'fuzzy_queries/user_test_part2.html', context)
+
+
+
+def user_test_results(request):
+    final_mark = 0
+    avg_score = 0
+    ttl_score = 0
+    for i in range(1): # for i in range(10) :
+        avg_score += request.session['results'][i][0]
+        ttl_score += request.session['results'][i][0] * request.session['marks'][i]
+    final_mark += ttl_score
+    avg_score /= 10
+    ttl_score /= 50
+    recap = "Les meilleurs résultats selon CHOCOLATE ont un score moyen de : " + str(avg_score) + "\nLa note moyenne attribuée par l'utilisateur est : " + str(request.session['global_marks']['best']) + "\nScore total : " + str(ttl_score) + "\n"
+    avg_score = 0
+    ttl_score = 0
+    for i in range(1,2): # for i in range(10, 15) :
+        avg_score += request.session['results'][i][0]
+        ttl_score += request.session['results'][i][0] * request.session['marks'][i]
+    avg_score /= 5
+    ttl_score /= 25
+    recap += "\nLes résultats aléatoires ont un score moyen de : " + str(avg_score) + "\nLa note moyenne attribuée par l'utilisateur est : " + str(request.session['global_marks']['strange']) + "\nScore total : " + str(ttl_score) + "\n"
+    avg_score = 0
+    ttl_score = 0
+    for i in range(2,3): # for i in range(15, 20) :
+        avg_score += request.session['results'][i][0]
+        ttl_score += request.session['results'][i][0] * request.session['marks'][i]
+    final_mark -= ttl_score
+    avg_score /= 5
+    ttl_score /= 25
+    recap += "\nLes pires résultats selon CHOCOLATE ont un score moyen de : " + str(avg_score) + "\nLa note moyenne attribuée par l'utilisateur est : " + str(request.session['global_marks']['worst']) + "\nScore total : " + str(ttl_score) + "\n\n\n"
+    for e in range(request.session['max']):
+        recap += "L'exemple n°" + str(e) + " est représentatif de " + str(request.session['example_marks'][e]) + " résultats.\n"
+    if 0 not in request.session['example_marks'] :
+        recap += "Tous les exemples sont pris en compte par les résultats.\n"
+    final_mark += sum(request.session['example_marks'])
+    m = mean(request.session['example_marks'])
+    for e in request.session['example_marks'] :
+        final_mark -= abs(e-m)
+    recap += "\n\nNote globale : " + str(final_mark) + "/100\nLe test a duré " + str(request.session['time']) + " s.\n"
+    with open('data/user_test.txt', 'w') as f:
+        f.write(recap)
+    return None
+    # return render(request, 'fuzzy_queries/user_test_end.html')
+
 
 
 def test(request):

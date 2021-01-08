@@ -1,19 +1,10 @@
-Clustering :
-	Plus de clusters et nombre limité d'exemples (5/6)
-
 Django :
 	Cacher secret key
+	Redirection des URLs
 
 Interface utilisateur :
-	Affichage clair avec les attributs importants
 	Ajouter des poids aux attributs (?)
 
 Tests utilisateur :
-	Méthode
 	Charge mentale
-	Mesures de pertinence (notes pondérées par les degrés de satisfaction)
-	Implémentation des notes
-	Implémentation des correspondances
 	Diagramme de séquences
-	Prise en compte de la diversité (eg 10 meilleurs, 5 exotiques, 5 mauvais)
-	Mesure de correspondance avec l'ensemble des exemples
