@@ -13,8 +13,8 @@ from time import time
 def index(request):
     if 'immo_list' not in request.session :
         request.session['immo_list'] = list([list(Immo.objects.values()[k].values()) for k in range(len(Immo.objects.all()))])
-    for row in request.session['immo_list'] :
-        row.pop(0)
+        for row in request.session['immo_list'] :
+            row.pop(0)
     real_immo = [request.session['immo_list'][4*k] for k in range(len(request.session['immo_list'])//4)]
     C = Clustering(real_immo, Clustering.FUNCTIONS)
     C.by_affinity(0.47, 40)
