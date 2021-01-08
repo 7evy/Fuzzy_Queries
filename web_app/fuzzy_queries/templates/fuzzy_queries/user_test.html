@@ -44,86 +44,110 @@
 
 
 <body>
-    <div>
-        <table>
-            <caption>Exemples sélectionnés</caption>
-            <tr>
-                <th>Type</th>
-                <th>Surface</th>
-                <th>Pièces</th>
-                <th>Chambres</th>
-                <th>Loyer</th>
-                <th>Meublé</th>
-                <th>Jardin</th>
-                <th>Terrasse</th>
-                <th>Distance Centre</th>
-                <th>Distance Transport</th>
-                <th>Distance Commerce</th>
-            </tr>
-            {% for apps in examples %}
-                <tr class="grid">
-                    <td>{{apps.0}}</td>
-                    <td>{{apps.1}}</td>
-                    <td>{{apps.2}}</td>
-                    <td>{{apps.3}}</td>
-                    <td>{{apps.4}}</td>
-                    <td>{{apps.5}}</td>
-                    <td>{{apps.6}}</td>
-                    <td>{{apps.7}}</td>
-                    <td>{{apps.8}}</td>
-                    <td>{{apps.9}}</td>
-                    <td>{{apps.10}}</td>
-                </tr>
-            {% endfor %}
-        </table>  
+    <p>Veuillez noter les logements ci-dessous, selon leur correspondance à ce que vous recherchez :</p>
+    <p id="warning"></p>
+    <div class="demo10">
+        <div class="container">
+            <h4 class="py-4 text-center">Résultats</h4>
+            <div class="row">
+                {% for apps in immo %}
+                <div>
+                    <div class="pricingTable10">
+                        <div class="pricingTable-header">
+                            <h3 class="heading">{{apps.1}}</h3>
+                            <span class="price-value">
+                                <span class="currency"></span> {{apps.2}}
+                                <span class="month">m<sup>2</sup></span>
+                            </span>
+                        </div>
+                        <div class="pricing-content">
+                            <ul>
+                                <li>{{apps.3}} pièce(s)</li>
+                                <li>{{apps.4}} chambre(s)</li>
+                                <li>{{apps.5}} €</li>
+                                {% if apps.6 %}
+                                    <li>Meublé</li>
+                                {% else %}
+                                    <li>Non Meublé</li>
+                                {% endif %}
+                                {% if apps.7 %}
+                                    <li>Avec jardin</li>
+                                {% else %}
+                                    <li>Pas de jardin</li>
+                                {% endif %}
+                                {% if apps.8 %}
+                                    <li>Avec terrasse</li>
+                                {% else %}
+                                    <li>Pas de terrasse</li>
+                                {% endif %}
+                                <li>A {{apps.9}} m du centre-ville</li>
+                                <li>A {{apps.10}} m des transports en communs</li>
+                                <li>A {{apps.11}} m des commerces</li>
+                                <!-- <li>{{apps.score}}</li> -->
+                                <ul class="likert">
+                                    <li>
+                                    Pas satisfait 
+                                    <input type="radio" name={{ forloop.counter0 }} value="1" onclick="satisfied(this.getAttribute('name'),this.getAttribute('value'))" />
+                                    <input type="radio" name={{ forloop.counter0 }} value="2" onclick="satisfied(this.getAttribute('name'),this.getAttribute('value'))"/>
+                                    <input type="radio" name={{ forloop.counter0 }} value="3" onclick="satisfied(this.getAttribute('name'),this.getAttribute('value'))"/>
+                                    <input type="radio" name={{ forloop.counter0 }} value="4" onclick="satisfied(this.getAttribute('name'),this.getAttribute('value'))"/>
+                                    <input type="radio" name={{ forloop.counter0 }} value="5" onclick="satisfied(this.getAttribute('name'),this.getAttribute('value'))"/>
+                                    Très satisfait
+                                    </li>
+                                </ul>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+                <button id="done" onclick="test_done()">J'ai terminé</button>
+            </div>
+        </div>
     </div>
-    <div>
-        <p>Veuillez noter les logements ci-dessous, selon leur correspondance à ce que vous recherchez :</p>
-        <p id="warning"></p>
-        <table>
-            <caption>Résultats</caption>
-            <tr>
-                <th>Type</th>
-                <th>Surface</th>
-                <th>Pièces</th>
-                <th>Chambres</th>
-                <th>Loyer</th>
-                <th>Meublé</th>
-                <th>Jardin</th>
-                <th>Terrasse</th>
-                <th>Distance Centre</th>
-                <th>Distance Transport</th>
-                <th>Distance Commerce</th>
-                <th>Taux d'appartenance</th>
-            </tr>
-            {% for apps in immo %}
-                <tr>
-                    <td>{{apps.0}}</td>
-                    <td>{{apps.1}}</td>
-                    <td>{{apps.2}}</td>
-                    <td>{{apps.3}}</td>
-                    <td>{{apps.4}}</td>
-                    <td>{{apps.5}}</td>
-                    <td>{{apps.6}}</td>
-                    <td>{{apps.7}}</td>
-                    <td>{{apps.8}}</td>
-                    <td>{{apps.9}}</td>
-                    <td>{{apps.10}}</td>
-                    <td>
-                        <ul class="likert">
-                            <li> Pas satisfait </li>
-                            <li><input type="radio" name={{ forloop.counter0 }} value="1" onclick="satisfied(this.getAttribute('name'),this.getAttribute('value'))" /></li>
-                            <li><input type="radio" name={{ forloop.counter0 }} value="2" onclick="satisfied(this.getAttribute('name'),this.getAttribute('value'))"/></li>
-                            <li><input type="radio" name={{ forloop.counter0 }} value="3" onclick="satisfied(this.getAttribute('name'),this.getAttribute('value'))"/></li>
-                            <li><input type="radio" name={{ forloop.counter0 }} value="4" onclick="satisfied(this.getAttribute('name'),this.getAttribute('value'))"/></li>
-                            <li><input type="radio" name={{ forloop.counter0 }} value="5" onclick="satisfied(this.getAttribute('name'),this.getAttribute('value'))"/></li>
-                            <li> Très satisfait </li>
-                      </ul>
-                    </td>
-                </tr>
-            {% endfor %}
-        </table>
-        <button id="done" onclick="test_done()">J'ai terminé</button>
+    <div class="demo10">
+        <div class="container">
+            <h4 class="py-4 text-center">Exemples sélectionnés</h4>
+            <div class="row">
+                {% for apps in examples %}
+                <div>
+                    <div class="pricingTable10">
+                        <div class="pricingTable-header">
+                            <h3 class="heading">{{apps.0}}</h3>
+                            <span class="price-value">
+                                <span class="currency"></span> {{apps.1}}
+                                <span class="month">m<sup>2</sup></span>
+                            </span>
+                        </div>
+                        <div class="pricing-content">
+                            <ul>
+                                <li>{{apps.2}} pièce(s)</li>
+                                <li>{{apps.3}} chambre(s)</li>
+                                <li>{{apps.4}} €</li>
+                                {% if apps.5 %}
+                                    <li>Meublé</li>
+                                {% else %}
+                                    <li>Non Meublé</li>
+                                {% endif %}
+                                {% if apps.6 %}
+                                    <li>Avec jardin</li>
+                                {% else %}
+                                    <li>Pas de jardin</li>
+                                {% endif %}
+                                {% if apps.7 %}
+                                    <li>Avec terrasse</li>
+                                {% else %}
+                                    <li>Pas de terrasse</li>
+                                {% endif %}
+                                <li>A {{apps.8}} m du centre-ville</li>
+                                <li>A {{apps.9}} m des transports en communs</li>
+                                <li>A {{apps.10}} m des commerces</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
     </div>
 </body>
 </html>

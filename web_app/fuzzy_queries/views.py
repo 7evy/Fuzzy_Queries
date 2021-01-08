@@ -78,7 +78,6 @@ def user_test_inter(request, str_marks):
     request.session['global_marks']['strange'] = sum(marks[10:15])/25
     request.session['global_marks']['worst'] = sum(marks[15:])/25
     request.session['individual_marks'] = []
-    print(request.session['results'][0])
     context = {
         'current': request.session['results'][0],
         'pos': 0,
