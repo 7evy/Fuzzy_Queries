@@ -1,0 +1,23 @@
+Les meilleurs résultats selon CHOCOLATE ont un score moyen de : 0.67
+La note moyenne attribuée par l'utilisateur est : 0.56
+Score total : 0.3764
+
+Les résultats aléatoires ont un score moyen de : 0.502
+La note moyenne attribuée par l'utilisateur est : 0.76
+Score total : 0.3748
+
+Les pires résultats selon CHOCOLATE ont un score moyen de : 0.23
+La note moyenne attribuée par l'utilisateur est : 0.76
+Score total : 0.174
+
+
+L'exemple n°0 est représentatif de 0 résultats.
+L'exemple n°1 est représentatif de 0 résultats.
+L'exemple n°2 est représentatif de 0 résultats.
+L'exemple n°3 est représentatif de 0 résultats.
+L'exemple n°4 est représentatif de 0 résultats.
+L'exemple n°5 est représentatif de 0 résultats.
+
+
+Note globale : 14.47/100
+Le test a duré 42.19 s.
