@@ -232,17 +232,6 @@ button{
     font-size: medium;
 }
 
-.foot button:hover {
-  background-color: #09b2c6;
-  color: white;
-}
-
-.foot button:active {
-    background-color: #09b2c6;
-    box-shadow: 0 5px #666;
-    transform: translateY(4px);
-}
-
 .hover_bkgr_fricc{
     background:rgba(0,0,0,.4);
     cursor:pointer;
