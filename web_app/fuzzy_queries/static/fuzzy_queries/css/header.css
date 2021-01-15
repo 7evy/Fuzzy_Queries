@@ -3,6 +3,7 @@ body {
     background: url(https://www.brainpickings.org/wp-content/themes/brainpickings/images/bckgd_body.png);
     padding: 0;
     margin: 0;
+    font-family: 'Nunito', sans-serif;
 }
   
 .offset {
@@ -52,7 +53,7 @@ body {
 }
   
 .header_logo {
-    font-family: 'Oswald', sans-serif;
+    font-family: 'Mali', cursive;
     color: white;
     margin: 0;
     padding-top: 45px;
@@ -62,7 +63,7 @@ body {
 }
 
 .header_sentence {
-    font-family: 'Oswald', sans-serif;
+    font-family: 'Antic', sans-serif;
     font-size: 17px;
     color: white;
     margin: 0;
