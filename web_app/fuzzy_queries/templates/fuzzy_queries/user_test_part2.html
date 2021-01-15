@@ -4,8 +4,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CHOCOLATE</title>
 </head>
+
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
+
 {% load static %}
 <link rel="stylesheet" type="text/css" href="{% static 'fuzzy_queries/css/user_test_part2.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'fuzzy_queries/css/header.css' %}">
+<script src="{% static 'fuzzy_queries/js/header.js' %}"></script>
 
 <script type="text/javascript" charset="utf-8">
     const pos = "{{ pos }}"
@@ -31,12 +36,21 @@
 </script>
 
 <body>
-    <div>
+
+    <div class="header">
+        <h1 class="header_logo">CHOCOLATE</h1>
+    </div>
+
+    <div class="foot">
+        <button id="next" onclick="next()">Suivant</button>
+    </div>
+
+    <div class="padded">
         <p>A quels exemples correspond ce logement ?</p>
         <section>
-            <h4 class="py-4 text-center">Suggestion n°{{nextpos}}</h4>
             <div class="pricingTable10">
                 <div class="pricingTable-header">
+                    <h4 class="question">Suggestion n°{{nextpos}}</h4>
                     <h3 class="heading">{{current.1}}</h3>
                     <span class="price-value">
                         <span class="currency"></span> {{current.2}}
@@ -70,10 +84,9 @@
                 </div>
             </div>
         </section>
-        <button id="next" onclick="next()">Suivant</button>
     </div>
-    <div>
-        <h4 class="py-4 text-center">Exemples sélectionnés :</h4>
+    <div class="padded">
+        <h4 class="table-title">Exemples sélectionnés :</h4>
         <section>
             {% for apps in examples %}
                 <div class="pricingTable11">
