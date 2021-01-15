@@ -247,20 +247,6 @@ input[type=checkbox] {
     padding-right: 8px;
   }
 
-.foot {
-    z-index: 2;
-    position: fixed;
-    width: 175px;
-    height: 80px;
-    bottom: 30px;
-    left: 40px;
-}
-
-#done {
-    width: 100%;
-    height: 100%;
-}
-
 .foot button{
     background-color: #035381;
     border: none;
@@ -270,10 +256,11 @@ input[type=checkbox] {
     text-decoration: none;
     display: inline-block;
     font-size: 20px;
-    font-family: 'Oswald', sans-serif;
     border-radius: 6px;
     border: 2px solid #777473;
     box-shadow: 0 9px #999;
+    font-family: 'Press Start 2P', cursive;
+    font-size: medium;
 }
 
 .foot button:hover {
@@ -282,6 +269,33 @@ input[type=checkbox] {
 }
 
 .foot button:active {
+    background-color: #09b2c6;
+    box-shadow: 0 5px #666;
+    transform: translateY(4px);
+}
+
+.foot-next button{
+    background-color: #035381;
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 20px;
+    border-radius: 6px;
+    border: 2px solid #777473;
+    box-shadow: 0 9px #999;
+    font-family: 'Press Start 2P', cursive;
+    font-size: medium;
+}
+
+.foot-next button:hover {
+  background-color: #09b2c6;
+  color: white;
+}
+
+.foot-next button:active {
     background-color: #09b2c6;
     box-shadow: 0 5px #666;
     transform: translateY(4px);

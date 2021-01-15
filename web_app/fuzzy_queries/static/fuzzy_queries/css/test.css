@@ -216,20 +216,6 @@ button{
     padding: 5px;
 }
 
-.foot {
-    z-index: 2;
-    position: fixed;
-    width: 175px;
-    height: 80px;
-    bottom: 30px;
-    right: 40px;
-}
-
-#done {
-    width: 100%;
-    height: 100%;
-}
-
 .foot button{
     background-color: #035381;
     border: none;
