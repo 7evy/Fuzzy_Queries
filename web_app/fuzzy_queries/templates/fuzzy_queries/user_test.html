@@ -52,6 +52,7 @@
 
     <div class="header">
         <h1 class="header_logo">CHOCOLATE</h1>
+        <h4 class="header_sentence"><br>Veuillez noter les logements ci-dessous, selon leur correspondance à ce que vous recherchez :</h4>
     </div>
 
     <div class="foot">
@@ -59,25 +60,25 @@
     </div>
 
     <div class="padded">
-        <p>Veuillez noter les logements ci-dessous, selon leur correspondance à ce que vous recherchez :</p>
         <p id="warning"></p>
+        <h2 class="table-title">Résultats</h2>
         <section>
-            <h4 class="py-4 text-center">Résultats</h4>
             {% for apps in immo %}
             <div class="resultat">
                 <div class="pricingTable10">
                     <div class="pricingTable-header">
-                        <h4 class="likert">
+                        <div class="likert">
                             <li>
                             Pas satisfait 
-                            <input type="radio" name={{ forloop.counter0 }} value="1" onclick="satisfied(this.getAttribute('name'),this.getAttribute('value'))" />
+                            <input type="radio" name={{ forloop.counter0 }} value="1" onclick="satisfied(this.getAttribute('name'),this.getAttribute('value'))"/>
                             <input type="radio" name={{ forloop.counter0 }} value="2" onclick="satisfied(this.getAttribute('name'),this.getAttribute('value'))"/>
                             <input type="radio" name={{ forloop.counter0 }} value="3" onclick="satisfied(this.getAttribute('name'),this.getAttribute('value'))"/>
                             <input type="radio" name={{ forloop.counter0 }} value="4" onclick="satisfied(this.getAttribute('name'),this.getAttribute('value'))"/>
                             <input type="radio" name={{ forloop.counter0 }} value="5" onclick="satisfied(this.getAttribute('name'),this.getAttribute('value'))"/>
                             Très satisfait
                             </li>
-                        </h4>
+                            <br>
+                        </div>
                         <h3 class="heading">{{apps.1}}</h3>
                         <span class="price-value">
                             <span class="currency"></span> {{apps.2}}
@@ -125,9 +126,9 @@
             </div>
             {% endfor %}
         </section>
-
+        <br><br>
+        <h2 class="table-title">Exemples sélectionnés</h2>
         <section>
-            <h4 class="py-4 text-center">Exemples sélectionnés</h4>
             {% for apps in examples %}
             <div>
                 <div class="pricingTable10">

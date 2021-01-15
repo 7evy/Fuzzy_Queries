@@ -39,7 +39,7 @@ body {
 }
     
 .header.small {
-    height: 70px;
+    height: 80px;
     box-shadow: 0 0 5px rgba(black, .2);
     /* // when header.small also change page offset */
 }
@@ -59,4 +59,16 @@ body {
     font-size: 50px;
     text-shadow: 3px 4px rgba(black, .1);
     transition: .3s;
+}
+
+.header_sentence {
+    font-family: 'Oswald', sans-serif;
+    font-size: 17px;
+    color: white;
+    margin: 0;
+    transition: .3s;
+}
+
+.header_sentence.small {
+    font-size: 12px;
 }

@@ -52,11 +52,15 @@ def next_suggestion(request, pos, ans):
 
 def user_test(request):
     res = []
-    immo_list = request.session['immo_list']
     ex = request.session['examples']
     D = Fuzzy_Dataset(ex, Fuzzy_Dataset.FUNCTIONS)
-    # sel = D.user_test_selection(immo_list, 1, 1, 1)
-    sel = D.user_test_selection(immo_list, 10, 5, 5)
+    for e in ex :
+        try :
+            request.session['immo_list'].remove(e)
+        except ValueError :
+            break
+    # sel = D.user_test_selection(request.session['immo_list'], 1, 1, 1)
+    sel = D.user_test_selection(request.session['immo_list'], 10, 5, 5)
     # ex2, sel2 = [], []
     # for e in ex :
     #     ex2.append(dict(zip(Fuzzy_Dataset.LABELS, e)))

@@ -8,14 +8,20 @@ section{
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
+    justify-content: space-evenly;
 }
 
 .padded{
     padding-top: 170px;
 }
 
+.table-title{
+    text-align: center;
+    font-family: 'Oswald', sans-serif;
+}
+
 .resultat{
-    margin: 0 2%;
+    margin: 0 1%;
 }
 
 button{
@@ -46,7 +52,7 @@ button{
 }
 
 .pricingTable10 .pricingTable-header{
-    padding: 5px 20px 30px 20px;
+    padding: 10px 10px 30px 10px;
     background:#4d4d4d;
     position:relative;
     transition:all .3s ease 0s
@@ -55,6 +61,8 @@ button{
 .pricingTable10 .pricingTable-header .likert{
     color: #fff;
     list-style:none;
+    font-size: 13px;
+    font-family: 'Oswald', sans-serif;
 }
 
 .pricingTable10:hover .pricingTable-header{
@@ -207,7 +215,7 @@ button{
 }
 
 .likert li {
-    padding: 8px;
+    padding: 5px;
 }
 
 @media screen and (max-width:990px){.pricingTable10{margin-bottom:25px}
