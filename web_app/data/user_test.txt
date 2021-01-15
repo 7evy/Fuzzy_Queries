@@ -12,9 +12,9 @@ Score total : 0.0424
 
 
 L'exemple n°0 est représentatif de 0 résultats.
-L'exemple n°1 est représentatif de 0 résultats.
-L'exemple n°2 est représentatif de 0 résultats.
-L'exemple n°3 est représentatif de 0 résultats.
+L'exemple n°1 est représentatif de 1 résultats.
+L'exemple n°2 est représentatif de 1 résultats.
+L'exemple n°3 est représentatif de 1 résultats.
 L'exemple n°4 est représentatif de 0 résultats.
 
 
