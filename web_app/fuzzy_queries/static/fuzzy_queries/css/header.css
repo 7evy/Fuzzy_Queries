@@ -3,6 +3,7 @@ body {
     background: url(https://www.brainpickings.org/wp-content/themes/brainpickings/images/bckgd_body.png);
     padding: 0;
     margin: 0;
+    font-family: 'Nunito', sans-serif;
 }
   
 .offset {
@@ -24,6 +25,25 @@ body {
     /* // header shrinks when .small added to .header */
 }
 
+.foot {
+    z-index: 2;
+    position: fixed;
+    width: 270px;
+    height: 50px;
+    top: 40px;
+    right: 40px;
+    transition: .3s;
+}
+
+.foot.small{
+    top : 5px;
+}
+
+#done {
+    width: 100%;
+    height: 100%;
+}
+    
 .header.small {
     height: 80px;
     box-shadow: 0 0 5px rgba(black, .2);
@@ -32,23 +52,23 @@ body {
 
       /* // when header.small change logo pad & font size */
 .header_logo.small {
-    padding-top: 25px;
+    padding-top: 20px;
     font-size: 20px;
     text-shadow: none;
 }
   
 .header_logo {
-    font-family: 'Oswald', sans-serif;
+    font-family: 'Mali', cursive;
     color: white;
     margin: 0;
-    padding-top: 45px;
+    padding-top: 35px;
     font-size: 50px;
     text-shadow: 3px 4px rgba(black, .1);
     transition: .3s;
 }
 
 .header_sentence {
-    font-family: 'Oswald', sans-serif;
+    font-family: 'Antic', sans-serif;
     font-size: 17px;
     color: white;
     margin: 0;

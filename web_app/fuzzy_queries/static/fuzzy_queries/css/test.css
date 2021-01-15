@@ -17,7 +17,6 @@ section{
 
 .table-title{
     text-align: center;
-    font-family: 'Oswald', sans-serif;
 }
 
 .resultat{
@@ -62,7 +61,6 @@ button{
     color: #fff;
     list-style:none;
     font-size: 13px;
-    font-family: 'Oswald', sans-serif;
 }
 
 .pricingTable10:hover .pricingTable-header{
@@ -241,10 +239,11 @@ button{
     text-decoration: none;
     display: inline-block;
     font-size: 20px;
-    font-family: 'Oswald', sans-serif;
     border-radius: 6px;
     border: 2px solid #777473;
     box-shadow: 0 9px #999;
+    font-family: 'Press Start 2P', cursive;
+    font-size: medium;
 }
 
 .foot button:hover {
