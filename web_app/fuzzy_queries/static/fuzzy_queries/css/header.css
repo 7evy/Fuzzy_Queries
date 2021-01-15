@@ -27,7 +27,7 @@ body {
 .foot {
     z-index: 2;
     position: fixed;
-    width: 150px;
+    width: 175px;
     height: 80px;
     bottom: 30px;
     right: 40px;

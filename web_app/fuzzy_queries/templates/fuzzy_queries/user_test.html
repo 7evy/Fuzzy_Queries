@@ -13,6 +13,13 @@
 <script src="{% static 'fuzzy_queries/js/header.js' %}"></script>
 
 <script type="text/javascript" charset="utf-8">
+
+    $(window).load(function () {
+        $('.popupCloseButton').click(function(){
+            $('.hover_bkgr_fricc').hide();
+        });
+    });
+    
     var marks = []
     for (var i=0 ; i<"{{ length }}" ; i++){
         marks.push(-1)
@@ -34,7 +41,7 @@
 
     function test_done(){
         if (contains(marks, -1)){
-            document.getElementById("warning").innerHTML = "<big>Veuillez noter tous les résultats</big>"
+            $('.hover_bkgr_fricc').show();
         }
         else{
             var str_marks = ""
@@ -43,6 +50,11 @@
             }
             window.location = "{% url 'fuzzy_queries:user_test_inter' 1234 %}".replace(/1234/, str_marks)
         }
+    }
+
+    function close(){
+        var overlay = document.getElementById('overlay');
+        overlay.style.display='none';
     }
 
 </script>
@@ -59,8 +71,16 @@
         <button id="done" onclick="test_done()">J'ai terminé</button>
     </div>
 
+    <div class="hover_bkgr_fricc">
+        <span class="helper"></span>
+        <div>
+            <div class="popupCloseButton">&times;</div>
+            <img src="https://media1.tenor.com/images/8438c06d8ea6fd915c9c40c9e3b93620/tenor.gif?itemid=8912223" alt="OOPSI">
+            <p style="font-size: 40px; font-family: 'Oswald', sans-serif;">Veuillez noter tous les résultats !</p>
+        </div>
+    </div>
+
     <div class="padded">
-        <p id="warning"></p>
         <h2 class="table-title">Résultats</h2>
         <section>
             {% for apps in immo %}
