@@ -128,3 +128,5 @@ dmypy.json
 # Pyre type checker
 .pyre/
 Rapport_PARIS_Dejan.pdf
+
+web_app/web_app/settings.py
