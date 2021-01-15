@@ -1,6 +1,7 @@
 from django.db.models.expressions import ExpressionWrapper
 from django.db.models.query import QuerySet
 from django.shortcuts import render
+from django.http import HttpResponseRedirect
 from fuzzy_queries.models import Immo
 from fuzzy_queries.static.fuzzy_queries.src.dataset import Fuzzy_Dataset
 from fuzzy_queries.static.fuzzy_queries.src.utils import *
@@ -39,7 +40,7 @@ def next_suggestion(request, pos, ans):
             return index(request)
         else :
             # return results(request)
-            return user_test(request)
+            return HttpResponseRedirect("/fuzzy_queries/user_test/")
     context = {
         'current': request.session['suggestions'][pos+1],
         'pos': pos+1,
@@ -54,7 +55,8 @@ def user_test(request):
     immo_list = request.session['immo_list']
     ex = request.session['examples']
     D = Fuzzy_Dataset(ex, Fuzzy_Dataset.FUNCTIONS)
-    sel = D.user_test_selection(immo_list, 1, 1, 1) # sel = D.user_test_selection(immo_list, 10, 5, 5)
+    # sel = D.user_test_selection(immo_list, 1, 1, 1)
+    sel = D.user_test_selection(immo_list, 10, 5, 5)
     # ex2, sel2 = [], []
     # for e in ex :
     #     ex2.append(dict(zip(Fuzzy_Dataset.LABELS, e)))
@@ -80,6 +82,9 @@ def user_test_inter(request, str_marks):
     request.session['global_marks']['strange'] = sum(marks[10:15])/25
     request.session['global_marks']['worst'] = sum(marks[15:])/25
     request.session['individual_marks'] = []
+    return HttpResponseRedirect("/fuzzy_queries/user_test_part2/")
+
+def user_test_inter2(request):
     context = {
         'current': request.session['results'][0],
         'pos': 0,
@@ -93,9 +98,9 @@ def user_test_inter(request, str_marks):
 def user_test_part2(request, pos, ans):
     request.session['individual_marks'].append(ans.split(";")[1:-1])
 
-    if pos+1 >= len(request.session['results']) :
+    if pos+1 >= 10 :
         request.session['time'] = time() - request.session['time']
-        request.session['example_marks'] = [0 for _ in range(request.session['max'])]
+        request.session['example_marks'] = [0 for _ in request.session['examples']]
         for l in request.session['individual_marks'] :
             if l :
                 for e in l :
@@ -115,31 +120,31 @@ def user_test_results(request):
     final_mark = 0
     avg_score = 0
     ttl_score = 0
-    for i in range(1): # for i in range(10) :
+    for i in range(10) :
         avg_score += request.session['results'][i][0]
         ttl_score += request.session['results'][i][0] * request.session['marks'][i]
     final_mark += ttl_score
-    avg_score /= 10
-    ttl_score /= 50
+    avg_score = int(avg_score*100)/1000
+    ttl_score = int(ttl_score*100)/5000
     recap = "Les meilleurs résultats selon CHOCOLATE ont un score moyen de : " + str(avg_score) + "\nLa note moyenne attribuée par l'utilisateur est : " + str(request.session['global_marks']['best']) + "\nScore total : " + str(ttl_score) + "\n"
     avg_score = 0
     ttl_score = 0
-    for i in range(1,2): # for i in range(10, 15) :
+    for i in range(10, 15) :
         avg_score += request.session['results'][i][0]
         ttl_score += request.session['results'][i][0] * request.session['marks'][i]
-    avg_score /= 5
-    ttl_score /= 25
+    avg_score = int(avg_score*100)/500
+    ttl_score = int(ttl_score*100)/2500
     recap += "\nLes résultats aléatoires ont un score moyen de : " + str(avg_score) + "\nLa note moyenne attribuée par l'utilisateur est : " + str(request.session['global_marks']['strange']) + "\nScore total : " + str(ttl_score) + "\n"
     avg_score = 0
     ttl_score = 0
-    for i in range(2,3): # for i in range(15, 20) :
+    for i in range(15, 20) :
         avg_score += request.session['results'][i][0]
         ttl_score += request.session['results'][i][0] * request.session['marks'][i]
     final_mark -= ttl_score
-    avg_score /= 5
-    ttl_score /= 25
+    avg_score = int(avg_score*100)/500
+    ttl_score = int(ttl_score*100)/2500
     recap += "\nLes pires résultats selon CHOCOLATE ont un score moyen de : " + str(avg_score) + "\nLa note moyenne attribuée par l'utilisateur est : " + str(request.session['global_marks']['worst']) + "\nScore total : " + str(ttl_score) + "\n\n\n"
-    for e in range(request.session['max']):
+    for e in range(len(request.session['examples'])):
         recap += "L'exemple n°" + str(e) + " est représentatif de " + str(request.session['example_marks'][e]) + " résultats.\n"
     if 0 not in request.session['example_marks'] :
         recap += "Tous les exemples sont pris en compte par les résultats.\n"
@@ -147,8 +152,9 @@ def user_test_results(request):
     m = mean(request.session['example_marks'])
     for e in request.session['example_marks'] :
         final_mark -= abs(e-m)
-    recap += "\n\nNote globale : " + str(final_mark) + "/100\nLe test a duré " + str(request.session['time']) + " s.\n"
-    with open('data/user_test.txt', 'w') as f:
+    final_mark = int((final_mark+30)*10000/130)/100
+    recap += "\n\nNote globale : " + str(final_mark) + "/100\nLe test a duré " + str(int(request.session['time']*100)/100) + " s.\n"
+    with open('data/user_test.txt', 'w', encoding='utf-8') as f:
         f.write(recap)
     return None
     # return render(request, 'fuzzy_queries/user_test_end.html')
