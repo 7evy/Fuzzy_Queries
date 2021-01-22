@@ -9,12 +9,10 @@ $(document).scroll(function() {
       $('.header_logo').addClass('small');
       $('.header_sentence').addClass('small');
       $('.foot').addClass('small');
-      $('.foot-next').addClass('small');
     } else if (y < 10) {
       $('.header').removeClass('small');
       $('.header_logo').removeClass('small');
       $('.header_sentence').removeClass('small');
       $('.foot').removeClass('small');
-      $('.foot-next').removeClass('small');
     }
   }

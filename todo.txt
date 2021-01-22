@@ -1,10 +1,14 @@
 Django :
 	Cacher secret key
-	Redirection des URLs
 
 Interface utilisateur :
 	Ajouter des poids aux attributs (?)
+	Pages intermédiaires de "guide" pour les tests
 
 Tests utilisateur :
 	Charge mentale
 	Diagramme de séquences
+	Comment télécharger l'appli ?
+		Docker --> Mettre l'image en place
+		.exe --> BDD doit être en .csv ou SQLite
+			 Modules Python doivent être installés par le .exe

@@ -1,0 +1,82 @@
+.fadein {
+    opacity: 0;
+    font-size: 21px;
+    margin-top: 25px;
+    text-align: center;
+
+    -webkit-transition: opacity 1s ease-in;
+       -moz-transition: opacity 1s ease-in;
+        -ms-transition: opacity 1s ease-in;
+         -o-transition: opacity 1s ease-in;
+            transition: opacity 1s ease-in;
+}
+
+.fadein.load {
+    opacity: 1;
+}
+
+.padded{
+    padding-top: 170px;
+}
+
+body {
+    height: 1500px;
+    background: url(https://www.brainpickings.org/wp-content/themes/brainpickings/images/bckgd_body.png);
+    padding: 0;
+    margin: 0;
+    font-family: 'Nunito', sans-serif;
+}
+  
+.offset {
+    margin-top: 0;
+    padding-top: 270px;
+    text-align: center;
+    transition: .3s;
+}
+  
+.header {
+    z-index: 2;
+    position: fixed;
+    width: 100%;
+    height: 150px;
+    font-weight: bold;
+    text-align: center;
+    background: #035381;
+    transition: .3s;
+    /* // header shrinks when .small added to .header */
+}
+
+.header.small {
+    height: 80px;
+    box-shadow: 0 0 5px rgba(black, .2);
+    /* // when header.small also change page offset */
+}
+
+      /* // when header.small change logo pad & font size */
+.header_logo.small {
+    padding-top: 20px;
+    font-size: 20px;
+    text-shadow: none;
+}
+  
+.header_logo {
+    font-family: 'Mali', cursive;
+    color: white;
+    margin: 0;
+    padding-top: 35px;
+    font-size: 50px;
+    text-shadow: 3px 4px rgba(black, .1);
+    transition: .3s;
+}
+
+.header_sentence {
+    font-family: 'Antic', sans-serif;
+    font-size: 17px;
+    color: white;
+    margin: 0;
+    transition: .3s;
+}
+
+.header_sentence.small {
+    font-size: 12px;
+}

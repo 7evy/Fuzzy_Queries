@@ -78,7 +78,7 @@ class Clustering():
     def __init__(self, Data, Functions=[], indices=[]):
         self.Data = Data
         self.indices = indices if indices else [k for k in range(len(Data[0]))]
-        self.Functions = Functions + [ne for _ in range((len(self.indices)) - len(Functions))]
+        self.Functions = Functions + [eq for _ in range((len(self.indices)) - len(Functions))]
 
     def by_agglo(self, n_clusters=1):
         """Agglomerative clustering using stored data."""

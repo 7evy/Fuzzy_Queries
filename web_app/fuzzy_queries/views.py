@@ -12,6 +12,11 @@ from numpy import mean
 
 
 
+def welcome(request):
+    return render(request, 'fuzzy_queries/welcome.html')
+
+
+
 def index(request):
     if 'immo_list' not in request.session :
         request.session['immo_list'] = list([list(Immo.objects.values()[k].values()) for k in range(len(Immo.objects.all()))])
