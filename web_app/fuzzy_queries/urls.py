@@ -11,9 +11,10 @@ urlpatterns = [
     path("user_test_inter/<str_marks>", views.user_test_inter, name="user_test_inter"),
     path("user_test_part2/<int:pos>/<ans>", views.user_test_part2, name="user_test_part2"),
     path("user_test_part2/", views.user_test_inter2, name="user_test_inter2"),
+    path("welcome_3/", views.welcome_3, name="welcome_3"),
     # path("results/", views.results, name="results"),
     path("", views.welcome, name="welcome"),
     # path("", views.index, name="index"),
     path("index", views.index, name="index"),
-    path("test",views.test, name="test")
+    # path("test",views.test, name="test")
 ]

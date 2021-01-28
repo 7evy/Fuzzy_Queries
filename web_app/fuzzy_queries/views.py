@@ -37,6 +37,14 @@ def index(request):
 
 
 
+def welcome_2(request):
+    context = {
+        'examples': request.session['examples']
+    }
+    return render(request, 'fuzzy_queries/welcome_2.html', context)
+
+
+
 def next_suggestion(request, pos, ans):
     if ans :
         request.session['examples'].append(request.session['suggestions'][pos])
@@ -45,7 +53,7 @@ def next_suggestion(request, pos, ans):
             return index(request)
         else :
             # return results(request)
-            return HttpResponseRedirect("/fuzzy_queries/user_test/")
+            return welcome_2(request)
     context = {
         'current': request.session['suggestions'][pos+1],
         'pos': pos+1,
@@ -91,7 +99,10 @@ def user_test_inter(request, str_marks):
     request.session['global_marks']['strange'] = sum(marks[10:15])/25
     request.session['global_marks']['worst'] = sum(marks[15:])/25
     request.session['individual_marks'] = []
-    return HttpResponseRedirect("/fuzzy_queries/user_test_part2/")
+    return HttpResponseRedirect("/fuzzy_queries/welcome_3/")
+
+def welcome_3(request):
+    return render(request, "fuzzy_queries/welcome_3.html")
 
 def user_test_inter2(request):
     context = {
@@ -129,6 +140,7 @@ def user_test_results(request):
     final_mark = 0
     avg_score = 0
     ttl_score = 0
+    context = {}
     for i in range(10) :
         avg_score += request.session['results'][i][0]
         ttl_score += request.session['results'][i][0] * request.session['marks'][i]
@@ -136,6 +148,9 @@ def user_test_results(request):
     avg_score = int(avg_score*100)/1000
     ttl_score = int(ttl_score*100)/5000
     recap = "Les meilleurs résultats selon CHOCOLATE ont un score moyen de : " + str(avg_score) + "\nLa note moyenne attribuée par l'utilisateur est : " + str(request.session['global_marks']['best']) + "\nScore total : " + str(ttl_score) + "\n"
+    context["best_score"] = avg_score
+    context["best_mark"] = request.session['global_marks']['best']
+    context["best_grade"] = ttl_score
     avg_score = 0
     ttl_score = 0
     for i in range(10, 15) :
@@ -144,6 +159,9 @@ def user_test_results(request):
     avg_score = int(avg_score*100)/500
     ttl_score = int(ttl_score*100)/2500
     recap += "\nLes résultats aléatoires ont un score moyen de : " + str(avg_score) + "\nLa note moyenne attribuée par l'utilisateur est : " + str(request.session['global_marks']['strange']) + "\nScore total : " + str(ttl_score) + "\n"
+    context["rand_score"] = avg_score
+    context["rand_mark"] = request.session['global_marks']['strange']
+    context["rand_grade"] = ttl_score
     avg_score = 0
     ttl_score = 0
     for i in range(15, 20) :
@@ -153,8 +171,12 @@ def user_test_results(request):
     avg_score = int(avg_score*100)/500
     ttl_score = int(ttl_score*100)/2500
     recap += "\nLes pires résultats selon CHOCOLATE ont un score moyen de : " + str(avg_score) + "\nLa note moyenne attribuée par l'utilisateur est : " + str(request.session['global_marks']['worst']) + "\nScore total : " + str(ttl_score) + "\n\n\n"
+    context["worst_score"] = avg_score
+    context["worst_mark"] = request.session['global_marks']['worst']
+    context["worst_grade"] = ttl_score
     for e in range(len(request.session['examples'])):
-        recap += "L'exemple n°" + str(e) + " est représentatif de " + str(request.session['example_marks'][e]) + " résultats.\n"
+        recap += "L'exemple n°" + str(e+1) + " est représentatif de " + str(request.session['example_marks'][e]) + " résultats.\n"
+    context["ex"] = request.session['example_marks']
     if 0 not in request.session['example_marks'] :
         recap += "Tous les exemples sont pris en compte par les résultats.\n"
     final_mark += sum(request.session['example_marks'])
@@ -163,19 +185,20 @@ def user_test_results(request):
         final_mark -= abs(e-m)
     final_mark = int((final_mark+30)*10000/130)/100
     recap += "\n\nNote globale : " + str(final_mark) + "/100\nLe test a duré " + str(int(request.session['time']*100)/100) + " s.\n"
+    context["global_grade"] = final_mark
+    context["time"] = int(request.session['time']*100)/100
     with open('data/user_test.txt', 'w', encoding='utf-8') as f:
         f.write(recap)
-    return None
-    # return render(request, 'fuzzy_queries/user_test_end.html')
+    return render(request, 'fuzzy_queries/test_results.html', context)
 
 
 
-def test(request):
-    immo = Immo.objects.all()
-    context = {
-        'immo': immo
-    }
-    return render(request, "fuzzy_queries/test.html",context)
+# def test(request):
+#     immo = Immo.objects.all()
+#     context = {
+#         'immo': immo
+#     }
+#     return render(request, "fuzzy_queries/test.html",context)
 
 
 

@@ -1,0 +1,47 @@
+<html lang="en">
+<head>
+    <meta charset="Utd-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CHOCOLATE</title>
+</head>
+
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Mali:wght@600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Nunito&display=swap" rel="stylesheet">
+
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'fuzzy_queries/css/welcome.css' %}">
+<script src="{% static 'fuzzy_queries/js/header.js' %}"></script>
+<script src="{% static 'fuzzy_queries/js/fadein.js' %}"></script>
+
+<body>
+
+    <div class="header">
+        <h1 class="header_logo">CHOCOLATE</h1>
+    </div>
+
+    <div class="padded"><p class="fadein">Merci d'avoir complété ce test. Votre participation permettra d'évaluer la pertinence de notre méthode de sélection.<br><br>Les meilleurs résultats selon CHOCOLATE ont un score moyen de : {{best_score}}<br>
+        La note moyenne attribuée par l'utilisateur est : {{best_mark}}<br>
+        Score total : {{best_grade}}<br><br>
+        
+        Les résultats aléatoires ont un score moyen de : {{rand_score}}<br>
+        La note moyenne attribuée par l'utilisateur est : {{rand_mark}}<br>
+        Score total : {{rand_grade}}<br><br>
+        
+        Les pires résultats selon CHOCOLATE ont un score moyen de : {{worst_score}}<br>
+        La note moyenne attribuée par l'utilisateur est : {{worst_mark}}<br>
+        Score total : {{worst_grade}}<br><br><br>
+        
+        
+        L'exemple n°1 est représentatif de {{ex.0}} résultats.<br>
+        L'exemple n°2 est représentatif de {{ex.1}} résultats.<br>
+        L'exemple n°3 est représentatif de {{ex.2}} résultats.<br>
+        L'exemple n°4 est représentatif de {{ex.3}} résultats.<br>
+        L'exemple n°5 est représentatif de {{ex.4}} résultats.<br><br><br>
+        
+        
+        Note globale : {{global_grade}}/100<br>
+        Le test a duré {{time}} s.</p>
+</body>
+</html>
