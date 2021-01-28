@@ -5,8 +5,8 @@ try :
 except :
     from utils import *
 from operator import add, ne, eq
-# from pandas import read_csv
-# import matplotlib.pyplot as plt
+from pandas import read_csv
+import matplotlib.pyplot as plt
 try :
     import fuzzy_queries.static.fuzzy_queries.src.dataset as ds
 except :
@@ -14,7 +14,7 @@ except :
 
 
 
-# AllData = read_csv("./data/db.csv", sep=";", header=None, engine='c').values.tolist()
+# AllData = read_csv("../../../../data/db.csv", sep=";", header=None, engine='c').values.tolist()
 
 # Data = [AllData[4*k] for k in range(0, 625)] # Real data
 
@@ -157,8 +157,8 @@ class Clustering():
             print(self.Data[c])
 
 
-# C = Clustering(Data, FUNCTIONS)
-# C.by_affinity(0.47)
+# C = Clustering(Data, FUNCTIONS, [8, 4])
+# C.by_affinity(0.47, 40)
 # print(C.n_clusters)
 
 # labels=["Type de logement", "Surface (en m²)", "Nombre de pièces", "Nombre de chambres", "Loyer mensuel (en €)", "Meublé", "Jardin", "Terrasse", "Distance au centre-ville (en m)", "Distance aux transports (en m)", "Distance aux commerces (en m)"]
@@ -210,7 +210,7 @@ class Clustering():
 
 # _, ax = plt.subplots()
 
-# colors = ['red', 'black', 'gray', 'yellow', 'purple', 'pink', 'cyan', 'lightblue', 'lightgreen', 'darkgray', 'darkgreen', 'maroon', 'darkblue', 'darkorange', 'green', 'orange', 'maroon', 'blue']
+# colors = ['red', 'black', 'yellow', 'purple', 'pink', 'cyan', 'lightblue', 'lightgreen', 'darkgray', 'darkgreen', 'maroon', 'darkblue', 'darkorange', 'blue']
 # np.random.shuffle(colors)
 # for c in range(C.n_clusters):
 #     cluster = C.cluster(c)
@@ -218,9 +218,9 @@ class Clustering():
 #     d = distances(cluster, [4, 8], center, FUNCTIONS)
 #     for k in range(len(cluster)):
 #         if d[k] > 0.6 :
-#             plt.plot(cluster[k][8], cluster[k][4], 'o', markersize=6, c='darkgray', markeredgecolor='black')
-#     #         plt.plot([center[8], cluster[k][8]], [center[4], cluster[k][4]], 'ro-', markersize=6, c=colors[c])
-#     # plt.plot(center[8], center[4], marker='o', markersize=12, c=colors[c], markeredgecolor='black')
+#             # plt.plot(cluster[k][8], cluster[k][4], 'o', markersize=6, c='darkgray', markeredgecolor='black')
+#             plt.plot([center[8], cluster[k][8]], [center[4], cluster[k][4]], 'ro-', markersize=6, c=colors[c%13])
+#     plt.plot(center[8], center[4], marker='o', markersize=12, c=colors[c%13], markeredgecolor='black')
 
 # ax.xaxis.tick_top()
 # ax.xaxis.set_label_position("top")
