@@ -5,8 +5,8 @@ try :
 except :
     from utils import *
 from operator import add, ne, eq
-from pandas import read_csv
-import matplotlib.pyplot as plt
+# from pandas import read_csv
+# import matplotlib.pyplot as plt
 try :
     import fuzzy_queries.static.fuzzy_queries.src.dataset as ds
 except :
@@ -158,26 +158,28 @@ class Clustering():
 
 
 # C = Clustering(Data, FUNCTIONS, [8, 4])
-# C.by_affinity(0.47, 40)
+# C.by_affinity(0.47)
 # print(C.n_clusters)
 
 # labels=["Type de logement", "Surface (en m²)", "Nombre de pièces", "Nombre de chambres", "Loyer mensuel (en €)", "Meublé", "Jardin", "Terrasse", "Distance au centre-ville (en m)", "Distance aux transports (en m)", "Distance aux commerces (en m)"]
 # ctr = C.centers()
 # reduced_ctr = [[c[8], c[4]] for c in ctr]
-# reduced_ctr=[[200, 20], [500, 20], [600, 30], [300, 25], [7000, 60]]
-# D = ds.Fuzzy_Dataset(reduced_ctr, [relative_sim, relative_sim])
+# reduced_ctr=[[500, 1200], [5000, 450]]
+# D = ds.Fuzzy_Dataset(reduced_ctr, [relative_sim, inf_or_relative])
 # D = ds.Fuzzy_Dataset(ctr, [eq, relative_sim, discrete_sim, discrete_sim, inf_or_relative, eq, eq, eq, relative_sim, relative_sim, relative_sim], [0, 0.75, 0.5, 0.5, 0.75, 0, 0, 0, 0.75, 0.75, 0.75])
 
 
 
 ## Print attributes value repartition, Choquet scores... etc
 
+# plt.rc('xtick', labelsize=13) 
+# plt.rc('ytick', labelsize=13)
 # x_axis, y_axis, z_axis = [], [], []
 # r_axis, g_axis, b_axis = [], [], []
 # for x in AllData :
 #     x_axis.append(x[8])
-#     y_axis.append(x[1])
-#     z_axis.append(D.choquet([x[8], x[1]]))
+#     y_axis.append(x[4])
+#     z_axis.append(D.choquet([x[8], x[4]]))
 #   r_axis.append(x[8])
 #   g_axis.append(x[9])
 #   b_axis.append(x[10])
@@ -196,9 +198,9 @@ class Clustering():
 # colorbar = plt.scatter(x_axis, y_axis, marker='o', s=55, c=z_axis, cmap=plt.cm.coolwarm)
 # for x in reduced_ctr :
 #     plt.plot(x[0], x[1], marker='*', markersize=20, c='lightgreen', markeredgecolor='black')
-# plt.colorbar(colorbar, orientation="horizontal").set_label("Degré d'appartenance")
-# plt.xlabel(labels[8])
-# plt.ylabel(labels[1])
+# plt.colorbar(colorbar, orientation="horizontal").set_label("Degré d'appartenance", fontsize=16)
+# plt.xlabel(labels[8], fontsize=16)
+# plt.ylabel(labels[4], fontsize=16)
 # ax.xaxis.tick_top()
 # ax.xaxis.set_label_position("top")
 # plt.grid(color='black', alpha=0.1)
@@ -208,23 +210,24 @@ class Clustering():
 
 ## Print clusters and associated points
 
+# plt.rc('xtick', labelsize=13) 
+# plt.rc('ytick', labelsize=13)
 # _, ax = plt.subplots()
 
 # colors = ['red', 'black', 'yellow', 'purple', 'pink', 'cyan', 'lightblue', 'lightgreen', 'darkgray', 'darkgreen', 'maroon', 'darkblue', 'darkorange', 'blue']
-# np.random.shuffle(colors)
 # for c in range(C.n_clusters):
 #     cluster = C.cluster(c)
 #     center = C.centers()[c]
 #     d = distances(cluster, [4, 8], center, FUNCTIONS)
 #     for k in range(len(cluster)):
 #         if d[k] > 0.6 :
-#             # plt.plot(cluster[k][8], cluster[k][4], 'o', markersize=6, c='darkgray', markeredgecolor='black')
+            # plt.plot(cluster[k][8], cluster[k][4], 'o', markersize=6, markeredgecolor="black", color="darkgray")
 #             plt.plot([center[8], cluster[k][8]], [center[4], cluster[k][4]], 'ro-', markersize=6, c=colors[c%13])
 #     plt.plot(center[8], center[4], marker='o', markersize=12, c=colors[c%13], markeredgecolor='black')
 
 # ax.xaxis.tick_top()
 # ax.xaxis.set_label_position("top")
-# plt.xlabel(labels[8])
-# plt.ylabel(labels[4])
+# plt.xlabel(labels[8], fontsize=16)
+# plt.ylabel(labels[4], fontsize=16)
 # plt.grid(color='black', alpha=0.1)
 # plt.show()
