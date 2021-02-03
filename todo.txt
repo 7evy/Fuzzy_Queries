@@ -3,8 +3,12 @@ Django :
 
 Interface utilisateur :
 	Ajouter des poids aux attributs (?)
+	Virer "pos" du HTML
+	Retirer les doublons !
 	Deux autres méthodes
 	Unscroll le test
+	Possibilité d'ignorer des attributs
+		=> ajouter les indices en variable d'instance de Dataset
 
 Tests utilisateur :
 	Charge mentale

@@ -5,22 +5,12 @@ try :
 except :
     from utils import *
 from operator import add, ne, eq
-# from pandas import read_csv
-# import matplotlib.pyplot as plt
 try :
     import fuzzy_queries.static.fuzzy_queries.src.dataset as ds
 except :
     import dataset as ds
 
 
-
-# AllData = read_csv("../../../../data/db.csv", sep=";", header=None, engine='c').values.tolist()
-
-# Data = [AllData[4*k] for k in range(0, 625)] # Real data
-
-# FUNCTIONS = [eq, relative_sim, discrete_sim, discrete_sim, relative_sim, eq, eq, eq, relative_sim, relative_sim, relative_sim] # functions to compute affinities between points
-# FUNCTIONS2 = [ne, relative_distance, discrete_distance, discrete_distance, relative_distance, ne, ne, ne, relative_distance, relative_distance, relative_distance] # functions to compute distances between points]
-# INDICES = [1, 4, 8, 9, 10] # attributes to consider for clustering
 
 def dist_matrix(data, indices, Functions):
     """Returns the distance matrix (between each pair of points in data) used for affinity/agglomerative clustering."""
@@ -156,6 +146,21 @@ class Clustering():
         for c in self.Centers :
             print(self.Data[c])
 
+
+
+
+## Testing and visuals
+
+# from pandas import read_csv
+# import matplotlib.pyplot as plt
+
+# AllData = read_csv("../../../../data/db.csv", sep=";", header=None, engine='c').values.tolist()
+
+# Data = [AllData[4*k] for k in range(0, 625)] # Real data
+
+# FUNCTIONS = [eq, relative_sim, discrete_sim, discrete_sim, relative_sim, eq, eq, eq, relative_sim, relative_sim, relative_sim] # functions to compute affinities between points
+# FUNCTIONS2 = [ne, relative_distance, discrete_distance, discrete_distance, relative_distance, ne, ne, ne, relative_distance, relative_distance, relative_distance] # functions to compute distances between points]
+# INDICES = [1, 4, 8, 9, 10] # attributes to consider for clustering
 
 # C = Clustering(Data, FUNCTIONS, [8, 4])
 # C.by_affinity(0.47)

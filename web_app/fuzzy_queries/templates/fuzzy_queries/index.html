@@ -22,11 +22,11 @@
 
     function yes()
     {
-        window.location = "{% url 'fuzzy_queries:next' 1234 1 %}".replace(/1234/, pos)
+        window.location = "{% url 'fuzzy_queries:next' 1 %}"
     }
     function no()
     {
-        window.location = "{% url 'fuzzy_queries:next' 1234 0 %}".replace(/1234/, pos)
+        window.location = "{% url 'fuzzy_queries:next' 0 %}"
     }
 </script>
 

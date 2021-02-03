@@ -12,6 +12,7 @@ def discrete_distance(x, y):
         return 1
 
 def discrete_sim(x, y):
+    """Similarity between small integers."""
     return 1 - discrete_distance(x, y)
 
 def relative_distance(x, y):

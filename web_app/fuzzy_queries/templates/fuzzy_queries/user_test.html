@@ -26,12 +26,9 @@
         });
     });
     
-    var marks = []
-    for (var i=0 ; i<"{{ length }}" ; i++){
-        marks.push(-1)
-    }
+    var marks = [-1, -1, -1, -1, -1]
 
-    function satisfied(pos,value){
+    function satisfied(pos, value){
         var val = parseFloat(value)
         marks[pos] = val
     }
@@ -54,7 +51,7 @@
             for (var i=0 ; i<marks.length ; i++){
                 str_marks = str_marks + marks[i].toString() + ";"
             }
-            window.location = "{% url 'fuzzy_queries:user_test_inter' 1234 %}".replace(/1234/, str_marks)
+            window.location = "{% url 'fuzzy_queries:next2' 1234 %}".replace(/1234/, str_marks)
         }
     }
 
@@ -105,47 +102,35 @@
                             </li>
                             <br>
                         </div>
-                        <h3 class="heading">{{apps.1}}</h3>
+                        <h3 class="heading">{{apps.3}}</h3>
                         <span class="price-value">
-                            <span class="currency"></span> {{apps.2}}
+                            <span class="currency"></span> {{apps.4}}
                             <span class="month">m<sup>2</sup></span>
                         </span>
                     </div>
                     <div class="pricing-content">
                         <ul>
-                            <li>{{apps.3}} pièce(s)</li>
-                            <li>{{apps.4}} chambre(s)</li>
-                            <li>{{apps.5}} €</li>
-                            {% if apps.6 %}
+                            <li>{{apps.5}} pièce(s)</li>
+                            <li>{{apps.6}} chambre(s)</li>
+                            <li>{{apps.7}} €</li>
+                            {% if apps.8 %}
                                 <li>Meublé</li>
                             {% else %}
                                 <li>Non Meublé</li>
                             {% endif %}
-                            {% if apps.7 %}
+                            {% if apps.9 %}
                                 <li>Avec jardin</li>
                             {% else %}
                                 <li>Pas de jardin</li>
                             {% endif %}
-                            {% if apps.8 %}
+                            {% if apps.10 %}
                                 <li>Avec terrasse</li>
                             {% else %}
                                 <li>Pas de terrasse</li>
                             {% endif %}
-                            <li>A {{apps.9}} m du centre-ville</li>
-                            <li>A {{apps.10}} m des transports en communs</li>
-                            <li>A {{apps.11}} m des commerces</li>
-                            <!-- <li>{{apps.score}}</li> -->
-                            <!-- <ul class="likert">
-                                <li>
-                                Pas satisfait 
-                                <input type="radio" name={{ forloop.counter0 }} value="1" onclick="satisfied(this.getAttribute('name'),this.getAttribute('value'))" />
-                                <input type="radio" name={{ forloop.counter0 }} value="2" onclick="satisfied(this.getAttribute('name'),this.getAttribute('value'))"/>
-                                <input type="radio" name={{ forloop.counter0 }} value="3" onclick="satisfied(this.getAttribute('name'),this.getAttribute('value'))"/>
-                                <input type="radio" name={{ forloop.counter0 }} value="4" onclick="satisfied(this.getAttribute('name'),this.getAttribute('value'))"/>
-                                <input type="radio" name={{ forloop.counter0 }} value="5" onclick="satisfied(this.getAttribute('name'),this.getAttribute('value'))"/>
-                                Très satisfait
-                                </li>
-                            </ul> -->
+                            <li>A {{apps.11}} m du centre-ville</li>
+                            <li>A {{apps.12}} m des transports en communs</li>
+                            <li>A {{apps.13}} m des commerces</li>
                         </ul>
                     </div>
                 </div>
