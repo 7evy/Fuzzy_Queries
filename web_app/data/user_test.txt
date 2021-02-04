@@ -1,22 +1,40 @@
-Les meilleurs résultats selon CHOCOLATE ont un score moyen de : 0.682
-La note moyenne attribuée par l'utilisateur est : 1.0
-Score total : 0.6822
+Les meilleurs résultats selon CHOCOLATE ont un score moyen de : 0.582
+La note moyenne attribuée par l'utilisateur est : 0.62
+Score total : 0.361
 
+<<<<<<< Updated upstream
 Les résultats aléatoires ont un score moyen de : 0.5
 La note moyenne attribuée par l'utilisateur est : 0.2
 Score total : 0.1
+=======
+Les résultats aléatoires ont un score moyen de : 0.468
+La note moyenne attribuée par l'utilisateur est : 0.6
+Score total : 0.2812
+>>>>>>> Stashed changes
 
-Les pires résultats selon CHOCOLATE ont un score moyen de : 0.212
-La note moyenne attribuée par l'utilisateur est : 0.2
-Score total : 0.0424
+Les pires résultats selon CHOCOLATE ont un score moyen de : 0.248
+La note moyenne attribuée par l'utilisateur est : 0.6
+Score total : 0.1492
 
 
+<<<<<<< Updated upstream
 L'exemple n°1 est représentatif de 0 résultats.
 L'exemple n°2 est représentatif de 1 résultats.
 L'exemple n°3 est représentatif de 1 résultats.
+=======
+L'exemple n°0 est représentatif de 2 résultats.
+L'exemple n°1 est représentatif de 5 résultats.
+L'exemple n°2 est représentatif de 4 résultats.
+L'exemple n°3 est représentatif de 0 résultats.
+>>>>>>> Stashed changes
 L'exemple n°4 est représentatif de 0 résultats.
 L'exemple n°5 est représentatif de 0 résultats.
 
 
+<<<<<<< Updated upstream
 Note globale : 48.19/100
 Le test a duré 267.48 s.
+=======
+Note globale : 35.47/100
+Le test a duré 187.34 s.
+>>>>>>> Stashed changes
