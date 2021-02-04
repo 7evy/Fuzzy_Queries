@@ -142,6 +142,21 @@ def user_test_inter(request):
     for method in global_marks :
         for place in global_marks[method] :
             print(method + " " + place + " : " + str(global_marks[method][place]))
+    print(request.session['examples'])
+    fichier = open("data/stats.csv","a")
+    new_stats = "Type,Prix,Pièces,Chambres,Loyer,Meublé,Jardin,Terrasse,Centre_Ville,Transports,Commerces\n"
+    for apps in request.session['examples']:
+        for atts in apps:
+            new_stats += str(atts) + ","
+        new_stats += "\n"
+    new_stats += "Method,Best,Worst,Strange\n"
+    for method in global_marks:
+        new_stats += method + ","
+        for place in global_marks[method] :
+            new_stats += str(global_marks[method][place]) + ","
+        new_stats += "\n"
+    fichier.write(new_stats+"\n")
+    fichier.close()
     return HttpResponseRedirect("/fuzzy_queries/test_end/")
 
 
