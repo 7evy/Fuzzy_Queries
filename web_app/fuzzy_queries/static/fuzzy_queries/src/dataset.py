@@ -17,7 +17,7 @@ class Dataset(object):
     Functions = [] # (fuzzy) functions to compute the "distance" between elements
     Thresholds = [] # thresholds used by the CHOCOLATE strategy, to determine if a property is verified or not
     Indices = [] # attributes to consider
-    n_attr = 0 # length of Indices
+    n_attr = 0 # total number of attributes
 
 
     def __init__(self, Data=[], Functions=[], Thresholds=[], Indices=[]):
@@ -79,34 +79,35 @@ class Dataset(object):
                     count += 1
             if count > score : # look for the max number of properties verified by one data point
                 score = count
-        return score/n_attr
+        return score/len(self.Indices)
 
 
 
     def choquet(self, x):
-        """Returns a measure of how well x satisfies the concept described by the data points in Data (between 0 and 1), based on a Choquet integral. It takes into account the satisfaction of the most important properties in Data, as well as the closeness to all data points.
-        The functions and thresholds used to evaluate each attribute are taken from their respective lists : the condition is strict equality by default."""
+            """Returns a measure of how well x satisfies the concept described by the data points in Data (between 0 and 1), based on a Choquet integral. It takes into account the satisfaction of the most important properties in Data, as well as the closeness to all data points.
+            The functions and thresholds used to evaluate each attribute are taken from their respective lists : the condition is strict equality by default."""
 
-        deltas = []
-        for i in range(self.n_attr): # create the list of delta measures for each attribute of x
-            deltas.append([self.delta(i, x[i], self.Functions[i], self.Thresholds[i]), i]) # i needs to be tracked for later
-        zipped = [list(z) for z in zip(deltas, self.Functions, self.Thresholds)] # associate each delta with the attribute's corresponding function and threshold
-        zipped.sort(reverse=True) # sorts the delta measures in descending order
+            deltas = []
+            # for i in range(self.n_attr):
+            for i in self.Indices : # create the list of delta measures for each attribute of x
+                deltas.append([self.delta(i, x[i], self.Functions[i], self.Thresholds[i]), i]) # i needs to be tracked for later
+            zipped = [list(z) for z in zip(deltas, self.Functions, self.Thresholds)] # associate each delta with the attribute's corresponding function and threshold
+            zipped.sort(reverse=True) # sorts the delta measures in descending order
 
-        deltas, F, T = [], [], []
-        for z in zipped : # separate the delta measures, functions and thresholds (the three lists are still ordered coherently)
-            deltas.append(z[0])
-            F.append(z[1])
-            T.append(z[2])
+            deltas, F, T = [], [], []
+            for z in zipped : # separate the delta measures, functions and thresholds (the three lists are still ordered coherently)
+                deltas.append(z[0])
+                F.append(z[1])
+                T.append(z[2])
 
-        H, G = [], []
-        Sc = 0
-        for i in range(self.n_attr):
-            attr = deltas[i][1] # for each attribute (in descending order)
-            G.append([attr, x[attr]]) # i-th most important property according to delta
-            Sc += deltas[i][0] * (self.mu(G, F, T) - self.mu(H, F, T)) # Choquet integral ; G (resp. H) is the subset of the i (resp. i-1) most important properties
-            H = deepcopy(G)
-        return Sc
+            H, G = [], []
+            Sc = 0
+            for i in range(len(self.Indices)):
+                attr = deltas[i][1] # for each attribute (in descending order)
+                G.append([attr, x[attr]]) # i-th most important property according to delta
+                Sc += deltas[i][0] * (self.mu(G, F, T) - self.mu(H, F, T)) # Choquet integral ; G (resp. H) is the subset of the i (resp. i-1) most important properties
+                H = deepcopy(G)
+            return Sc
 
 
 
@@ -124,55 +125,41 @@ class Dataset(object):
         """Applies the CHOCOLATE method to each row of Set (2D list), and returns the n entries with the highest scores."""
         scores = []
         for entry in Set :
-            scores.append([self.choquet(entry)] + entry)
+            scores.append([self.choquet(entry)] + entry) # returns the scores as well
         scores.sort(reverse=True)
         return scores[:n]
 
 
 
-    # def Sc_min(self, attr, element):
-    #     """Finds the minimal relative distance between element and a data point in Data, taking only one attribute into account."""
-    #     dist = []
-    #     for x in self.Data:
-    #         m = max([x[attr],element[attr]])
-    #         if not m:
-    #             continue
-    #         else:
-    #             dist.append(abs(x[attr]-element[attr])/m)
-    #     return min(dist)
-
-
-
     def nearest_neighbor(self, element):
-        """Returns the relative distance between element and its nearest neighbor in Data.
+        """Returns the relative similarity between element and its nearest neighbor in Data.
         Takes into account all of the attributes listed in Indices."""
-        dist = []
+        sim = []
         for x in self.Data:
-            dist.append([])
+            sim.append([])
             for attr in self.Indices :
-                dist[-1].append(1-self.Functions[attr](x[attr], element[attr]))
+                sim[-1].append(self.Functions[attr](x[attr], element[attr]))
                 # dist[-1].append((1-Functions[attr](x[attr], element[attr]))**2)
-        mean_dist = []
-        for d in dist :
-            mean_dist.append(mean(d))
-            # mean_dist.append(sqrt(sum(d))/len(indices))
-        minimum = min(mean_dist)
-        return minimum
+        mean_sim = []
+        for s in sim :
+            mean_sim.append(mean(s))
+            # mean_sim.append(sqrt(sum(s))/len(sim))
+        return max(mean_sim)
 
 
 
     def mean_total_distance(self, element):
-        """Returns the average relative distance between element and all data points in Data.
+        """Returns the average relative similarity between element and all data points in Data.
         Takes into account all of the attributes listed in Indices."""
         return mean([self.mean_distance(attr, element) for attr in self.Indices])
 
 
 
     def mean_distance(self, attr, element):
-        """Returns the average relative distance between element and all data points in Data, taking only one attribute into account."""
+        """Returns the average relative similarity between element and all data points in Data, taking only one attribute into account."""
         dist = []
         for x in self.Data :
-            dist.append(1-self.Functions[attr](x[attr], element[attr]))
+            dist.append(self.Functions[attr](x[attr], element[attr]))
         return mean(dist)
 
 
@@ -184,17 +171,19 @@ class Dataset(object):
         for entry in Set :
             scores.append([self.choquet(entry)] + [self.nearest_neighbor(entry)] + [self.mean_total_distance(entry)] + [entry])
 
+        # CHOCOLATE method
         scores.sort(reverse=True)
-        best += [["c", "b"] + [s[0]] + s[3] for s in scores[:n_best]]
+        best += [["c", "b"] + [s[0]] + s[3] for s in scores[:n_best]] # added characters are necessary to separate the list later (see views.py) : "c" is for CHOCOLATE, "n" is for nearest neighbors, "d" is for mean distance, "b" for best, "w" for worst, "s" for strange
         worst += [["c", "w"] + [s[0]] + s[3] for s in scores[-n_worst:]]
         scores_left = deepcopy(scores)[n_best:-n_worst]
-        for i in range(n_strange):
+        for i in range(n_strange): # random selection in the rest of the database, with no duplicate
             r = randint(len(scores_left))
             strange.append(["c", "s"] + [scores_left[r][0]] + scores_left[r][3])
             del scores_left[r]
-        for s in scores :
+        for s in scores : # CHOCOLATE scores are useless now
             del s[0]
             
+        # Nearest neighbors method
         scores.sort(reverse=True)
         best += [["n", "b"] + [s[0]] + s[2] for s in scores[:n_best]]
         worst += [["n", "w"] + [s[0]] + s[2] for s in scores[-n_worst:]]
@@ -206,6 +195,7 @@ class Dataset(object):
         for s in scores :
             del s[0]
             
+        # Mean distance method
         scores.sort(reverse=True)
         best += [["d", "b"] + [s[0]] + s[1] for s in scores[:n_best]]
         worst += [["d", "w"] + [s[0]] + s[1] for s in scores[-n_worst:]]
@@ -215,7 +205,7 @@ class Dataset(object):
             strange.append(["d", "s"] + [scores_left[r][0]] + scores_left[r][1])
             del scores_left[r]
 
-        results = best + worst + strange
+        results = best + worst + strange # list of lists of 14 elements : 2 characters for identification, score given to the entry by one of the three methods, and 11 attributes of the entry
         shuffle(results)
         return results
 
@@ -275,16 +265,14 @@ class Fuzzy_Dataset(Dataset):
         if not Properties : return 0
         if not F : F = self.Functions
         score = 0
-        m = len(self.Data[0])
         for x in self.Data : # for each data point
             count = 0
             for i in range(len(Properties)):
                 [attr, value] = Properties[i]
                 count += F[i](value, x[attr]) # count "how much" each property is verified by this data point
-            count /= m
             if count > score :
                 score = count
-        return score
+        return score/len(self.Indices)
 
 
 
@@ -293,21 +281,22 @@ class Fuzzy_Dataset(Dataset):
         The fuzzy functions used for the delta and mu measures are strict equality by default."""
 
         deltas = []
-        for i in range(self.n_attr):
-            deltas.append([self.delta(i, x[i], self.Functions[i]), i])
-        zipped = [list(z) for z in zip(deltas, self.Functions)]
-        zipped.sort(reverse=True)
+        # for i in range(self.n_attr):
+        for i in self.Indices : # create the list of delta measures for each attribute of x
+            deltas.append([self.delta(i, x[i], self.Functions[i]), i]) # i needs to be tracked for later
+        zipped = [list(z) for z in zip(deltas, self.Functions)] # associate each delta with the attribute's corresponding function
+        zipped.sort(reverse=True) # sorts the delta measures in descending order
 
         deltas, F = [], []
-        for z in zipped :
+        for z in zipped : # separate the delta measures and functions (the two lists are still ordered coherently)
             deltas.append(z[0])
             F.append(z[1])
 
         H, G = [], []
         Sc = 0
-        for i in range(self.n_attr):
-            attr = deltas[i][1]
-            G.append([attr, x[attr]])
-            Sc += deltas[i][0] * (self.mu(G, F) - self.mu(H, F))
+        for i in range(len(self.Indices)):
+            attr = deltas[i][1] # for each attribute (in descending order)
+            G.append([attr, x[attr]]) # i-th most important property according to delta
+            Sc += deltas[i][0] * (self.mu(G, F) - self.mu(H, F)) # Choquet integral ; G (resp. H) is the subset of the i (resp. i-1) most important properties
             H = deepcopy(G)
         return Sc

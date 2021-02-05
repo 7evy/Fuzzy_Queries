@@ -3,7 +3,7 @@ from django.db.models.query import QuerySet
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from fuzzy_queries.models import Immo
-from fuzzy_queries.static.fuzzy_queries.src.dataset import Fuzzy_Dataset
+from fuzzy_queries.static.fuzzy_queries.src.dataset import Dataset, Fuzzy_Dataset
 from fuzzy_queries.static.fuzzy_queries.src.utils import *
 from fuzzy_queries.static.fuzzy_queries.src.clustering import Clustering
 from time import time
@@ -19,7 +19,7 @@ def welcome(request):
 
 
 
-def index(request):
+def index(request, str_indices):
     if 'immo_list' not in request.session :
         request.session['immo_list'] = list([list(Immo.objects.values()[k].values()) for k in range(len(Immo.objects.all()))])
         for row in request.session['immo_list'] :
@@ -29,6 +29,11 @@ def index(request):
     C.by_affinity(0.47, 40)
     request.session['suggestions'] = C.centers()
     request.session['max'] = C.n_clusters
+    
+    request.session['indices'] = []
+    for i in str_indices.split(";")[:-1] :
+        request.session['indices'].append(int(i))
+
     request.session['examples'] = []
     request.session['pos'] = 0
     context = {
@@ -70,7 +75,8 @@ def next_suggestion(request, ans):
 def user_test(request):
     res = []
     ex = request.session['examples']
-    D = Fuzzy_Dataset(ex, Fuzzy_Dataset.FUNCTIONS)
+    D = Fuzzy_Dataset(ex, Fuzzy_Dataset.FUNCTIONS, [], request.session['indices'])
+    # D = Dataset(ex, Dataset.FUNCTIONS, [0.5 for _ in range(11)], request.session['indices'])
     for e in ex :
         try :
             request.session['immo_list'].remove(e)
@@ -79,10 +85,10 @@ def user_test(request):
     sel = D.user_test_selection(request.session['immo_list'], 10, 5, 5)
     request.session['results'] = [sel[i:i+5] for i in range(0, 56, 5)]
     request.session['marks'] = []
+    request.session['pos'] = 0
     context = {
         'immo': request.session['results'][0],
-        'examples': ex,
-        'pos': 0
+        'examples': ex
     }
     return render(request, 'fuzzy_queries/user_test.html', context)
 
@@ -90,6 +96,7 @@ def user_test(request):
 
 def next_results(request, str_marks):
     if SKIP_TEST :
+        print("SKIP TEST")
         request.session['marks'] = [5 for _ in range(request.session['res_number'][0])]
         return user_test_inter(request)
     pos = request.session['pos']
@@ -134,7 +141,7 @@ def user_test_inter(request):
             place = 'worst'
         else :
             place = 'strange'
-        global_marks[method][place] += marks[i] * r[2] # user mark * algorithm mark
+        global_marks[method][place] += marks[i]/5 * r[2] # user mark * algorithm mark
     for method in global_marks : # average of marks for every category with each method
         global_marks[method]['best'] /= res_number[1]
         global_marks[method]['worst'] /= res_number[2]
@@ -143,8 +150,15 @@ def user_test_inter(request):
         for place in global_marks[method] :
             print(method + " " + place + " : " + str(global_marks[method][place]))
     print(request.session['examples'])
-    fichier = open("data/stats.csv","a")
+    fichier = open("data/stats.csv","a",encoding="utf-8")
     new_stats = "Type,Prix,Pièces,Chambres,Loyer,Meublé,Jardin,Terrasse,Centre_Ville,Transports,Commerces\n"
+    for i in range(11):
+        if i in request.session['indices'] :
+            new_stats += "Oui"
+        else :
+            new_stats += "Non"
+        new_stats += ","
+    new_stats += "\n"
     for apps in request.session['examples']:
         for atts in apps:
             new_stats += str(atts) + ","

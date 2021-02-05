@@ -17,7 +17,19 @@
 
 <script type="text/javascript" charset="utf-8">
     function next() {
-        window.location = "{% url 'fuzzy_queries:index' %}";
+        indices = "";
+        if (document.getElementById(0).checked) { indices += "0;" }
+        if (document.getElementById(1).checked) { indices += "1;" }
+        if (document.getElementById(2).checked) { indices += "2;" }
+        if (document.getElementById(3).checked) { indices += "3;" }
+        if (document.getElementById(4).checked) { indices += "4;" }
+        if (document.getElementById(5).checked) { indices += "5;" }
+        if (document.getElementById(6).checked) { indices += "6;" }
+        if (document.getElementById(7).checked) { indices += "7;" }
+        if (document.getElementById(8).checked) { indices += "8;" }
+        if (document.getElementById(9).checked) { indices += "9;" }
+        if (document.getElementById(10).checked) { indices += "10;" }
+        window.location = "{% url 'fuzzy_queries:index' 1234 %}".replace(/1234/, indices);
     }
 </script>
 
@@ -27,7 +39,55 @@
         <h1 class="header_logo">CHOCOLATE</h1>
     </div>
 
-    <div class="padded"><p class="fadein">Vous êtes sur le point de participer au test d'un prototype de recherche de logement, utilisant la stratégie <a href="https://link.springer.com/chapter/10.1007/978-3-030-50146-4_27">CHOCOLATE</a>.<br>Le test comprend trois parties, dont la première est la sélection d'exemples pour l'algorithme.<br>Des logements vont vous être proposés un par un ; veuillez sélectionnez "oui" s'ils correspondent à ce que vous recherchez, et "non" pour passer.<br>Une fois que vous aurez choisi cinq logements, la deuxième partie commencera.</p>
+    <div class="padded"><p class="fadein">Vous êtes sur le point de participer au test d'un prototype de recherche de logement, utilisant la stratégie <a href="https://link.springer.com/chapter/10.1007/978-3-030-50146-4_27">CHOCOLATE</a>.<br>Les logements peuvent être comparés avec onze critères. Vous pouvez sélectionner ceux qui vous intéressent ci-dessous.<br>Ensuite, des exemples de logements vous seront proposés : veuillez en choisir quelques uns qui vous conviendrait, après quoi vous pourrez commencer le test.</p>
     <div class="foot"><button class="fadein" onclick="next()">>></button></div></div>
+    <div class="over">
+        <div>
+            <div class="checkbox">
+                <input type="checkbox" id=0 checked/> Type de logement (Appartement, studio, maison)
+            </div>
+            
+            <div class="checkbox">
+                <input type="checkbox" id=1 checked/> Surface
+            </div>
+            
+            <div class="checkbox">
+                <input type="checkbox" id=2 checked/> Nombre de pièces
+            </div>
+            
+            <div class="checkbox">
+                <input type="checkbox" id=3 checked/> Nombre de chambres
+            </div>
+            
+            <div class="checkbox">
+                <input type="checkbox" id=4 checked/> Loyer mensuel
+            </div>
+            
+            <div class="checkbox">
+                <input type="checkbox" id=5 checked/> Meublé ou non
+            </div>
+        </div>
+        <div>
+            <div class="checkbox">
+                <input type="checkbox" id=6 checked/> Jardin ou non
+            </div>
+            
+            <div class="checkbox">
+                <input type="checkbox" id=7 checked/> Terrasse ou non
+            </div>
+        
+            <div class="checkbox">
+                <input type="checkbox" id=8 checked/> Distance au centre-ville
+            </div>
+            
+            <div class="checkbox">
+                <input type="checkbox" id=9 checked/> Distance aux commerces
+            </div>
+            
+            <div class="checkbox">
+                <input type="checkbox" id=10 checked/> Distance aux transports en commun
+            </div>
+        </div>
+    </div>
 </body>
 </html>
