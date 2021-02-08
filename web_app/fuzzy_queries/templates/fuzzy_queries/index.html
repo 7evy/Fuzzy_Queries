@@ -72,15 +72,15 @@
                     <li>A {{current.9}} m des transports en communs</li>
                     <li>A {{current.10}} m des commerces</li>
                     <!-- <li>{{current.score}}</li> -->
-                    <button id="yes" name="yes" onclick="yes()">Oui</button>
-                    <button id="no" name="no" onclick="no()">Non</button>
+                    <div class="foot">
+                        <button name="yes" onclick="yes()">Oui</button>
+                        <button name="no" onclick="no()">Non</button>
+                    </div>
                 </ul>
                 
             </div>
         </div>
     </div>
-    <!-- <button id="yes" name="yes" onclick="yes()">Oui</button>
-    <button id="no" name="no" onclick="no()">Non</button> -->
     <section>
     {% for apps in examples %}
         <div class="resultat">
