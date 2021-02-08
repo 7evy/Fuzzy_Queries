@@ -146,10 +146,6 @@ def user_test_inter(request):
         global_marks[method]['best'] /= res_number[1]
         global_marks[method]['worst'] /= res_number[2]
         global_marks[method]['strange'] /= res_number[3]
-    for method in global_marks :
-        for place in global_marks[method] :
-            print(method + " " + place + " : " + str(global_marks[method][place]))
-    print(request.session['examples'])
     fichier = open("data/stats.csv","a",encoding="utf-8")
     new_stats = "Type,Prix,Pièces,Chambres,Loyer,Meublé,Jardin,Terrasse,Centre_Ville,Transports,Commerces\n"
     for i in range(11):
