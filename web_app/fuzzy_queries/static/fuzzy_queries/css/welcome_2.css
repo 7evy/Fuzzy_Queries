@@ -11,6 +11,10 @@
             transition: opacity 1s ease-in;
 }
 
+input[type=radio] {
+    transform: scale(1.3);
+}
+
 .fadein.load {
     opacity: 1;
 }
@@ -288,4 +292,8 @@ section{
 
 .pricingTable10:hover .read{
     background:#09b1c5
+}
+
+.likert li {
+    padding: 5px;
 }

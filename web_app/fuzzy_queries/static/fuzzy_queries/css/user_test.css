@@ -11,6 +11,10 @@ body {
     margin: 0;
     font-family: 'Nunito', sans-serif;
 }
+
+input[type=radio] {
+    transform: scale(1.3);
+}
   
 .offset {
     margin-top: 0;

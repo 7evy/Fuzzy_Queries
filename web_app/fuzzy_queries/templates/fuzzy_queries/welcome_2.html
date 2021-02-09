@@ -19,6 +19,12 @@
     function next() {
         window.location = "{% url 'fuzzy_queries:user_test' %}";
     }
+
+    function check(id) {
+        for (i=0 ; i<5 ; i++) {
+            document.getElementById(i).checked = i <= id;
+        }
+    }
 </script>
 
 <body>
@@ -27,7 +33,22 @@
         <h1 class="header_logo">CHOCOLATE</h1>
     </div>
 
-    <div class="padded"><p class="fadein">Vous avez sélectionné les cinq logements ci-dessous. Nous allons maintenant vous proposer vingt logements en nous basant sur vos préférences.<br>Veuillez indiquer à quel point chaque résultat est satisfaisant, puis cliquez sur "J'ai terminé".</p>
+    <div class="padded">
+        <div class="fadein">
+            Vous avez sélectionné les cinq logements ci-dessous. Nous allons maintenant vous proposer soixante logements en nous basant sur vos préférences :<br><br>
+            <div class="likert">
+                <li>
+                    Pas satisfait 
+                    <input type="radio" id=0 onclick="check(0);"/>
+                    <input type="radio" id=1 onclick="check(1);"/>
+                    <input type="radio" id=2 onclick="check(2);"/>
+                    <input type="radio" id=3 onclick="check(3);"/>
+                    <input type="radio" id=4 onclick="check(4);"/>
+                    Très satisfait
+                </li>
+            </div>
+            Veuillez indiquer à quel point chaque résultat est satisfaisant, puis cliquez sur "J'ai terminé".
+        </div>
     <div class="foot"><button class="fadein" onclick="next()">>></button></div></div>
     
     <h2 class="table-title">Exemples sélectionnés</h2>
