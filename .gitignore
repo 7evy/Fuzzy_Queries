@@ -131,4 +131,6 @@ dmypy.json
 #custom
 Rapport_PARIS_Dejan.pdf
 settings.py
+secret.py
 web_app/web_app/settings.py
+docker-compose.yml
