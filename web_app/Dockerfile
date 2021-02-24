@@ -8,8 +8,6 @@ RUN apt-get update && \
         gettext \
         apache2 \
         libapache2-mod-wsgi-py3 \
-        python3.4-dev \
-        cron \
  && rm -rf /var/lib/apt/lists/*
 
 RUN a2enmod \

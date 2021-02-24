@@ -1,8 +1,8 @@
 version: "3.3"
 services:
   db:
-    # image: postgres
-    image: 7evy/chocolate:db
+    image: postgres
+    # image: 7evy/chocolate:db
     environment:
       - POSTGRES_DB=immo
       - POSTGRES_USER=root
@@ -14,7 +14,6 @@ services:
       - /var/lib/docker/volumes/PSQLdata/_data
       - /var/run/postgresql/:/var/run/postgresql/
   init:
-    build: .
     volumes:
       - /var/run/postgresql/:/var/run/postgresql/
     command: python fill_db.py
@@ -28,7 +27,7 @@ services:
     # command: python manage.py runserver 0.0.0.0:8081
     command: /usr/sbin/apachectl -DFOREGROUND
     ports:
-      - "8081:8081"
+      - "8000:8000"
     depends_on:
       - db
       - init
