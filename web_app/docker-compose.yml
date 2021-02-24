@@ -1,14 +1,15 @@
 version: "3.8"
 services:
   db:
-    image: postgres
+    # image: postgres
+    image: 7evy/chocolate:db
     environment:
       - POSTGRES_DB=immo
       - POSTGRES_USER=root
       - POSTGRES_PASSWORD=occulto
       - POSTGRES_PGDATA=/var/lib/postgresql/data
     ports:
-      - "5432:5432"
+      - "8082:5432"
     volumes:
       - /var/lib/docker/volumes/PSQLdata/_data
       - /var/run/postgresql/:/var/run/postgresql/
@@ -19,13 +20,15 @@ services:
     command: python fill_db.py
     depends_on:
       - db
+    image: 7evy/chocolate:init
   web:
     build: .
     volumes:
       - /var/run/postgresql/:/var/run/postgresql/
-    command: python manage.py runserver 0.0.0.0:8000
+    command: python manage.py runserver 0.0.0.0:8081
     ports:
-      - "8000:8000"
+      - "8081:8081"
     depends_on:
       - db
       - init
+    image: 7evy/chocolate:web

@@ -2,11 +2,10 @@ from copy import deepcopy
 from numpy import mean, sqrt
 from numpy.random import randint, shuffle
 from operator import eq
-from fuzzy_queries.static.fuzzy_queries.src.utils import *
-# try :
-#     from fuzzy_queries.static.fuzzy_queries.src.utils import *
-# except :
-#     from utils import *
+try :
+    from fuzzy_queries.static.fuzzy_queries.src.utils import *
+except :
+    from utils import *
 
 class Dataset(object):
     """Class used to implement concept learning methods, namely CHOCOLATE, nearest neighbors and mean distance."""

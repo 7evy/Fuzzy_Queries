@@ -162,7 +162,7 @@ class Clustering():
 # FUNCTIONS2 = [ne, relative_distance, discrete_distance, discrete_distance, relative_distance, ne, ne, ne, relative_distance, relative_distance, relative_distance] # functions to compute distances between points]
 # INDICES = [1, 4, 8, 9, 10] # attributes to consider for clustering
 
-# C = Clustering(Data, FUNCTIONS, [8, 4])
+# C = Clustering(Data, FUNCTIONS)
 # C.by_affinity(0.47)
 # print(C.n_clusters)
 
@@ -171,6 +171,7 @@ class Clustering():
 # reduced_ctr = [[c[8], c[4]] for c in ctr]
 # reduced_ctr=[[500, 1200], [5000, 450]]
 # D = ds.Fuzzy_Dataset(reduced_ctr, [relative_sim, inf_or_relative])
+# D = ds.Dataset(ctr, [eq, relative_sim, discrete_sim, discrete_sim, inf_or_relative, eq, eq, eq, relative_sim, relative_sim, relative_sim], [0, 0.75, 0.5, 0.5, 0.75, 0, 0, 0, 0.75, 0.75, 0.75])
 # D = ds.Fuzzy_Dataset(ctr, [eq, relative_sim, discrete_sim, discrete_sim, inf_or_relative, eq, eq, eq, relative_sim, relative_sim, relative_sim], [0, 0.75, 0.5, 0.5, 0.75, 0, 0, 0, 0.75, 0.75, 0.75])
 
 

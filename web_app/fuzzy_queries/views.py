@@ -2,6 +2,7 @@ from django.db.models.expressions import ExpressionWrapper
 from django.db.models.query import QuerySet
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
+from web_app.settings import ALLOWED_HOSTS
 from fuzzy_queries.models import Immo
 from fuzzy_queries.static.fuzzy_queries.src.dataset import Dataset, Fuzzy_Dataset
 from fuzzy_queries.static.fuzzy_queries.src.utils import *
@@ -10,7 +11,7 @@ from time import time
 from numpy import mean
 
 
-SKIP_TEST = True # Debug constant to skip most of the test
+SKIP_TEST = False # Debug constant to skip most of the test
 
 
 
