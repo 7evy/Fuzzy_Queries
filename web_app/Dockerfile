@@ -1,9 +1,35 @@
 FROM python:3.8
-WORKDIR /
-COPY . .
-COPY req.txt req.txt
-COPY ./data/db.csv db.csv
-COPY ./data/stats.csv stats.csv
-ADD ./site-config.conf /etc/apache2/sites-available/000-default.conf 
-RUN pip install -r req.txt
-# CMD ["python", "fill_db.py", "&&", "python", "manage.py", "runserver"]
+ENV PYTHONUNBUFFERED 1
+
+RUN apt-get update && \
+    apt-get install -y \
+        nano \
+        wget \
+        gettext \
+        apache2 \
+        libapache2-mod-wsgi-py3 \
+        python3.4-dev \
+        cron \
+ && rm -rf /var/lib/apt/lists/*
+
+RUN a2enmod \
+        ssl \
+        wsgi \
+        rewrite \
+        expires \
+        proxy_http \
+ && a2dissite 000-default
+
+RUN mkdir /code
+WORKDIR /code
+
+COPY ./apache-resources/docker-entrypoint.sh /docker-entrypoint.sh
+RUN chmod a+x /docker-entrypoint.sh
+ENTRYPOINT ["/docker-entrypoint.sh"]
+
+COPY ./apache-resources/django.conf /etc/apache2/sites-enabled/django.conf
+
+ADD requirements.txt /code/
+RUN pip install --no-cache-dir -r requirements.txt
+
+ADD . /code/

@@ -27,7 +27,8 @@ SECRET_KEY = secretkey
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['localhost', '51.210.243.246']
+ALLOWED_HOSTS = ['*']
+# ALLOWED_HOSTS = ['localhost', '51.210.243.246']
 
 
 # Application definition
@@ -95,7 +96,7 @@ DATABASES = {
         'USER': 'root', 
         'PASSWORD': 'occulto',
         'HOST': '',
-        'PORT': '5432',
+        'PORT': '8082',
     }
 }
 

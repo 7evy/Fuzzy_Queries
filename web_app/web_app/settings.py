@@ -84,18 +84,18 @@ TEMPLATES = [
 #         'USER': 'root', 
 #         'PASSWORD': 'occulto',
 #         'HOST': 'db',
-#         'PORT': '5432',
+#         'PORT': '8082',
 #     }
 # }
 
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'mydb',
-        'USER': 'mathieu', 
-        'PASSWORD': '',
+        'NAME': 'immo',
+        'USER': 'root', 
+        'PASSWORD': 'occulto',
         'HOST': '',
-        'PORT': '5432',
+        'PORT': '8082',
     }
 }
 
