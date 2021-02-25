@@ -25,10 +25,18 @@ services:
     volumes:
       - /var/run/postgresql/:/var/run/postgresql/
     # command: python manage.py runserver 0.0.0.0:8081
-    command: /usr/sbin/apachectl -DFOREGROUND
+    command: sudo gunicorn web_app.wsgi:application -b localhost:8081
     ports:
-      - "8000:8000"
+      - 8081:8081
     depends_on:
       - db
       - init
     image: 7evy/chocolate:web
+  nginx:
+    build: ./nginx
+    ports:
+      - 1337:80
+    depends_on:
+      - init
+      - web
+    image: 7evy/chocolate:nginx

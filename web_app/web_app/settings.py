@@ -27,7 +27,7 @@ SECRET_KEY = secretkey
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -83,8 +83,8 @@ TEMPLATES = [
 #         'NAME': 'immo',
 #         'USER': 'root', 
 #         'PASSWORD': 'occulto',
-#         'HOST': 'db',
-#         'PORT': '8082',
+#         'HOST': '',
+#         'PORT': '5432',
 #     }
 # }
 
