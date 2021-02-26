@@ -21,10 +21,9 @@ def welcome(request): # home page
 
 
 def index(request, str_indices): # start example selection
-    if 'immo_list' not in request.session : # load the database
-        immo_list = list([list(Immo.objects.values()[k].values()) for k in range(len(Immo.objects.all()))])
-        for row in immo_list : # Remove serial IDs
-            row.pop(0)
+    immo_list = list([list(Immo.objects.values()[k].values()) for k in range(len(Immo.objects.all()))]) # load the database
+    for row in immo_list : # Remove serial IDs
+        row.pop(0)
 
     # compute clusters for example selection
     real_immo = [immo_list[4*k] for k in range(len(immo_list)//4)] # 625 real entries in the database
@@ -33,12 +32,12 @@ def index(request, str_indices): # start example selection
     request.session['suggestions'] = C.centers()
     request.session['max'] = C.n_clusters
     
-    # store the attributes numbers specified by the user on the home page (all by default)
+    # check the attributes numbers specified by the user on the home page (all by default)
     indices = []
     for i in str_indices.split(";")[:-1] :
         indices.append(int(i))
 
-    # store the database and indices
+    # store the data and indices
     request.session['immo_list'] = immo_list
     request.session['indices'] = indices
     request.session['examples'] = []
@@ -126,7 +125,7 @@ def next_results(request, str_marks): # manage user test
         marks.append(int(m))
 
     # test end
-    if pos+1 >= res_number/5 : 
+    if pos+1 >= res_number[0]/5 : 
         return user_test_inter(request)
 
     context = {
@@ -190,12 +189,14 @@ def user_test_inter(request): # manage test results
             new_stats += str(atts) + ","
         new_stats += "\n"
 
-    # write marks for each strategy
-    new_stats += "Method,Best,Worst,Strange\n"
+    # write marks for each strategy, and total test time
+    new_stats += "Method,Best,Worst,Strange,Test duration\n"
     for method in global_marks:
         new_stats += method + ","
         for place in global_marks[method] :
             new_stats += str(global_marks[method][place]) + ","
+        if method == "chocolate" :
+            new_stats += str(time()-request.session['time']) + ","
         new_stats += "\n"
     fichier.write(new_stats+"\n")
     fichier.close()

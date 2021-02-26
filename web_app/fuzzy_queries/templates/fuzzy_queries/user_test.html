@@ -28,7 +28,7 @@
     var marks = [-1, -1, -1, -1, -1]
 
     function satisfied(pos, val) {
-        marks[pos%10] = val
+        marks[parseInt(pos/10)%10] = val
         for (i=1 ; i<6 ; i++) {
             document.getElementById(parseInt(pos/10)*10+i).checked = i <= val;
         }
