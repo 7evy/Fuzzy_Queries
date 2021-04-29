@@ -1,0 +1,183 @@
+<html lang="en">
+<head>
+    <meta charset="Utd-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CHOCOLATE</title>
+</head>
+
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Mali:wght@600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Antic&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Nunito&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bungee&display=swap" rel="stylesheet">
+
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'fuzzy_queries/css/user_test.css' %}">
+<script src="{% static 'fuzzy_queries/js/header.js' %}"></script>
+
+<script type="text/javascript" charset="utf-8">
+
+    $(window).load(function () {
+        $('.popupCloseButton').click(function(){
+            $('.hover_bkgr_fricc').hide();
+        });
+    });
+    
+    var marks = [-1, -1, -1, -1, -1]
+
+    function satisfied(pos, val) {
+        marks[parseInt(pos/10)%10] = val
+        for (i=1 ; i<6 ; i++) {
+            document.getElementById(parseInt(pos/10)*10+i).checked = i <= val;
+        }
+    }
+
+    function contains(array, obj){
+        for (var i=0 ; i<array.length ; i++){
+            if (array[i] == obj){
+                return true
+            }
+        }
+        return false
+    }
+
+    function test_done(){
+        if (contains(marks, -1)){
+            $('.hover_bkgr_fricc').show();
+        }
+        else{
+            var str_marks = ""
+            for (var i=0 ; i<marks.length ; i++){
+                str_marks = str_marks + marks[i].toString() + ";"
+            }
+            window.location = "{% url 'fuzzy_queries:next2' 1234 %}".replace(/1234/, str_marks)
+        }
+    }
+
+    function close(){
+        var overlay = document.getElementById('overlay');
+        overlay.style.display='none';
+    }
+
+</script>
+
+
+<body>
+
+    <div class="header">
+        <h1 class="header_logo">CHOCOLATE</h1>
+        <h4 class="header_sentence"><br>Veuillez noter les logements ci-dessous, selon leur correspondance à ce que vous recherchez :</h4>
+    </div>
+
+    <div class="foot">
+        <button id="done" onclick="test_done()">J'ai terminé</button>
+    </div>
+
+    <div class="hover_bkgr_fricc">
+        <span class="helper"></span>
+        <div>
+            <div class="popupCloseButton">&times;</div>
+            <img src="https://media1.tenor.com/images/8438c06d8ea6fd915c9c40c9e3b93620/tenor.gif?itemid=8912223" alt="OOPSI">
+            <p style="font-size: 26px; font-family: 'Arial', sans-serif;">Veuillez noter tous les résultats !</p>
+        </div>
+    </div>
+
+    <div class="padded">
+        <h2 class="table-title">Résultats</h2>
+        <section>
+            {% for apps in immo %}
+            <div class="resultat">
+                <div class="pricingTable10">
+                    <div class="pricingTable-header">
+                        <div class="likert">
+                            <li>
+                            <input type="radio" name=1{{ forloop.counter0 }}0 id=1{{ forloop.counter0 }}1 value=1 onclick="satisfied(this.getAttribute('name'),this.getAttribute('value'))"/>
+                            <input type="radio" name=1{{ forloop.counter0 }}1 id=1{{ forloop.counter0 }}2 value=2 onclick="satisfied(this.getAttribute('name'),this.getAttribute('value'))"/>
+                            <input type="radio" name=1{{ forloop.counter0 }}2 id=1{{ forloop.counter0 }}3 value=3 onclick="satisfied(this.getAttribute('name'),this.getAttribute('value'))"/>
+                            <input type="radio" name=1{{ forloop.counter0 }}3 id=1{{ forloop.counter0 }}4 value=4 onclick="satisfied(this.getAttribute('name'),this.getAttribute('value'))"/>
+                            <input type="radio" name=1{{ forloop.counter0 }}4 id=1{{ forloop.counter0 }}5 value=5 onclick="satisfied(this.getAttribute('name'),this.getAttribute('value'))"/>
+                            </li>
+                            <br>
+                        </div>
+                        <h3 class="heading">{{apps.3}}</h3>
+                        <span class="price-value">
+                            <span class="currency"></span> {{apps.4}}
+                            <span class="month">m<sup>2</sup></span>
+                        </span>
+                    </div>
+                    <div class="pricing-content">
+                        <ul>
+                            <li>{{apps.5}} pièce(s)</li>
+                            <li>{{apps.6}} chambre(s)</li>
+                            <li>{{apps.7}} €</li>
+                            {% if apps.8 %}
+                                <li>Meublé</li>
+                            {% else %}
+                                <li>Non Meublé</li>
+                            {% endif %}
+                            {% if apps.9 %}
+                                <li>Avec jardin</li>
+                            {% else %}
+                                <li>Pas de jardin</li>
+                            {% endif %}
+                            {% if apps.10 %}
+                                <li>Avec terrasse</li>
+                            {% else %}
+                                <li>Pas de terrasse</li>
+                            {% endif %}
+                            <li>A {{apps.11}} m du centre-ville</li>
+                            <li>A {{apps.12}} m des transports en communs</li>
+                            <li>A {{apps.13}} m des commerces</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </section>
+        <br><br>
+        <h2 class="table-title">Exemples sélectionnés</h2>
+        <section>
+            {% for apps in examples %}
+            <div>
+                <div class="pricingTable10">
+                    <div class="pricingTable-header">
+                        <h3 class="heading">{{apps.0}}</h3>
+                        <span class="price-value">
+                            <span class="currency"></span> {{apps.1}}
+                            <span class="month">m<sup>2</sup></span>
+                        </span>
+                    </div>
+                    <div class="pricing-content">
+                        <ul>
+                            <li>{{apps.2}} pièce(s)</li>
+                            <li>{{apps.3}} chambre(s)</li>
+                            <li>{{apps.4}} €</li>
+                            {% if apps.5 %}
+                                <li>Meublé</li>
+                            {% else %}
+                                <li>Non Meublé</li>
+                            {% endif %}
+                            {% if apps.6 %}
+                                <li>Avec jardin</li>
+                            {% else %}
+                                <li>Pas de jardin</li>
+                            {% endif %}
+                            {% if apps.7 %}
+                                <li>Avec terrasse</li>
+                            {% else %}
+                                <li>Pas de terrasse</li>
+                            {% endif %}
+                            <li>A {{apps.8}} m du centre-ville</li>
+                            <li>A {{apps.9}} m des transports en communs</li>
+                            <li>A {{apps.10}} m des commerces</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </section>
+    </div>
+</body>
+</html>

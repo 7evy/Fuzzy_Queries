@@ -7,11 +7,10 @@ services:
       - POSTGRES_DB=immo
       - POSTGRES_USER=root
       - POSTGRES_PASSWORD=occulto
-      - POSTGRES_PGDATA=/var/lib/postgresql/data
     ports:
       - "8082:5432"
     volumes:
-      - /var/lib/docker/volumes/PSQLdata/_data
+      - postgres:/var/lib/postgresql
       - /var/run/postgresql/:/var/run/postgresql/
   init:
     build: .
@@ -25,10 +24,13 @@ services:
     build: .
     volumes:
       - /var/run/postgresql/:/var/run/postgresql/
-    command: python manage.py runserver 0.0.0.0:8081
+    command: python manage.py runserver 0.0.0.0:8000
     ports:
-      - "8081:8081"
+      - "8081:8000"
     depends_on:
       - db
       - init
     image: 7evy/chocolate:web
+
+volumes:
+  postgres:  

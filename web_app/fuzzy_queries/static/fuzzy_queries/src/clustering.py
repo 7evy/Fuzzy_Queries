@@ -169,10 +169,12 @@ class Clustering():
 # labels=["Type de logement", "Surface (en m²)", "Nombre de pièces", "Nombre de chambres", "Loyer mensuel (en €)", "Meublé", "Jardin", "Terrasse", "Distance au centre-ville (en m)", "Distance aux transports (en m)", "Distance aux commerces (en m)"]
 # ctr = C.centers()
 # reduced_ctr = [[c[8], c[4]] for c in ctr]
-# reduced_ctr=[[500, 1200], [5000, 450]]
-# D = ds.Fuzzy_Dataset(reduced_ctr, [relative_sim, inf_or_relative])
-# D = ds.Dataset(ctr, [eq, relative_sim, discrete_sim, discrete_sim, inf_or_relative, eq, eq, eq, relative_sim, relative_sim, relative_sim], [0, 0.75, 0.5, 0.5, 0.75, 0, 0, 0, 0.75, 0.75, 0.75])
-# D = ds.Fuzzy_Dataset(ctr, [eq, relative_sim, discrete_sim, discrete_sim, inf_or_relative, eq, eq, eq, relative_sim, relative_sim, relative_sim], [0, 0.75, 0.5, 0.5, 0.75, 0, 0, 0, 0.75, 0.75, 0.75])
+# reduced_ctr=[[500, 1200], [5000, 450], [2000, 580]]
+# reduced_ctr=[[200,20],[800,25],[500,40],[1100,35],[7000,80]]
+# D = ds.Dataset(reduced_ctr, [relative_sim, relative_sim], [0.7, 0.7])
+# FD = ds.Fuzzy_Dataset(reduced_ctr, [relative_sim, relative_sim])
+# D = ds.Dataset(ctr, Dataset.FUNCTIONS, [0, 0.75, 0.5, 0.5, 0.75, 0, 0, 0, 0.75, 0.75, 0.75])
+# FD = ds.Fuzzy_Dataset(ctr, Dataset.FUNCTIONS)
 
 
 
@@ -184,8 +186,10 @@ class Clustering():
 # r_axis, g_axis, b_axis = [], [], []
 # for x in AllData :
 #     x_axis.append(x[8])
-#     y_axis.append(x[4])
-#     z_axis.append(D.choquet([x[8], x[4]]))
+#     y_axis.append(x[1])
+    # z_axis.append(FD.choquet([x[8], x[1]]))
+    # z_axis.append(FD.nearest_neighbor([x[8], x[1]]))
+    # z_axis.append(FD.mean_total_distance([x[8], x[1]]))
 #   r_axis.append(x[8])
 #   g_axis.append(x[9])
 #   b_axis.append(x[10])
@@ -206,7 +210,7 @@ class Clustering():
 #     plt.plot(x[0], x[1], marker='*', markersize=20, c='lightgreen', markeredgecolor='black')
 # plt.colorbar(colorbar, orientation="horizontal").set_label("Degré d'appartenance", fontsize=16)
 # plt.xlabel(labels[8], fontsize=16)
-# plt.ylabel(labels[4], fontsize=16)
+# plt.ylabel(labels[1], fontsize=16)
 # ax.xaxis.tick_top()
 # ax.xaxis.set_label_position("top")
 # plt.grid(color='black', alpha=0.1)

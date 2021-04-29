@@ -2,13 +2,13 @@ from django.db.models.expressions import ExpressionWrapper
 from django.db.models.query import QuerySet
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
-from web_app.settings import ALLOWED_HOSTS
 from fuzzy_queries.models import Immo
 from fuzzy_queries.static.fuzzy_queries.src.dataset import Dataset, Fuzzy_Dataset
 from fuzzy_queries.static.fuzzy_queries.src.utils import *
 from fuzzy_queries.static.fuzzy_queries.src.clustering import Clustering
 from time import time
 from numpy import mean
+from numpy.random import shuffle
 
 
 SKIP_TEST = False # Debug constant to skip most of the test
@@ -30,6 +30,7 @@ def index(request, str_indices): # start example selection
     C = Clustering(real_immo, Clustering.FUNCTIONS)
     C.by_affinity(0.47, 40) # affinity clustering with 37 to 43 clusters
     request.session['suggestions'] = C.centers()
+    shuffle(request.session['suggestions'])
     request.session['max'] = C.n_clusters
     
     # check the attributes numbers specified by the user on the home page (all by default)
@@ -89,7 +90,7 @@ def user_test(request): # starts user test
 
     # use one of two CHOCOLATE implementations
     D = Fuzzy_Dataset(examples, Fuzzy_Dataset.FUNCTIONS, [], request.session['indices'])
-    # D = Dataset(examples, Dataset.FUNCTIONS, [0.5 for _ in range(11)], request.session['indices'])
+    # D = Dataset(examples, Dataset.FUNCTIONS, [0.75 for _ in range(11)], request.session['indices'])
 
     # remove duplicates (examples will not show up in results)
     for e in examples :
@@ -117,7 +118,7 @@ def next_results(request, str_marks): # manage user test
     marks = request.session['marks']
     if SKIP_TEST : # Debug
         print("SKIP TEST")
-        marks = [5 for _ in range(res_number[0])]
+        request.session['marks'] = [5 for _ in range(res_number[0])]
         return user_test_inter(request)
 
     # read user marks
@@ -155,23 +156,24 @@ def user_test_inter(request): # manage test results
     for i in range(res_number[0]):
         r = results[i]
         if r[0] == "c" :
-            method = 'chocolate'
+            method = "chocolate"
         elif r[0] == "n" :
-            method = 'neighbors'
+            method = "neighbors"
         else :
-            method = 'distance'
+            method = "distance"
         if r[1] == "b" :
-            place = 'best'
+            place = "best"
         elif r[1] == "w" :
-            place = 'worst'
+            place = "worst"
         else :
-            place = 'strange'
+            place = "strange"
         global_marks[method][place] += marks[i]/5 * r[2] # user mark * algorithm mark
     for method in global_marks : # average of marks for every category with each method
         global_marks[method]['best'] /= res_number[1]
         global_marks[method]['worst'] /= res_number[2]
         global_marks[method]['strange'] /= res_number[3]
-    fichier = open("data/stats.csv","a",encoding="utf-8")
+    request.session['global_marks'] = global_marks
+    fichier = open("data/stats.csv", "a", encoding="utf-8")
     new_stats = "Type,Prix,Pièces,Chambres,Loyer,Meublé,Jardin,Terrasse,Centre_Ville,Transports,Commerces\n"
 
     # write whether each attribute was used or not
@@ -205,7 +207,10 @@ def user_test_inter(request): # manage test results
 
 
 def user_test_end(request): # user test end
-    return render(request, 'fuzzy_queries/test_end.html')
+    context = {
+        "marks": request.session['global_marks']
+    }
+    return render(request, 'fuzzy_queries/test_end.html', context)
 
 
 

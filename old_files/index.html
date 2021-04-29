@@ -1,0 +1,126 @@
+<html lang="en">
+<head>
+    <meta charset="Utd-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CHOCOLATE</title>
+</head>
+
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Mali:wght@600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Antic&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Nunito&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bungee&display=swap" rel="stylesheet">
+
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'fuzzy_queries/css/index.css' %}">
+<script src="{% static 'fuzzy_queries/js/header.js' %}"></script>
+
+<script type="text/javascript" charset="utf-8">
+    const pos = "{{ pos }}"
+
+    function yes()
+    {
+        window.location = "{% url 'fuzzy_queries:next' 1 %}"
+    }
+    function no()
+    {
+        window.location = "{% url 'fuzzy_queries:next' 0 %}"
+    }
+</script>
+
+
+
+<body>
+
+    <div class="header">
+        <h1 class="header_logo">CHOCOLATE</h1>
+    </div>
+    
+    <div class="proposition">
+        <div class="pricingTable10">
+            <div class="pricingTable-header">
+                <h4 class="question">Cet appartemment vous convient-il ?</h4>
+                <h3 class="heading">{{current.0}}</h3>
+                <span class="price-value">
+                    <span class="currency"></span> {{current.1}}
+                    <span class="month">m<sup>2</sup></span>
+                </span>
+            </div>
+            <div class="pricing-content">
+                <ul>
+                    <li>{{current.2}} pièce(s)</li>
+                    <li>{{current.3}} chambre(s)</li>
+                    <li>{{current.4}} €/Mois</li>
+                    {% if current.5 %}
+                        <li>Meublé</li>
+                    {% else %}
+                        <li>Non Meublé</li>
+                    {% endif %}
+                    {% if current.6 %}
+                        <li>Avec jardin</li>
+                    {% else %}
+                        <li>Pas de jardin</li>
+                    {% endif %}
+                    {% if current.7 %}
+                        <li>Avec terrasse</li>
+                    {% else %}
+                        <li>Pas de terrasse</li>
+                    {% endif %}
+                    <li>A {{current.8}} m du centre-ville</li>
+                    <li>A {{current.9}} m des transports en communs</li>
+                    <li>A {{current.10}} m des commerces</li>
+                    <!-- <li>{{current.score}}</li> -->
+                    <div class="foot">
+                        <button name="yes" onclick="yes()">Oui</button>
+                        <button name="no" onclick="no()">Non</button>
+                    </div>
+                </ul>
+                
+            </div>
+        </div>
+    </div>
+    <section>
+    {% for apps in examples %}
+        <div class="resultat">
+            <div class="pricingTable10">
+                <div class="pricingTable-header">
+                    <h3 class="heading">{{apps.0}}</h3>
+                    <span class="price-value">
+                        <span class="currency"></span> {{apps.1}}
+                        <span class="month">m<sup>2</sup></span>
+                    </span>
+                </div>
+                <div class="pricing-content">
+                    <ul>
+                        <li>{{apps.2}} pièce(s)</li>
+                        <li>{{apps.3}} chambre(s)</li>
+                        <li>{{apps.4}} €</li>
+                        {% if apps.5 %}
+                            <li>Meublé</li>
+                        {% else %}
+                            <li>Non Meublé</li>
+                        {% endif %}
+                        {% if apps.6 %}
+                            <li>Avec jardin</li>
+                        {% else %}
+                            <li>Pas de jardin</li>
+                        {% endif %}
+                        {% if apps.7 %}
+                            <li>Avec terrasse</li>
+                        {% else %}
+                            <li>Pas de terrasse</li>
+                        {% endif %}
+                        <li>A {{apps.8}} m du centre-ville</li>
+                        <li>A {{apps.9}} m des transports en communs</li>
+                        <li>A {{apps.10}} m des commerces</li>
+                    </ul>
+                    
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </section>
+</body>
+</html>

@@ -1,0 +1,81 @@
+<html lang="en">
+<head>
+    <meta charset="Utd-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CHOCOLATE</title>
+</head>
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'fuzzy_queries/css/result.css' %}">
+
+
+<body>
+    <div>
+        <table>
+            <caption>Exemples représentatifs</caption>
+            <tr>
+                <th>Type</th>
+                <th>Surface</th>
+                <th>Pièces</th>
+                <th>Chambres</th>
+                <th>Loyer</th>
+                <th>Meublé</th>
+                <th>Jardin</th>
+                <th>Terrasse</th>
+                <th>Distance Centre</th>
+                <th>Distance Transport</th>
+                <th>Distance Commerce</th>
+            </tr>
+            {% for apps in examples %}
+                <tr>
+                    <td>{{apps.type}}</td>
+                    <td>{{apps.surface}}</td>
+                    <td>{{apps.pieces}}</td>
+                    <td>{{apps.chambres}}</td>
+                    <td>{{apps.loyer}}</td>
+                    <td>{{apps.meuble}}</td>
+                    <td>{{apps.jardin}}</td>
+                    <td>{{apps.terrasse}}</td>
+                    <td>{{apps.dist_centre}}</td>
+                    <td>{{apps.dist_transport}}</td>
+                    <td>{{apps.dist_commerce}}</td>
+                </tr>
+            {% endfor %}
+        </table>  
+    </div>
+    <div>
+        <table>
+            <caption>Résultats</caption>
+            <tr>
+                <th>Type</th>
+                <th>Surface</th>
+                <th>Pièces</th>
+                <th>Chambres</th>
+                <th>Loyer</th>
+                <th>Meublé</th>
+                <th>Jardin</th>
+                <th>Terrasse</th>
+                <th>Distance Centre</th>
+                <th>Distance Transport</th>
+                <th>Distance Commerce</th>
+                <th>Taux d'appartenance</th>
+            </tr>
+            {% for apps in immo %}
+                <tr>
+                    <td>{{apps.type}}</td>
+                    <td>{{apps.surface}}</td>
+                    <td>{{apps.pieces}}</td>
+                    <td>{{apps.chambres}}</td>
+                    <td>{{apps.loyer}}</td>
+                    <td>{{apps.meuble}}</td>
+                    <td>{{apps.jardin}}</td>
+                    <td>{{apps.terrasse}}</td>
+                    <td>{{apps.dist_centre}}</td>
+                    <td>{{apps.dist_transport}}</td>
+                    <td>{{apps.dist_commerce}}</td>
+                    <td>{{apps.score}}</td>
+                </tr>
+            {% endfor %}
+        </table> 
+    </div>
+</body>
+</html>
